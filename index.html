@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Li-Ning Badminton - Vợt Cầu Lông Chính Hãng Flagship Store</title>
+    <title>FLAGSHIP STORE - Điện Thoại Đẳng Cấp & Công Nghệ Tiên Phong</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        lining: {
-                            red: '#e60012',
-                            reddark: '#b3000e',
-                            black: '#0d0d0d',
-                            dark: '#161616',
-                            card: '#1b1b1e',
-                            gold: '#d4af37'
+                        brand: {
+                            dark: '#0a0a0c',
+                            card: '#121216',
+                            border: '#22222a',
+                            accent: '#3b82f6',
+                            gold: '#f59e0b',
+                            purple: '#a855f7',
+                            red: '#ef4444'
                         }
                     },
                     fontFamily: {
@@ -36,227 +38,220 @@
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0d0d0d;
+            background: #0a0a0c;
         }
         ::-webkit-scrollbar-thumb {
-            background: #e60012;
+            background: #27272a;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #b3000e;
+            background: #3b82f6;
         }
-        .glass-header {
-            background: rgba(13, 13, 13, 0.92);
+        .glass-nav {
+            background: rgba(10, 10, 12, 0.85);
             backdrop-filter: blur(16px);
         }
-        .racket-glow {
-            filter: drop-shadow(0 0 16px rgba(230, 0, 18, 0.35));
+        .phone-card-glow {
+            transition: all 0.3s ease;
+        }
+        .phone-card-glow:hover {
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #f43f5e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body class="bg-neutral-950 text-slate-100 font-sans antialiased selection:bg-lining-red selection:text-white pb-16">
+<body class="bg-brand-dark text-slate-100 font-sans antialiased selection:bg-blue-600 selection:text-white min-h-screen flex flex-col pb-16">
 
-    <header class="fixed top-0 left-0 right-0 z-50 glass-header border-b border-neutral-800/80 transition-all">
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-40 glass-nav border-b border-brand-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Brand Logo -->
-                <a href="#" onclick="filterAll()" class="flex items-center space-x-3 group">
-                    <div class="bg-gradient-to-tr from-lining-red to-rose-500 p-2.5 rounded-2xl shadow-lg shadow-lining-red/30 group-hover:scale-105 transition-transform">
-                        <i class="fa-solid fa-bolt text-white text-2xl"></i>
+                <a href="#" onclick="resetFilters()" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-mobile-screen-button text-white text-xl"></i>
                     </div>
                     <div>
-                        <span class="text-2xl font-black tracking-wider text-white block leading-none">LI-NING</span>
-                        <span class="text-[10px] uppercase font-bold tracking-widest text-lining-red">Badminton Pro Store</span>
+                        <span class="text-xl font-black tracking-wider text-white block leading-none">FLAGSHIP<span class="text-blue-500">.</span>X</span>
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-neutral-400">Thiết bị siêu cấp</span>
                     </div>
                 </a>
 
                 <!-- Search Input Desktop -->
                 <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
-                    <input type="text" id="searchInput" onkeyup="filterRackets()" placeholder="Tìm kiếm vợt (Axforce 100, BladeX 800, Tectonic 9, Calibar 900B...)" class="w-full bg-neutral-900 text-sm text-white pl-10 pr-4 py-2.5 rounded-xl border border-neutral-700/80 focus:outline-none focus:border-lining-red transition-all shadow-inner">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-neutral-400 text-sm"></i>
+                    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Tìm iPhone 16 Pro, S24 Ultra, Xiaomi 14 Ultra..." class="w-full bg-neutral-900/90 text-sm text-white pl-10 pr-4 py-2.5 rounded-xl border border-brand-border focus:outline-none focus:border-blue-500 transition-all">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-neutral-500 text-sm"></i>
                 </div>
 
                 <!-- Header Actions -->
                 <div class="flex items-center space-x-4">
-                    <button onclick="toggleCartModal(true)" class="relative bg-neutral-900 hover:bg-neutral-800 p-3 rounded-xl border border-neutral-800 text-white transition-all shadow-md">
-                        <i class="fa-solid fa-cart-shopping text-lg"></i>
-                        <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-lining-red text-white text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-neutral-950">0</span>
+                    <button onclick="toggleCartModal(true)" class="relative bg-neutral-900 hover:bg-neutral-800 p-3 rounded-xl border border-brand-border text-white transition-all shadow-md">
+                        <i class="fa-solid fa-bag-shopping text-lg text-neutral-200"></i>
+                        <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-blue-600 text-white text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-brand-dark">0</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Anchor Navigation Bar for Series -->
-        <div class="bg-neutral-900/90 border-t border-neutral-800/80 overflow-x-auto py-2.5 px-4 scrollbar-none">
-            <div class="max-w-7xl mx-auto flex items-center space-x-2 md:space-x-4 min-w-max text-xs sm:text-sm font-bold">
-                <span class="text-neutral-500 uppercase text-[11px] font-extrabold tracking-wider mr-2"><i class="fa-solid fa-filter mr-1 text-lining-red"></i> Dòng sản phẩm:</span>
-                <button onclick="scrollToSeries('axforce')" class="px-4 py-1.5 rounded-xl bg-neutral-950 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                    <span>AXFORCE</span>
+        <!-- Quick Filter Bar -->
+        <div class="bg-neutral-950/80 border-t border-brand-border overflow-x-auto py-2.5 px-4 scrollbar-none">
+            <div class="max-w-7xl mx-auto flex items-center space-x-2 min-w-max text-xs font-semibold">
+                <span class="text-neutral-500 uppercase text-[11px] font-extrabold tracking-wider mr-2"><i class="fa-solid fa-sliders text-blue-500 mr-1"></i> Thương hiệu:</span>
+                <button onclick="filterByBrand('all')" id="btn-brand-all" class="brand-btn active px-3.5 py-1.5 rounded-lg bg-blue-600 text-white transition-all border border-blue-500/50">Tất cả</button>
+                <button onclick="filterByBrand('apple')" id="btn-brand-apple" class="brand-btn px-3.5 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-neutral-800 transition-all border border-brand-border flex items-center space-x-1.5">
+                    <i class="fa-brands fa-apple text-sm"></i><span>Apple</span>
                 </button>
-                <button onclick="scrollToSeries('bladex')" class="px-4 py-1.5 rounded-xl bg-neutral-950 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-                    <span>BLADEX</span>
-                </button>
-                <button onclick="scrollToSeries('calibar')" class="px-4 py-1.5 rounded-xl bg-neutral-950 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                    <span>3D CALIBAR</span>
-                </button>
-                <button onclick="scrollToSeries('windstorm')" class="px-4 py-1.5 rounded-xl bg-neutral-950 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                    <span>WINDSTORM</span>
-                </button>
-                <button onclick="scrollToSeries('tectonic')" class="px-4 py-1.5 rounded-xl bg-neutral-950 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
-                    <span>TECTONIC</span>
-                </button>
+                <button onclick="filterByBrand('samsung')" id="btn-brand-samsung" class="brand-btn px-3.5 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-neutral-800 transition-all border border-brand-border">Samsung</button>
+                <button onclick="filterByBrand('xiaomi')" id="btn-brand-xiaomi" class="brand-btn px-3.5 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-neutral-800 transition-all border border-brand-border">Xiaomi</button>
+                <button onclick="filterByBrand('google')" id="btn-brand-google" class="brand-btn px-3.5 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-neutral-800 transition-all border border-brand-border">Google Pixel</button>
+                <button onclick="filterByBrand('asus')" id="btn-brand-asus" class="brand-btn px-3.5 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-neutral-800 transition-all border border-brand-border">ASUS ROG</button>
             </div>
         </div>
     </header>
 
-    <section class="pt-36 pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-neutral-950 via-neutral-900 to-red-950/40 border border-neutral-800/80 p-8 sm:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+    <!-- Hero Banner -->
+    <section class="pt-36 pb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-neutral-950 via-slate-900 to-indigo-950/60 border border-brand-border p-8 sm:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="max-w-xl z-10">
-                <span class="inline-flex items-center space-x-2 bg-lining-red/10 text-lining-red border border-lining-red/30 px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-4">
-                    <i class="fa-solid fa-crown text-lining-gold"></i>
-                    <span>Chính Hãng Li-Ning Authentic</span>
+                <span class="inline-flex items-center space-x-2 bg-blue-500/10 text-blue-400 border border-blue-500/30 px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-4">
+                    <i class="fa-solid fa-crown text-amber-400"></i>
+                    <span>Siêu Phẩm Flagship 2024-2025</span>
                 </span>
                 <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase leading-tight">
-                    Cửa Hàng Vợt Cầu Lông <span class="text-transparent bg-clip-text bg-gradient-to-r from-lining-red to-rose-400">Đỉnh Cao</span>
+                    Đỉnh Cao <span class="text-gradient">Công Nghệ</span> Trên Tay Bạn
                 </h1>
                 <p class="text-neutral-400 text-sm sm:text-base mt-4 leading-relaxed">
-                    Khám phá đầy đủ các dòng vợt thi đấu cao cấp Li-Ning: <strong>Axforce</strong>, <strong>BladeX</strong>, <strong>3D Calibar</strong>, <strong>Windstorm</strong> và <strong>Tectonic</strong> với hình ảnh thực tế chất lượng cao và cơ chế chống lỗi vỡ ảnh tự động.
+                    Trải nghiệm các dòng Smartphone flagship đỉnh nhất thế giới: Camera Leica/Hasselblad, Chip Apple A18 Pro, Snapdragon 8 Gen 3/Gen 4, Màn hình gập thế hệ mới với ưu đãi độc quyền.
                 </p>
-                <div class="mt-6 flex flex-wrap gap-4">
-                    <button onclick="scrollToSeries('axforce')" class="bg-gradient-to-r from-lining-red to-lining-reddark hover:opacity-90 text-white font-bold text-sm px-6 py-3.5 rounded-xl transition shadow-lg shadow-lining-red/30 flex items-center space-x-2">
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <a href="#products-section" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 text-white font-bold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-blue-600/30 flex items-center space-x-2">
                         <span>Khám phá ngay</span>
                         <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                    <button onclick="filterByFeature('camera')" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-200 font-semibold text-sm px-5 py-3 rounded-xl border border-brand-border transition flex items-center space-x-2">
+                        <i class="fa-solid fa-camera text-blue-400"></i>
+                        <span>Top Camera</span>
                     </button>
-                    <button onclick="filterAll()" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-200 font-semibold text-sm px-6 py-3.5 rounded-xl border border-neutral-700 transition">
-                        Tất cả sản phẩm
+                    <button onclick="filterByFeature('gaming')" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-200 font-semibold text-sm px-5 py-3 rounded-xl border border-brand-border transition flex items-center space-x-2">
+                        <i class="fa-solid fa-gamepad text-purple-400"></i>
+                        <span>Gaming Phone</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Hero Racket Showcase Image -->
+            <!-- Banner Visual -->
             <div class="relative w-full md:w-1/2 h-64 sm:h-80 flex items-center justify-center">
-                <div class="absolute w-72 h-72 bg-lining-red/20 rounded-full filter blur-3xl"></div>
-                <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80" 
-                     alt="Li-Ning Racket Showcase" 
-                     onerror="handleImageError(this, 'axforce', 'ax-100')"
-                     class="relative z-10 max-h-full object-contain rounded-2xl shadow-2xl racket-glow transform hover:scale-105 transition-transform duration-500">
+                <div class="absolute w-72 h-72 bg-blue-600/20 rounded-full filter blur-3xl"></div>
+                <div class="relative z-10 w-full max-w-xs sm:max-w-sm flex justify-center" id="heroBannerPhone">
+                    <!-- Dynamic Phone SVG Rendered by JS -->
+                </div>
             </div>
         </div>
     </section>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-
-        <!-- AXFORCE SECTION -->
-        <section id="axforce" class="scroll-mt-36">
-            <div class="bg-gradient-to-r from-neutral-900 via-rose-950/40 to-neutral-900 border-l-4 border-rose-500 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                <div>
-                    <div class="flex items-center space-x-3">
-                        <span class="text-xs font-black uppercase tracking-widest text-rose-400 bg-rose-500/20 px-2.5 py-1 rounded-md border border-rose-500/30">Heavy Attack</span>
-                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng AXFORCE</h2>
-                    </div>
-                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Dòng vợt thiên về **Tấn công bộc phá**, đũa vợt mỏng Siêu Carbon M50 mang lại tốc độ vung đập uy lực.</p>
-                </div>
-                <span class="text-xs text-rose-400 font-bold bg-neutral-950 px-3.5 py-2 rounded-xl border border-neutral-800 self-start sm:self-center">4 Phiên bản (70, 80, 90, 100)</span>
+    <!-- Main Content Container -->
+    <main id="products-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 flex-1 w-full">
+        
+        <!-- Filter Controls Bar -->
+        <div class="bg-brand-card p-4 rounded-2xl border border-brand-border flex flex-col sm:flex-row justify-between items-center gap-4">
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <button onclick="filterByCategory('all')" id="cat-btn-all" class="cat-btn active text-xs font-bold px-4 py-2 rounded-xl bg-blue-600 text-white transition">Tất cả</button>
+                <button onclick="filterByCategory('camera')" id="cat-btn-camera" class="cat-btn text-xs font-bold px-4 py-2 rounded-xl bg-neutral-900 text-neutral-400 hover:text-white border border-brand-border transition">Camera Khủng</button>
+                <button onclick="filterByCategory('gaming')" id="cat-btn-gaming" class="cat-btn text-xs font-bold px-4 py-2 rounded-xl bg-neutral-900 text-neutral-400 hover:text-white border border-brand-border transition">Gaming Đỉnh</button>
+                <button onclick="filterByCategory('foldable')" id="cat-btn-foldable" class="cat-btn text-xs font-bold px-4 py-2 rounded-xl bg-neutral-900 text-neutral-400 hover:text-white border border-brand-border transition">Màn Hình Gập</button>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-axforce"></div>
-        </section>
 
-        <!-- BLADEX SECTION -->
-        <section id="bladex" class="scroll-mt-36">
-            <div class="bg-gradient-to-r from-neutral-900 via-cyan-950/40 to-neutral-900 border-l-4 border-cyan-400 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                <div>
-                    <div class="flex items-center space-x-3">
-                        <span class="text-xs font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/20 px-2.5 py-1 rounded-md border border-cyan-500/30">Speed & Drive</span>
-                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng BLADEX</h2>
-                    </div>
-                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Tối ưu cho lối đánh **Phản tạt tốc độ & Kiểm soát cầu lưới**, khung Sharpen Wave cản gió tối thiểu.</p>
-                </div>
-                <span class="text-xs text-cyan-400 font-bold bg-neutral-950 px-3.5 py-2 rounded-xl border border-neutral-800 self-start sm:self-center">3 Phiên bản (700, 800, 900)</span>
+            <!-- Sort dropdown -->
+            <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+                <span class="text-xs text-neutral-400 whitespace-nowrap"><i class="fa-solid fa-arrow-down-wide-short mr-1"></i>Sắp xếp:</span>
+                <select id="sortSelect" onchange="sortProducts()" class="bg-neutral-900 text-xs font-semibold text-white px-3 py-2 rounded-xl border border-brand-border focus:outline-none focus:border-blue-500">
+                    <option value="featured">Nổi bật nhất</option>
+                    <option value="price-asc">Giá: Thấp đến Cao</option>
+                    <option value="price-desc">Giá: Cao đến Thấp</option>
+                </select>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-bladex"></div>
-        </section>
+        </div>
 
-        <!-- 3D CALIBAR SECTION -->
-        <section id="calibar" class="scroll-mt-36">
-            <div class="bg-gradient-to-r from-neutral-900 via-amber-950/40 to-neutral-900 border-l-4 border-amber-400 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                <div>
-                    <div class="flex items-center space-x-3">
-                        <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-amber-500/20 px-2.5 py-1 rounded-md border border-amber-500/30">3D Aero Frame</span>
-                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng 3D CALIBAR</h2>
-                    </div>
-                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Thiết kế vát hình vòm 3D góc cạnh độc quyền chống xoắn vặn, tăng tốc độ vung vợt đập cắm sân.</p>
-                </div>
-                <span class="text-xs text-amber-400 font-bold bg-neutral-950 px-3.5 py-2 rounded-xl border border-neutral-800 self-start sm:self-center">3 Phiên bản (300, 600C, 900B)</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-calibar"></div>
-        </section>
+        <!-- Products Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Rendered by JS -->
+        </div>
 
-        <!-- WINDSTORM SECTION -->
-        <section id="windstorm" class="scroll-mt-36">
-            <div class="bg-gradient-to-r from-neutral-900 via-emerald-950/40 to-neutral-900 border-l-4 border-emerald-400 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                <div>
-                    <div class="flex items-center space-x-3">
-                        <span class="text-xs font-black uppercase tracking-widest text-emerald-400 bg-emerald-500/20 px-2.5 py-1 rounded-md border border-emerald-500/30">Super Light Tech</span>
-                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng WINDSTORM</h2>
-                    </div>
-                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Dòng vợt **Siêu nhẹ Super Light (6U/5U)** cực kỳ linh hoạt, trợ lực thoát tay phản tạt nhẹ nhàng.</p>
-                </div>
-                <span class="text-xs text-emerald-400 font-bold bg-neutral-950 px-3.5 py-2 rounded-xl border border-neutral-800 self-start sm:self-center">3 Phiên bản (72, 75, 79S)</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-windstorm"></div>
-        </section>
-
-        <!-- TECTONIC SECTION -->
-        <section id="tectonic" class="scroll-mt-36">
-            <div class="bg-gradient-to-r from-neutral-900 via-purple-950/40 to-neutral-900 border-l-4 border-purple-500 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                <div>
-                    <div class="flex items-center space-x-3">
-                        <span class="text-xs font-black uppercase tracking-widest text-purple-400 bg-purple-500/20 px-2.5 py-1 rounded-md border border-purple-500/30">Flexible Energy</span>
-                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng TECTONIC</h2>
-                    </div>
-                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Công nghệ carbon đàn hồi đệm năng lượng ở góc 5h & 7h, giải phóng sức mạnh toàn diện Công & Thủ.</p>
-                </div>
-                <span class="text-xs text-purple-400 font-bold bg-neutral-950 px-3.5 py-2 rounded-xl border border-neutral-800 self-start sm:self-center">3 Phiên bản (1, 7, 9)</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-tectonic"></div>
-        </section>
-
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-16 bg-brand-card rounded-3xl border border-brand-border">
+            <i class="fa-solid fa-mobile-retro text-5xl text-neutral-600 mb-4 block"></i>
+            <h3 class="text-lg font-bold text-white">Không tìm thấy sản phẩm nào</h3>
+            <p class="text-xs text-neutral-400 mt-1">Vui lòng thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc.</p>
+            <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition">Xóa bộ lọc</button>
+        </div>
     </main>
 
-    <div id="cartModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex justify-end hidden transition-opacity">
-        <div class="w-full max-w-md bg-neutral-900 h-full flex flex-col shadow-2xl border-l border-neutral-800">
-            <div class="p-6 border-b border-neutral-800 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <i class="fa-solid fa-cart-shopping text-lining-red text-xl"></i>
-                    <h3 class="font-black text-lg text-white">Giỏ Hàng Của Bạn</h3>
+    <footer class="mt-20 border-t border-brand-border bg-neutral-950 py-10 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-neutral-500">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm">X</div>
+                <div>
+                    <p class="font-bold text-neutral-300">FLAGSHIP STORE AUTHENTIC</p>
+                    <p>Hệ thống bán lẻ điện thoại cao cấp chính hãng 100%</p>
                 </div>
-                <button onclick="toggleCartModal(false)" class="text-neutral-400 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
+            </div>
+            <div class="flex flex-wrap justify-center gap-6 text-neutral-400">
+                <a href="#" class="hover:text-blue-400">Chính sách bảo hành</a>
+                <a href="#" class="hover:text-blue-400">Trả góp 0%</a>
+                <a href="#" class="hover:text-blue-400">Thu cũ đổi mới</a>
+                <a href="#" class="hover:text-blue-400">Hệ thống cửa hàng</a>
+            </div>
+            <p>© 2026 FLAGSHIP.X Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex justify-end hidden transition-opacity">
+        <div class="w-full max-w-md bg-brand-card h-full flex flex-col shadow-2xl border-l border-brand-border">
+            <div class="p-6 border-b border-brand-border flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-blue-600/20 text-blue-400 rounded-lg">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-white">Giỏ Hàng Của Bạn</h3>
+                </div>
+                <button onclick="toggleCartModal(false)" class="text-neutral-400 hover:text-white p-2">
+                    <i class="fa-solid fa-xmark text-xl"></i>
                 </button>
             </div>
 
+            <!-- Cart Items -->
             <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
 
-            <div class="p-6 border-t border-neutral-800 bg-neutral-950 space-y-4">
+            <!-- Cart Footer -->
+            <div class="p-6 border-t border-brand-border bg-neutral-950 space-y-4">
                 <div class="flex justify-between items-center text-sm">
-                    <span class="text-neutral-400">Tổng tiền thanh toán:</span>
-                    <span id="cartTotalPrice" class="text-xl font-black text-lining-red">0 ₫</span>
+                    <span class="text-neutral-400">Tổng tiền tạm tính:</span>
+                    <span id="cartTotalPrice" class="text-xl font-black text-blue-400">0 ₫</span>
                 </div>
-                <button onclick="checkout()" class="w-full bg-gradient-to-r from-lining-red to-lining-reddark hover:opacity-90 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-lining-red/30 transition text-sm">
-                    Xác Nhận Đặt Hàng (COD)
+                <button onclick="checkout()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-600/30 transition text-sm flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Tiến Hành Thanh Toán</span>
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- Product Detail Modal -->
     <div id="detailModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 relative">
-            <button onclick="closeDetailModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-white text-xl z-10">
+        <div class="bg-brand-card border border-brand-border rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 relative">
+            <button onclick="closeDetailModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-white text-xl z-10 w-9 h-9 rounded-full bg-neutral-900 border border-brand-border flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div id="detailModalContent"></div>
@@ -264,352 +259,480 @@
     </div>
 
     <script>
-        // High quality fallback vector graphics if image fails to load
-        function generateRacketSVG(series, id) {
-            let frameGrad, detailColor;
-            switch(series) {
-                case 'axforce': frameGrad = ['#e60012', '#111111', '#e60012']; detailColor = '#e60012'; break;
-                case 'bladex': frameGrad = ['#0284c7', '#0f172a', '#38bdf8']; detailColor = '#38bdf8'; break;
-                case 'calibar': frameGrad = ['#f97316', '#1c1917', '#ea580c']; detailColor = '#f97316'; break;
-                case 'windstorm': frameGrad = ['#10b981', '#064e3b', '#34d399']; detailColor = '#34d399'; break;
-                case 'tectonic': frameGrad = ['#8b5cf6', '#1e1b4b', '#a855f7']; detailColor = '#a855f7'; break;
-                default: frameGrad = ['#e60012', '#111111', '#e60012']; detailColor = '#e60012';
+        // High quality encoded Vector Phone SVGs by Model Style
+        function generatePhoneSVG(type, colorHex) {
+            let svgContent = '';
+            
+            if (type === 'iphone') {
+                svgContent = `
+                <svg width="220" height="280" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="35" y="10" width="150" height="260" rx="36" fill="#18181b" stroke="${colorHex}" stroke-width="4"/>
+                    <rect x="42" y="17" width="136" height="246" rx="30" fill="#09090b"/>
+                    <!-- Dynamic Island -->
+                    <rect x="85" y="24" width="50" height="14" rx="7" fill="#000000"/>
+                    <circle cx="123" cy="31" r="3" fill="#1e1b4b"/>
+                    <!-- Triple Camera Module -->
+                    <rect x="48" y="32" width="62" height="68" rx="20" fill="#27272a" opacity="0.9"/>
+                    <circle cx="67" cy="50" r="13" fill="#09090b" stroke="${colorHex}" stroke-width="2"/>
+                    <circle cx="67" cy="50" r="6" fill="#1d4ed8"/>
+                    <circle cx="67" cy="82" r="13" fill="#09090b" stroke="${colorHex}" stroke-width="2"/>
+                    <circle cx="67" cy="82" r="6" fill="#1d4ed8"/>
+                    <circle cx="93" cy="66" r="13" fill="#09090b" stroke="${colorHex}" stroke-width="2"/>
+                    <circle cx="93" cy="66" r="6" fill="#1d4ed8"/>
+                    <!-- Apple Logo -->
+                    <path d="M110 142 C108 140 105 142 103 145 C101 148 103 154 106 158 C108 161 111 165 114 165 C117 165 118 163 121 163 C124 163 125 165 128 165 C131 165 134 161 136 157 C133 155 131 150 132 146 C133 141 137 139 138 138 C135 134 130 133 128 133 C124 133 122 135 119 135 C116 135 114 133 110 133 Z" fill="#e4e4e7" opacity="0.7"/>
+                </svg>`;
+            } else if (type === 'samsung') {
+                svgContent = `
+                <svg width="220" height="280" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="35" y="10" width="150" height="260" rx="16" fill="#18181b" stroke="${colorHex}" stroke-width="4"/>
+                    <rect x="40" y="15" width="140" height="250" rx="12" fill="#09090b"/>
+                    <!-- Hole punch camera -->
+                    <circle cx="110" cy="26" r="4" fill="#000000"/>
+                    <!-- Vertical Camera System -->
+                    <circle cx="58" cy="40" r="11" fill="#18181b" stroke="${colorHex}" stroke-width="2"/>
+                    <circle cx="58" cy="40" r="5" fill="#3b82f6"/>
+                    <circle cx="58" cy="68" r="11" fill="#18181b" stroke="${colorHex}" stroke-width="2"/>
+                    <circle cx="58" cy="68" r="5" fill="#3b82f6"/>
+                    <circle cx="58" cy="96" r="11" fill="#18181b" stroke="${colorHex}" stroke-width="2"/>
+                    <circle cx="58" cy="96" r="5" fill="#3b82f6"/>
+                    <!-- Periscope & Flash -->
+                    <circle cx="82" cy="54" r="7" fill="#18181b" stroke="${colorHex}" stroke-width="1.5"/>
+                    <rect x="78" y="76" width="8" height="8" fill="#f59e0b" rx="2"/>
+                    <!-- Frame Accent -->
+                    <line x1="35" y1="230" x2="185" y2="230" stroke="#3f3f46" stroke-width="1"/>
+                </svg>`;
+            } else if (type === 'xiaomi') {
+                svgContent = `
+                <svg width="220" height="280" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="35" y="10" width="150" height="260" rx="30" fill="#18181b" stroke="${colorHex}" stroke-width="4"/>
+                    <rect x="41" y="16" width="138" height="248" rx="24" fill="#09090b"/>
+                    <!-- Huge Circular Leica Camera Decal -->
+                    <circle cx="110" cy="85" r="48" fill="#27272a" stroke="${colorHex}" stroke-width="3"/>
+                    <circle cx="110" cy="85" r="42" fill="#09090b"/>
+                    <!-- Quad Lenses -->
+                    <circle cx="95" cy="70" r="10" fill="#18181b" stroke="#3f3f46" stroke-width="1.5"/>
+                    <circle cx="95" cy="70" r="4" fill="#ef4444"/>
+                    <circle cx="125" cy="70" r="10" fill="#18181b" stroke="#3f3f46" stroke-width="1.5"/>
+                    <circle cx="125" cy="70" r="4" fill="#ef4444"/>
+                    <circle cx="95" cy="100" r="10" fill="#18181b" stroke="#3f3f46" stroke-width="1.5"/>
+                    <circle cx="125" cy="100" r="10" fill="#18181b" stroke="#3f3f46" stroke-width="1.5"/>
+                    <!-- Leica Text Badge -->
+                    <rect x="100" y="81" width="20" height="8" rx="2" fill="#ef4444"/>
+                </svg>`;
+            } else if (type === 'google') {
+                svgContent = `
+                <svg width="220" height="280" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="35" y="10" width="150" height="260" rx="28" fill="#18181b" stroke="${colorHex}" stroke-width="4"/>
+                    <rect x="41" y="16" width="138" height="248" rx="22" fill="#09090b"/>
+                    <!-- Iconic Pixel Camera Visor Bar -->
+                    <rect x="35" y="45" width="150" height="38" rx="19" fill="#27272a" stroke="${colorHex}" stroke-width="2"/>
+                    <!-- Oval Lens cutout -->
+                    <rect x="52" y="53" width="60" height="22" rx="11" fill="#09090b"/>
+                    <circle cx="66" cy="64" r="6" fill="#a855f7"/>
+                    <circle cx="90" cy="64" r="6" fill="#a855f7"/>
+                    <circle cx="140" cy="64" r="7" fill="#09090b" stroke="#f59e0b" stroke-width="1.5"/>
+                </svg>`;
+            } else if (type === 'rog') {
+                svgContent = `
+                <svg width="220" height="280" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="35" y="10" width="150" height="260" rx="20" fill="#09090b" stroke="${colorHex}" stroke-width="4"/>
+                    <!-- Cyberpunk lines -->
+                    <path d="M45 30 L175 160 M175 40 L45 220" stroke="#ef4444" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+                    <!-- Geometric Camera Island -->
+                    <path d="M48 25 L120 25 L100 70 L48 70 Z" fill="#27272a" stroke="${colorHex}" stroke-width="2"/>
+                    <circle cx="68" cy="48" r="9" fill="#09090b" stroke="#ef4444" stroke-width="2"/>
+                    <circle cx="92" cy="48" r="7" fill="#09090b" stroke="#ef4444" stroke-width="1.5"/>
+                    <!-- Anime Matrix LED dot logo -->
+                    <rect x="80" y="140" width="60" height="60" rx="8" fill="#18181b"/>
+                    <circle cx="95" cy="155" r="3" fill="#ef4444"/>
+                    <circle cx="110" cy="155" r="3" fill="#ef4444"/>
+                    <circle cx="125" cy="155" r="3" fill="#ef4444"/>
+                    <circle cx="110" cy="170" r="3" fill="#ef4444"/>
+                    <circle cx="95" cy="185" r="3" fill="#ef4444"/>
+                    <circle cx="125" cy="185" r="3" fill="#ef4444"/>
+                </svg>`;
+            } else {
+                svgContent = `
+                <svg width="220" height="280" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="35" y="10" width="150" height="260" rx="28" fill="#18181b" stroke="${colorHex}" stroke-width="3"/>
+                    <rect x="42" y="17" width="136" height="246" rx="22" fill="#09090b"/>
+                </svg>`;
             }
 
-            return `
-            <svg width="100%" height="200" viewBox="0 0 200 380" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-lg">
-                <defs>
-                    <linearGradient id="fg_${id}" x1="0" y1="0" x2="200" y2="200">
-                        <stop offset="0%" stop-color="${frameGrad[0]}"/>
-                        <stop offset="50%" stop-color="${frameGrad[1]}"/>
-                        <stop offset="100%" stop-color="${frameGrad[2]}"/>
-                    </linearGradient>
-                </defs>
-                <ellipse cx="100" cy="105" rx="66" ry="84" stroke="url(#fg_${id})" stroke-width="11" fill="none"/>
-                <ellipse cx="100" cy="105" rx="58" ry="76" stroke="#262626" stroke-width="1" fill="none"/>
-                <path d="M100 30 V180 M70 40 V170 M130 40 V170 M50 70 H150 M50 105 H150 M50 140 H150" stroke="#333333" stroke-width="1" opacity="0.6"/>
-                <path d="M85 105 Q100 85 115 100 Q105 115 90 110" stroke="${detailColor}" stroke-width="3" fill="none" opacity="0.85"/>
-                <path d="M78 178 Q100 202 122 178 Z" fill="${frameGrad[0]}"/>
-                <line x1="100" y1="190" x2="100" y2="310" stroke="${frameGrad[0]}" stroke-width="7" stroke-linecap="round"/>
-                <rect x="89" y="310" width="22" height="55" rx="3" fill="#171717" stroke="#333333" stroke-width="1.5"/>
-                <rect x="89" y="360" width="22" height="8" rx="1.5" fill="#e60012"/>
-            </svg>`;
+            // Safe Data URL Encoding to prevent HTML text injection or broken quotes
+            return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgContent)}`;
         }
 
-        // Automatic onerror image fallback handler
-        function handleImageError(imgElem, series, id) {
-            imgElem.onerror = null; // Prevent infinite loop
-            const container = imgElem.parentElement;
-            if (container) {
-                container.innerHTML = generateRacketSVG(series, id);
-            }
-        }
-
+        // Flagship Products Database
         const products = [
-            // AXFORCE
             {
-                id: 'ax-70',
-                series: 'axforce',
-                name: 'Li-Ning Axforce 70 (Xám Ánh Kim)',
-                price: 3890000,
-                badge: 'Mới 2024',
-                image: 'https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80',
-                weight: '4U (83g) / 3U',
-                balance: '298 mm (Nặng đầu nhẹ)',
-                flexibility: 'Dẻo vừa',
-                tension: '28 lbs',
-                desc: 'Khung Box Wing Frame tối ưu khả năng đập cầu liên tục không tốn nhiều sức.'
+                id: 'ip16pm',
+                name: 'iPhone 16 Pro Max 256GB',
+                brand: 'apple',
+                category: 'camera',
+                price: 34990000,
+                oldPrice: 36990000,
+                badge: 'Mới Ra Mắt',
+                badgeColor: 'bg-rose-600',
+                svgType: 'iphone',
+                colorHex: '#d4af37',
+                colors: ['Titan Sa Mạc', 'Titan Tự Nhiên', 'Titan Trắng', 'Titan Đen'],
+                storages: ['256GB', '512GB', '1TB'],
+                specs: {
+                    chip: 'Apple A18 Pro (3nm)',
+                    display: '6.9" Super Retina XDR OLED 120Hz',
+                    camera: 'Chính 48MP + Góc Siêu Rộng 48MP + Periscope 5x 12MP',
+                    battery: '4.685 mAh - Sạc 30W / MagSafe 25W',
+                    ram: '8GB RAM'
+                },
+                desc: 'Khung Titan cấp 5 siêu nhẹ bền bỉ. Nút Camera Control thế hệ mới truy cập camera tức thì. Đỉnh cao quay phim ProRes 4K 120fps.'
             },
             {
-                id: 'ax-80',
-                series: 'axforce',
-                name: 'Li-Ning Axforce 80 (Chen Long Edition)',
-                price: 4350000,
-                badge: 'Best Seller',
-                image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U / 5U',
-                balance: '300 mm (Nặng đầu)',
-                flexibility: 'Cứng',
-                tension: '30 lbs',
-                desc: 'Vũ khí cùng Chen Long càn quét giải đấu. Smash cầu cực cắm và uy lực.'
+                id: 's24u',
+                name: 'Samsung Galaxy S24 Ultra 5G',
+                brand: 'samsung',
+                category: 'camera',
+                price: 29990000,
+                oldPrice: 33990000,
+                badge: 'Camera 200MP',
+                badgeColor: 'bg-blue-600',
+                svgType: 'samsung',
+                colorHex: '#3b82f6',
+                colors: ['Xám Titan', 'Đen Titan', 'Tím Titan', 'Vàng Titan'],
+                storages: ['256GB', '512GB', '1TB'],
+                specs: {
+                    chip: 'Snapdragon 8 Gen 3 for Galaxy',
+                    display: '6.8" Dynamic AMOLED 2X 120Hz QHD+',
+                    camera: '200MP Main + 50MP Periscope 5x + 10MP 3x + 12MP Ultrawide',
+                    battery: '5.000 mAh - Sạc siêu nhanh 45W',
+                    ram: '12GB RAM'
+                },
+                desc: 'Quyền năng Galaxy AI đỉnh cao trợ lý dịch thuật & khoanh vùng tìm kiếm. Tích hợp bút S-Pen huyền thoại, kính Gorilla Armor chống lóa đỉnh nhất.'
             },
             {
-                id: 'ax-90',
-                series: 'axforce',
-                name: 'Li-Ning Axforce 90 Dragon / Tiger',
-                price: 4890000,
-                badge: 'Cao Cấp',
-                image: 'https://images.unsplash.com/photo-1521537634581-0dced2efa2a7?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U',
-                balance: '305 mm (Rất nặng đầu)',
-                flexibility: 'Cứng',
-                tension: '31 lbs',
-                desc: 'Đũa mỏng 6.2mm Slim Shaft tích hợp công nghệ carbon bọc phá đỉnh cao.'
+                id: 'mi14u',
+                name: 'Xiaomi 14 Ultra 5G Leica',
+                brand: 'xiaomi',
+                category: 'camera',
+                price: 28990000,
+                oldPrice: 32990000,
+                badge: 'Ống Kính Leica',
+                badgeColor: 'bg-emerald-600',
+                svgType: 'xiaomi',
+                colorHex: '#10b981',
+                colors: ['Đen Da Cừu', 'Trắng Da Cừu'],
+                storages: ['512GB', '1TB'],
+                specs: {
+                    chip: 'Snapdragon 8 Gen 3 (4nm)',
+                    display: '6.73" LTPO AMOLED 120Hz 3000 nits',
+                    camera: 'Bộ 4 Camera 50MP Leica Summilux - Cảm biến 1 inch',
+                    battery: '5.000 mAh - Sạc dây 90W / Không dây 80W',
+                    ram: '16GB RAM'
+                },
+                desc: 'Chuyên gia nhiếp ảnh di động với khẩu độ thay đổi vô cấp F/1.63 - F/4.0. Khung hợp kim nhôm nguyên khối bền gấp 2 lần.'
             },
             {
-                id: 'ax-100',
-                series: 'axforce',
-                name: 'Li-Ning Axforce 100 Golden Kirin',
-                price: 5200000,
-                badge: 'Flagship',
-                image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U',
-                balance: '308 mm (Siêu nặng đầu)',
-                flexibility: 'Rất cứng',
-                tension: '32 lbs',
-                desc: 'Siêu phẩm đỉnh cao nhất dòng Axforce trang bị sợi M50 Carbon bền bỉ tuyệt đối.'
-            },
-
-            // BLADEX
-            {
-                id: 'bx-700',
-                series: 'bladex',
-                name: 'Li-Ning BladeX 700 (Xanh Tốc Độ)',
-                price: 3650000,
-                badge: 'Tốc Độ',
-                image: 'https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U / 5U',
-                balance: '292 mm (Cân bằng)',
-                flexibility: 'Trung bình',
-                tension: '29 lbs',
-                desc: 'Thiết kế khí động học Sharpen Wave tối ưu hóa phản tạt cướp cầu trên lưới.'
+                id: 'px9p',
+                name: 'Google Pixel 9 Pro XL',
+                brand: 'google',
+                category: 'camera',
+                price: 27990000,
+                oldPrice: 29990000,
+                badge: 'Thuần Google AI',
+                badgeColor: 'bg-purple-600',
+                svgType: 'google',
+                colorHex: '#a855f7',
+                colors: ['Obsidian Đen', 'Porcelain Trắng', 'Hazel Xanh'],
+                storages: ['256GB', '512GB'],
+                specs: {
+                    chip: 'Google Tensor G4 (4nm) + Chip bảo mật Titan M2',
+                    display: '6.8" Super Actua OLED 120Hz 3000 nits',
+                    camera: '50MP Main + 48MP Ultrawide + 48MP Tele 5x',
+                    battery: '5.060 mAh - Sạc nhanh 37W',
+                    ram: '16GB RAM'
+                },
+                desc: 'Hệ điều hành Android thuần khiết mượt mà nhất. Trợ lý Gemini Nano tích hợp sâu, chụp ảnh chân thực hàng đầu thế giới.'
             },
             {
-                id: 'bx-800',
-                series: 'bladex',
-                name: 'Li-Ning BladeX 800 (Zheng Si Wei)',
-                price: 4290000,
-                badge: 'Đánh Đôi Pro',
-                image: 'https://images.unsplash.com/photo-1521537634581-0dced2efa2a7?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U',
-                balance: '290 mm (Cân bằng nhẹ)',
-                flexibility: 'Cứng',
-                tension: '31 lbs',
-                desc: 'Sự lựa chọn của nhà vô địch thế giới Zheng Siwei, tạt cầu cực nhanh & chính xác.'
+                id: 'rog8p',
+                name: 'ASUS ROG Phone 8 Pro Gaming',
+                brand: 'asus',
+                category: 'gaming',
+                price: 26990000,
+                oldPrice: 28990000,
+                badge: 'Chơi Game Đỉnh',
+                badgeColor: 'bg-red-600',
+                svgType: 'rog',
+                colorHex: '#ef4444',
+                colors: ['Phantom Black'],
+                storages: ['512GB', '1TB'],
+                specs: {
+                    chip: 'Snapdragon 8 Gen 3 Extreme Gaming',
+                    display: '6.78" Samsung E6 AMOLED 165Hz',
+                    camera: '50MP Gimbal Stabilizer + 32MP Tele + 13MP Ultrawide',
+                    battery: '5.500 mAh - Sạc 65W HyperCharge',
+                    ram: '16GB / 24GB RAM'
+                },
+                desc: 'Quái vật gaming di động trang bị màn hình ma trận AniMe Vision, phím siêu âm AirTrigger cực nhạy, hệ thống tản nhiệt khí GameCool 8.'
             },
             {
-                id: 'bx-900',
-                series: 'bladex',
-                name: 'Li-Ning BladeX 900 Sun / Moon Max',
-                price: 4950000,
-                badge: 'Siêu Phẩm',
-                image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U',
-                balance: '295 mm (Cân bằng)',
-                flexibility: 'Cứng',
-                tension: '31 lbs',
-                desc: 'Sử dụng hệ thống hấp thụ xung lực HDF Shock Absorption mượt mà tay cầm.'
-            },
-
-            // 3D CALIBAR
-            {
-                id: 'ca-300',
-                series: 'calibar',
-                name: 'Li-Ning 3D Calibar 300 (Cam Đồng)',
-                price: 2450000,
-                badge: 'Toàn Diện',
-                image: 'https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U',
-                balance: '296 mm (Hơi nặng đầu)',
-                flexibility: 'Trung bình',
-                tension: '28 lbs',
-                desc: 'Khung vát 3D chống xoắn vặn hiệu quả, trợ lực đập cầu thoát tay.'
+                id: 'zfold6',
+                name: 'Samsung Galaxy Z Fold6 5G',
+                brand: 'samsung',
+                category: 'foldable',
+                price: 41990000,
+                oldPrice: 43990000,
+                badge: 'Màn Gập Độc Quyền',
+                badgeColor: 'bg-amber-600',
+                svgType: 'samsung',
+                colorHex: '#f59e0b',
+                colors: ['Xám Metal', 'Hồng Rose', 'Xanh Navy'],
+                storages: ['256GB', '512GB', '1TB'],
+                specs: {
+                    chip: 'Snapdragon 8 Gen 3 for Galaxy',
+                    display: 'Chính 7.6" + Phụ 6.3" Dynamic AMOLED 2X 120Hz',
+                    camera: '50MP Main + 10MP Tele 3x + 12MP Ultrawide',
+                    battery: '4.400 mAh - Kháng nước IP48',
+                    ram: '12GB RAM'
+                },
+                desc: 'Tuyệt tác màn hình gập mỏng nhẹ nhất dòng Fold. Đa nhiệm 3 ứng dụng cùng lúc mượt mà, tối ưu hóa công việc và giải trí không giới hạn.'
             },
             {
-                id: 'ca-600',
-                series: 'calibar',
-                name: 'Li-Ning 3D Calibar 600C (Combat)',
-                price: 3350000,
-                badge: 'Bán Chạy',
-                image: 'https://images.unsplash.com/photo-1521537634581-0dced2efa2a7?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U',
-                balance: '300 mm (Nặng đầu)',
-                flexibility: 'Cứng vừa',
-                tension: '30 lbs',
-                desc: 'Phiên bản Combat chuyên công với điểm cân bằng nặng đầu tấn công dồn dập.'
+                id: 'ip15pm',
+                name: 'iPhone 15 Pro Max 256GB',
+                brand: 'apple',
+                category: 'camera',
+                price: 28990000,
+                oldPrice: 31990000,
+                badge: 'Bán Chạy Nhất',
+                badgeColor: 'bg-emerald-600',
+                svgType: 'iphone',
+                colorHex: '#3b82f6',
+                colors: ['Titan Tự Nhiên', 'Titan Xanh', 'Titan Đen'],
+                storages: ['256GB', '512GB'],
+                specs: {
+                    chip: 'Apple A17 Pro (3nm)',
+                    display: '6.7" Super Retina XDR OLED 120Hz ProMotion',
+                    camera: '48MP Main + 12MP Periscope 5x + 12MP Ultrawide',
+                    battery: '4.422 mAh - Cổng Type-C USB 3 tốc độ cao',
+                    ram: '8GB RAM'
+                },
+                desc: 'Chiếc iPhone tiên phong thiết kế Titan. Nút Action Button linh hoạt, chiến game AAA đỉnh cao ngay trên điện thoại.'
             },
             {
-                id: 'ca-900',
-                series: 'calibar',
-                name: 'Li-Ning 3D Calibar 900B (Boost)',
-                price: 4500000,
-                badge: 'Huyền Thoại',
-                image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U',
-                balance: '298 mm (Cân bằng)',
-                flexibility: 'Cứng',
-                tension: '32 lbs',
-                desc: 'Cây vợt vang danh thế giới với thiết kế kim cương giảm tối đa sức cản gió.'
-            },
-
-            // WINDSTORM
-            {
-                id: 'ws-72',
-                series: 'windstorm',
-                name: 'Li-Ning Windstorm 72 (Siêu Nhẹ 6U)',
-                price: 2190000,
-                badge: 'Siêu Nhẹ 6U',
-                image: 'https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80',
-                weight: '6U (72g)',
-                balance: '315 mm (Nặng đầu trợ lực)',
-                flexibility: 'Hơi dẻo',
-                tension: '30 lbs',
-                desc: 'Trọng lượng siêu nhẹ 72g kết hợp đầu nặng trợ lực cực tốt cho phái nữ.'
-            },
-            {
-                id: 'ws-75',
-                series: 'windstorm',
-                name: 'Li-Ning Windstorm 75 (Hồng Pastel)',
-                price: 2350000,
-                badge: 'Linh Hoạt',
-                image: 'https://images.unsplash.com/photo-1521537634581-0dced2efa2a7?auto=format&fit=crop&w=600&q=80',
-                weight: '5U (75g)',
-                balance: '300 mm (Nặng đầu)',
-                flexibility: 'Trung bình',
-                tension: '30 lbs',
-                desc: 'Thiết kế phối màu bắt mắt, xử lý cầu trên lưới và thủ cầu cực nhẹ nhàng.'
-            },
-            {
-                id: 'ws-79s',
-                series: 'windstorm',
-                name: 'Li-Ning Windstorm 79S (Xanh Ngọc)',
-                price: 2690000,
-                badge: 'Hot Item',
-                image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80',
-                weight: '5U (79g)',
-                balance: '298 mm (Cân bằng)',
-                flexibility: 'Dẻo',
-                tension: '30 lbs',
-                desc: 'Thân vợt dẻo trợ lực mượt mà, phù hợp cho người chơi có lực tay trung bình.'
-            },
-
-            // TECTONIC
-            {
-                id: 'tc-1',
-                series: 'tectonic',
-                name: 'Li-Ning Tectonic 1 / 1S',
-                price: 1390000,
-                badge: 'Quốc Dân',
-                image: 'https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U',
-                balance: '290 mm (Cân bằng)',
-                flexibility: 'Trung bình',
-                tension: '26 lbs',
-                desc: 'Vợt quốc dân dễ chơi, khung carbon siêu bền bỉ dành cho người mới chơi.'
-            },
-            {
-                id: 'tc-7',
-                series: 'tectonic',
-                name: 'Li-Ning Tectonic 7 / 7D / 7I',
-                price: 3890000,
-                badge: 'Đánh Đôi Pro',
-                image: 'https://images.unsplash.com/photo-1521537634581-0dced2efa2a7?auto=format&fit=crop&w=600&q=80',
-                weight: '4U / 5U',
-                balance: '304 mm (Nặng đầu)',
-                flexibility: 'Cứng',
-                tension: '30 lbs',
-                desc: 'Đệm năng lượng Tectonic góc 5&7h bung lực đàn hồi tạt cầu thần tốc.'
-            },
-            {
-                id: 'tc-9',
-                series: 'tectonic',
-                name: 'Li-Ning Tectonic 9 (Loh Kean Yew)',
-                price: 4690000,
-                badge: 'Vô Địch Thế Giới',
-                image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80',
-                weight: '3U / 4U / 5U',
-                balance: '305 mm (Nặng đầu)',
-                flexibility: 'Cứng',
-                tension: '32 lbs',
-                desc: 'Vũ khí đồng hành cùng Loh Kean Yew vô địch thế giới với khả năng phát lực bùng nổ.'
+                id: 'findn3',
+                name: 'Xiaomi MIX Flip 5G',
+                brand: 'xiaomi',
+                category: 'foldable',
+                price: 22990000,
+                oldPrice: 24990000,
+                badge: 'Màn Gập Thời Trang',
+                badgeColor: 'bg-purple-600',
+                svgType: 'xiaomi',
+                colorHex: '#a855f7',
+                colors: ['Tím Thạch Anh', 'Đen Tuyển'],
+                storages: ['512GB'],
+                specs: {
+                    chip: 'Snapdragon 8 Gen 3',
+                    display: 'Chính 6.86" 120Hz + Màn Phụ Siêu Lớn 4.01"',
+                    camera: 'Dual 50MP Leica Professional Camera',
+                    battery: '4.780 mAh - Sạc nhanh 67W',
+                    ram: '12GB RAM'
+                },
+                desc: 'Điện thoại gập vỏ sò sở hữu màn hình phụ lớn nhất phân khúc, hỗ trợ sử dụng full ứng dụng không cần mở máy.'
             }
         ];
 
         let cart = [];
+        let currentBrand = 'all';
+        let currentCategory = 'all';
 
         function formatVND(val) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
         }
 
-        function renderAllSeries() {
-            const seriesList = ['axforce', 'bladex', 'calibar', 'windstorm', 'tectonic'];
-
-            seriesList.forEach(s => {
-                const container = document.getElementById(`grid-${s}`);
-                const items = products.filter(p => p.series === s);
-
-                if (container) {
-                    container.innerHTML = items.map(p => `
-                        <div class="bg-neutral-900/90 border border-neutral-800 hover:border-lining-red/60 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1.5 shadow-xl flex flex-col justify-between group">
-                            <div>
-                                <!-- Image Container with Error Handling -->
-                                <div class="relative w-full h-52 bg-neutral-950/80 rounded-xl overflow-hidden mb-4 border border-neutral-800/80 flex items-center justify-center p-2 group-hover:bg-neutral-950 transition-colors">
-                                    <span class="absolute top-2.5 left-2.5 bg-lining-red text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider z-10 shadow-md">${p.badge}</span>
-                                    <img src="${p.image}" 
-                                         alt="${p.name}" 
-                                         onerror="handleImageError(this, '${p.series}', '${p.id}')"
-                                         class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-500">
-                                </div>
-
-                                <!-- Title & Description -->
-                                <h3 class="font-extrabold text-white text-base group-hover:text-lining-red transition-colors line-clamp-2">${p.name}</h3>
-                                <p class="text-xs text-neutral-400 mt-1 line-clamp-2 leading-relaxed">${p.desc}</p>
-
-                                <!-- Specs Highlights -->
-                                <div class="mt-4 bg-neutral-950/90 p-3 rounded-xl border border-neutral-800/80 space-y-1 text-[11px]">
-                                    <div class="flex justify-between">
-                                        <span class="text-neutral-500"><i class="fa-solid fa-weight-hanging mr-1 text-lining-red"></i>Trọng lượng:</span>
-                                        <span class="font-bold text-neutral-200">${p.weight}</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-neutral-500"><i class="fa-solid fa-scale-balanced mr-1 text-lining-red"></i>Cân bằng:</span>
-                                        <span class="font-bold text-neutral-200">${p.balance}</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-neutral-500"><i class="fa-solid fa-bolt mr-1 text-lining-red"></i>Độ cứng:</span>
-                                        <span class="font-bold text-neutral-200">${p.flexibility}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Price & Buttons -->
-                            <div class="mt-5 pt-3 border-t border-neutral-800/80 flex items-center justify-between">
-                                <div>
-                                    <span class="text-[10px] text-neutral-500 uppercase block font-semibold">Giá niêm yết</span>
-                                    <span class="text-base font-black text-white">${formatVND(p.price)}</span>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <button onclick="openDetailModal('${p.id}')" title="Xem chi tiết" class="bg-neutral-800 hover:bg-neutral-700 text-neutral-300 p-2.5 rounded-xl border border-neutral-700 transition">
-                                        <i class="fa-solid fa-eye text-xs"></i>
-                                    </button>
-                                    <button onclick="addToCart('${p.id}')" title="Thêm vào giỏ" class="bg-lining-red hover:bg-lining-reddark text-white p-2.5 rounded-xl transition shadow-lg shadow-lining-red/20">
-                                        <i class="fa-solid fa-cart-plus text-xs"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-            });
+        // Render Hero Banner Device
+        function renderHeroBanner() {
+            const container = document.getElementById('heroBannerPhone');
+            if (container) {
+                container.innerHTML = `
+                    <div class="relative group">
+                        <img src="${generatePhoneSVG('iphone', '#3b82f6')}" alt="Hero Flagship" class="w-56 h-auto drop-shadow-[0_20px_50px_rgba(59,130,246,0.4)] transform hover:rotate-3 transition-transform duration-500">
+                    </div>
+                `;
+            }
         }
 
-        function addToCart(id) {
+        // Render Product Grid
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptyState');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            let filtered = products.filter(p => {
+                const matchesBrand = (currentBrand === 'all') || (p.brand === currentBrand);
+                const matchesCat = (currentCategory === 'all') || (p.category === currentCategory);
+                const matchesSearch = p.name.toLowerCase().includes(searchVal) || p.desc.toLowerCase().includes(searchVal) || p.specs.chip.toLowerCase().includes(searchVal);
+                return matchesBrand && matchesCat && matchesSearch;
+            });
+
+            // Sorting
+            const sortVal = document.getElementById('sortSelect').value;
+            if (sortVal === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortVal === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(p => `
+                <div class="bg-brand-card border border-brand-border rounded-2xl p-4 flex flex-col justify-between phone-card-glow group relative">
+                    <!-- Badge -->
+                    <span class="absolute top-3 left-3 ${p.badgeColor} text-white text-[10px] font-black px-2.5 py-1 rounded-lg uppercase tracking-wider z-10 shadow-md">
+                        ${p.badge}
+                    </span>
+
+                    <div>
+                        <!-- Phone Image SVG -->
+                        <div class="w-full h-56 bg-neutral-950/80 rounded-xl overflow-hidden p-3 flex items-center justify-center border border-neutral-800/80 group-hover:bg-neutral-950 transition-colors">
+                            <img src="${generatePhoneSVG(p.svgType, p.colorHex)}" 
+                                 alt="${p.name}" 
+                                 class="max-h-full object-contain transform group-hover:scale-105 transition-transform duration-500 drop-shadow-lg">
+                        </div>
+
+                        <!-- Info -->
+                        <h3 class="font-extrabold text-white text-base mt-4 group-hover:text-blue-400 transition-colors line-clamp-1">${p.name}</h3>
+                        
+                        <!-- Specs Badges -->
+                        <div class="mt-3 space-y-1.5 text-[11px] text-neutral-400 bg-neutral-950 p-2.5 rounded-xl border border-neutral-800/80">
+                            <div class="flex items-center space-x-1.5 truncate">
+                                <i class="fa-solid fa-microchip text-blue-400 w-4"></i>
+                                <span class="font-semibold text-neutral-200 truncate">${p.specs.chip}</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5 truncate">
+                                <i class="fa-solid fa-mobile text-purple-400 w-4"></i>
+                                <span class="truncate">${p.specs.display}</span>
+                            </div>
+                            <div class="flex items-center space-x-1.5 truncate">
+                                <i class="fa-solid fa-camera text-emerald-400 w-4"></i>
+                                <span class="truncate">${p.specs.camera}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price & Action -->
+                    <div class="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-neutral-500 line-through block">${formatVND(p.oldPrice)}</span>
+                            <span class="text-base font-black text-white">${formatVND(p.price)}</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="openDetailModal('${p.id}')" title="Xem chi tiết" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-300 p-2.5 rounded-xl border border-brand-border transition">
+                                <i class="fa-solid fa-eye text-xs"></i>
+                            </button>
+                            <button onclick="addToCart('${p.id}')" title="Thêm vào giỏ" class="bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-xl transition shadow-lg shadow-blue-600/20">
+                                <i class="fa-solid fa-cart-plus text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filters Handling
+        function filterByBrand(brand) {
+            currentBrand = brand;
+            document.querySelectorAll('.brand-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-neutral-900', 'text-neutral-300');
+            });
+            const activeBtn = document.getElementById(`btn-brand-${brand}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-neutral-900', 'text-neutral-300');
+                activeBtn.classList.add('bg-blue-600', 'text-white');
+            }
+            renderProducts();
+        }
+
+        function filterByCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-neutral-900', 'text-neutral-400');
+            });
+            const activeBtn = document.getElementById(`cat-btn-${cat}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-neutral-900', 'text-neutral-400');
+                activeBtn.classList.add('bg-blue-600', 'text-white');
+            }
+            renderProducts();
+        }
+
+        function filterByFeature(feature) {
+            filterByCategory(feature);
+            const el = document.getElementById('products-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterProducts() {
+            renderProducts();
+        }
+
+        function sortProducts() {
+            renderProducts();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            filterByBrand('all');
+            filterByCategory('all');
+        }
+
+        // Cart Drawer
+        function addToCart(id, colorOption, storageOption) {
             const product = products.find(p => p.id === id);
             if (!product) return;
 
-            const existing = cart.find(item => item.id === id);
+            const selectedColor = colorOption || product.colors[0];
+            const selectedStorage = storageOption || product.storages[0];
+            const cartItemId = `${id}-${selectedColor}-${selectedStorage}`;
+
+            const existing = cart.find(item => item.cartItemId === cartItemId);
             if (existing) {
                 existing.qty += 1;
             } else {
-                cart.push({ ...product, qty: 1 });
+                cart.push({
+                    ...product,
+                    cartItemId,
+                    selectedColor,
+                    selectedStorage,
+                    qty: 1
+                });
             }
 
             updateCartUI();
             toggleCartModal(true);
         }
 
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
+        function updateCartQty(cartItemId, delta) {
+            const item = cart.find(i => i.cartItemId === cartItemId);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                cart = cart.filter(i => i.cartItemId !== cartItemId);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(cartItemId) {
+            cart = cart.filter(i => i.cartItemId !== cartItemId);
             updateCartUI();
         }
 
@@ -618,8 +741,8 @@
             const cartItemsList = document.getElementById('cartItemsList');
             const cartTotalPrice = document.getElementById('cartTotalPrice');
 
-            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
+            const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
 
             cartCountBadge.innerText = totalQty;
             cartTotalPrice.innerText = formatVND(totalPrice);
@@ -627,25 +750,33 @@
             if (cart.length === 0) {
                 cartItemsList.innerHTML = `
                     <div class="text-center py-16 text-neutral-500">
-                        <i class="fa-solid fa-basket-shopping text-5xl mb-3 block opacity-30"></i>
+                        <i class="fa-solid fa-bag-shopping text-5xl mb-3 block opacity-20"></i>
                         <p class="text-sm font-medium">Giỏ hàng của bạn đang trống</p>
                     </div>
                 `;
                 return;
             }
 
-            cartItemsList.innerHTML = cart.map(item => `
-                <div class="flex items-center space-x-3 bg-neutral-950 p-3 rounded-2xl border border-neutral-800">
-                    <div class="w-14 h-16 bg-neutral-900 rounded-xl border border-neutral-800 flex items-center justify-center overflow-hidden p-1">
-                        <img src="${item.image}" alt="${item.name}" onerror="handleImageError(this, '${item.series}', '${item.id}')" class="max-h-full object-contain">
+            cartItemsList.innerHTML = cart.map(i => `
+                <div class="flex items-center space-x-3 bg-neutral-950 p-3.5 rounded-2xl border border-brand-border">
+                    <div class="w-14 h-16 bg-neutral-900 rounded-xl border border-neutral-800 flex items-center justify-center p-1">
+                        <img src="${generatePhoneSVG(i.svgType, i.colorHex)}" alt="${i.name}" class="max-h-full object-contain">
                     </div>
                     <div class="flex-1 min-w-0">
-                        <h4 class="text-xs font-bold text-white truncate">${item.name}</h4>
-                        <p class="text-xs text-lining-red font-bold mt-1">${formatVND(item.price)} x ${item.qty}</p>
+                        <h4 class="text-xs font-bold text-white truncate">${i.name}</h4>
+                        <p class="text-[11px] text-neutral-400 mt-0.5">${i.selectedColor} | ${i.selectedStorage}</p>
+                        <p class="text-xs text-blue-400 font-bold mt-1">${formatVND(i.price)}</p>
                     </div>
-                    <button onclick="removeFromCart('${item.id}')" class="text-neutral-500 hover:text-rose-500 p-2">
-                        <i class="fa-solid fa-trash-can text-sm"></i>
-                    </button>
+                    <div class="flex items-center space-x-2">
+                        <div class="flex items-center bg-neutral-900 rounded-lg border border-neutral-800">
+                            <button onclick="updateCartQty('${i.cartItemId}', -1)" class="px-2 py-1 text-xs text-neutral-400 hover:text-white">-</button>
+                            <span class="text-xs font-bold text-white px-2">${i.qty}</span>
+                            <button onclick="updateCartQty('${i.cartItemId}', 1)" class="px-2 py-1 text-xs text-neutral-400 hover:text-white">+</button>
+                        </div>
+                        <button onclick="removeFromCart('${i.cartItemId}')" class="text-neutral-500 hover:text-red-500 p-1">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
                 </div>
             `).join('');
         }
@@ -660,101 +791,137 @@
         }
 
         function checkout() {
-            if (cart.length === 0) {
-                return;
-            }
-            alert("Cảm ơn bạn đã đặt hàng! Nhân viên Li-Ning Badminton Store sẽ liên hệ xác nhận đơn hàng.");
+            if (cart.length === 0) return;
+            
+            // Mock checkout notice modal alternative to alert
+            const cartItemsList = document.getElementById('cartItemsList');
+            cartItemsList.innerHTML = `
+                <div class="bg-blue-600/10 border border-blue-500/30 rounded-2xl p-6 text-center space-y-3">
+                    <i class="fa-solid fa-circle-check text-4xl text-blue-500"></i>
+                    <h4 class="text-lg font-bold text-white">Đặt Hàng Thành Công!</h4>
+                    <p class="text-xs text-neutral-300 leading-relaxed">Cảm ơn bạn đã lựa chọn FLAGSHIP.X. Chuyên viên CSKH sẽ liên hệ xác nhận đơn hàng flagship trong 15 phút.</p>
+                </div>
+            `;
             cart = [];
-            updateCartUI();
-            toggleCartModal(false);
+            document.getElementById('cartCountBadge').innerText = '0';
+            document.getElementById('cartTotalPrice').innerText = '0 ₫';
         }
 
+        // Product Detail Modal
         function openDetailModal(id) {
             const p = products.find(x => x.id === id);
             if (!p) return;
 
+            let selectedColor = p.colors[0];
+            let selectedStorage = p.storages[0];
+
             const modalContent = document.getElementById('detailModalContent');
             modalContent.innerHTML = `
-                <div class="flex flex-col sm:flex-row gap-6">
-                    <div class="w-full sm:w-1/2 bg-neutral-950 rounded-2xl p-4 border border-neutral-800 flex items-center justify-center min-h-[220px]">
-                        <img src="${p.image}" alt="${p.name}" onerror="handleImageError(this, '${p.series}', '${p.id}')" class="max-h-60 object-contain">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <!-- Image Showcase -->
+                    <div class="w-full md:w-1/2 bg-neutral-950 rounded-2xl p-6 border border-neutral-800 flex items-center justify-center min-h-[260px]">
+                        <img src="${generatePhoneSVG(p.svgType, p.colorHex)}" alt="${p.name}" class="max-h-64 object-contain drop-shadow-2xl">
                     </div>
-                    <div class="w-full sm:w-1/2 space-y-3">
-                        <span class="bg-lining-red text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest">${p.series.toUpperCase()} SERIES</span>
+
+                    <!-- Meta -->
+                    <div class="w-full md:w-1/2 space-y-4">
+                        <span class="${p.badgeColor} text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider">${p.badge}</span>
                         <h2 class="text-xl font-black text-white leading-tight">${p.name}</h2>
-                        <p class="text-2xl font-extrabold text-lining-red">${formatVND(p.price)}</p>
+                        <div class="flex items-baseline space-x-3">
+                            <span class="text-2xl font-black text-blue-400">${formatVND(p.price)}</span>
+                            <span class="text-xs text-neutral-500 line-through">${formatVND(p.oldPrice)}</span>
+                        </div>
                         <p class="text-xs text-neutral-400 leading-relaxed">${p.desc}</p>
+
+                        <!-- Color Selector -->
+                        <div>
+                            <label class="text-xs font-bold text-neutral-300 block mb-2">Màu sắc:</label>
+                            <div class="flex flex-wrap gap-2" id="colorSelectGroup">
+                                ${p.colors.map((c, idx) => `
+                                    <button onclick="selectColor('${c}', this)" class="color-opt-btn px-3 py-1.5 rounded-xl border text-xs font-semibold ${idx===0 ? 'border-blue-500 bg-blue-600/20 text-white' : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:text-white'}">${c}</button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Storage Selector -->
+                        <div>
+                            <label class="text-xs font-bold text-neutral-300 block mb-2">Bộ nhớ trong:</label>
+                            <div class="flex flex-wrap gap-2" id="storageSelectGroup">
+                                ${p.storages.map((s, idx) => `
+                                    <button onclick="selectStorage('${s}', this)" class="storage-opt-btn px-3.5 py-1.5 rounded-xl border text-xs font-bold ${idx===0 ? 'border-blue-500 bg-blue-600/20 text-white' : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:text-white'}">${s}</button>
+                                `).join('')}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mt-6 border-t border-neutral-800 pt-6">
+                <!-- Specs Detailed Table -->
+                <div class="mt-6 border-t border-brand-border pt-6">
                     <h4 class="font-extrabold text-sm uppercase text-white mb-3 tracking-wider flex items-center">
-                        <i class="fa-solid fa-sliders text-lining-red mr-2"></i> Thông Số Kỹ Thuật Chi Tiết
+                        <i class="fa-solid fa-microchip text-blue-500 mr-2"></i> Thông Số Kỹ Thuật Đỉnh Cao
                     </h4>
-                    <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                         <div class="bg-neutral-950 p-3 rounded-xl border border-neutral-800">
-                            <span class="text-neutral-500 block">Trọng lượng / Cán</span>
-                            <span class="font-bold text-white text-sm">${p.weight}</span>
+                            <span class="text-neutral-500 block">Vi xử lý (CPU)</span>
+                            <span class="font-bold text-white">${p.specs.chip}</span>
                         </div>
                         <div class="bg-neutral-950 p-3 rounded-xl border border-neutral-800">
-                            <span class="text-neutral-500 block">Điểm cân bằng</span>
-                            <span class="font-bold text-white text-sm">${p.balance}</span>
+                            <span class="text-neutral-500 block">Màn hình</span>
+                            <span class="font-bold text-white">${p.specs.display}</span>
                         </div>
                         <div class="bg-neutral-950 p-3 rounded-xl border border-neutral-800">
-                            <span class="text-neutral-500 block">Độ cứng đũa vợt</span>
-                            <span class="font-bold text-white text-sm">${p.flexibility}</span>
+                            <span class="text-neutral-500 block">Hệ thống Camera</span>
+                            <span class="font-bold text-white">${p.specs.camera}</span>
                         </div>
                         <div class="bg-neutral-950 p-3 rounded-xl border border-neutral-800">
-                            <span class="text-neutral-500 block">Mức căng tối đa</span>
-                            <span class="font-bold text-white text-sm">${p.tension}</span>
+                            <span class="text-neutral-500 block">Pin & Sạc</span>
+                            <span class="font-bold text-white">${p.specs.battery}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="mt-6 flex justify-end space-x-3">
-                    <button onclick="closeDetailModal()" class="px-5 py-2.5 bg-neutral-800 text-neutral-300 rounded-xl font-bold text-xs hover:bg-neutral-700">Đóng</button>
-                    <button onclick="addToCart('${p.id}'); closeDetailModal();" class="px-6 py-2.5 bg-lining-red text-white rounded-xl font-bold text-xs hover:bg-lining-reddark shadow-lg shadow-lining-red/30">Thêm vào giỏ ngay</button>
+                    <button onclick="closeDetailModal()" class="px-5 py-2.5 bg-neutral-900 text-neutral-300 rounded-xl font-bold text-xs hover:bg-neutral-800 border border-brand-border">Đóng</button>
+                    <button id="addModalCartBtn" onclick="addToCart('${p.id}', '${p.colors[0]}', '${p.storages[0]}'); closeDetailModal();" class="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold text-xs hover:opacity-90 shadow-lg shadow-blue-600/30">
+                        Thêm vào giỏ ngay
+                    </button>
                 </div>
             `;
 
             document.getElementById('detailModal').classList.remove('hidden');
         }
 
+        let tempSelectedColor = '';
+        let tempSelectedStorage = '';
+
+        function selectColor(color, btn) {
+            tempSelectedColor = color;
+            document.querySelectorAll('.color-opt-btn').forEach(b => {
+                b.classList.remove('border-blue-500', 'bg-blue-600/20', 'text-white');
+                b.classList.add('border-neutral-800', 'bg-neutral-950', 'text-neutral-400');
+            });
+            btn.classList.remove('border-neutral-800', 'bg-neutral-950', 'text-neutral-400');
+            btn.classList.add('border-blue-500', 'bg-blue-600/20', 'text-white');
+        }
+
+        function selectStorage(storage, btn) {
+            tempSelectedStorage = storage;
+            document.querySelectorAll('.storage-opt-btn').forEach(b => {
+                b.classList.remove('border-blue-500', 'bg-blue-600/20', 'text-white');
+                b.classList.add('border-neutral-800', 'bg-neutral-950', 'text-neutral-400');
+            });
+            btn.classList.remove('border-neutral-800', 'bg-neutral-950', 'text-neutral-400');
+            btn.classList.add('border-blue-500', 'bg-blue-600/20', 'text-white');
+        }
+
         function closeDetailModal() {
             document.getElementById('detailModal').classList.add('hidden');
         }
 
-        function filterRackets() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const seriesList = ['axforce', 'bladex', 'calibar', 'windstorm', 'tectonic'];
-
-            seriesList.forEach(s => {
-                const section = document.getElementById(s);
-                const items = products.filter(p => p.series === s && (p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query)));
-                
-                if (items.length === 0 && query !== '') {
-                    section.classList.add('hidden');
-                } else {
-                    section.classList.remove('hidden');
-                }
-            });
-        }
-
-        function filterAll() {
-            document.getElementById('searchInput').value = '';
-            filterRackets();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function scrollToSeries(id) {
-            document.getElementById('searchInput').value = '';
-            filterRackets();
-            const el = document.getElementById(id);
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }
-
+        // Initialize App on Window Load
         window.onload = function() {
-            renderAllSeries();
+            renderHeroBanner();
+            renderProducts();
             updateCartUI();
         };
     </script>
