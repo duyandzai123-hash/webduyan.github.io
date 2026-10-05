@@ -1,29 +1,26 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pickleball Master - Admin Dashboard</title>
+    <title>Li-Ning Badminton Master - Cửa Hàng Vợt Cầu Lông Chính Hãng</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            lime: '#84cc16',
-                            limedark: '#65a30d',
-                            navy: '#0f172a',
-                            navylight: '#1e293b',
-                            accent: '#06b6d4',
-                            surface: '#f8fafc'
+                            red: '#e60012',
+                            reddark: '#b3000e',
+                            dark: '#121212',
+                            gray: '#1e1e1e',
+                            lightgray: '#f4f5f7'
                         }
                     },
                     fontFamily: {
@@ -34,996 +31,531 @@
         }
     </script>
     <style>
-        /* Custom scrollbar & CSS adjustments */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        .toast-enter {
-            transform: translateY(-100%);
-            opacity: 0;
-            transition: all 0.3s ease-out;
-        }
-        .toast-show {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .product-card:hover .product-img { transform: scale(1.08); }
+        .badge-attack { background-color: #fee2e2; color: #991b1b; }
+        .badge-allround { background-color: #e0e7ff; color: #3730a3; }
+        .badge-speed { background-color: #dcfce7; color: #166534; }
     </style>
 </head>
-<body class="bg-slate-100 font-sans text-slate-800 antialiased flex h-screen overflow-hidden">
+<body class="bg-gray-50 font-sans text-gray-800 antialiased flex flex-col min-h-screen">
 
-    <!-- Sidebar Container -->
-    <aside id="sidebar" class="w-64 bg-brand-navy text-white flex flex-col transition-all duration-300 z-30 fixed inset-y-0 left-0 md:static -translate-x-full md:translate-x-0 shadow-xl">
-        <!-- Logo Header -->
-        <div class="h-16 flex items-center justify-between px-6 bg-brand-navylight border-b border-slate-700/50">
-            <div class="flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-xl bg-brand-lime flex items-center justify-center text-brand-navy font-black text-xl shadow-lg shadow-lime-500/30">
-                    <i class="fa-solid fa-[#000] fa-table-tennis-paddle-ball"></i>
+    <!-- Top Banner -->
+    <div class="bg-brand-red text-white text-xs font-semibold py-2 px-4 text-center tracking-wide">
+        🔥 CAM KẾT VỢT CẦU LÔNG LI-NING CHÍNH HÃNG 100% — TẶNG KÈM LƯỚI & BAO VỢT CAO CẤP!
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3">
+                <div class="bg-brand-red text-white p-2 rounded-xl font-black text-xl tracking-wider">
+                    LI-NING
                 </div>
                 <div>
-                    <h1 class="font-bold text-lg leading-tight tracking-wide text-white">PICKLE<span class="text-brand-lime">PRO</span></h1>
-                    <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Admin Panel</p>
+                    <span class="font-extrabold text-xl tracking-tight text-gray-900 block leading-none">BADMINTON</span>
+                    <span class="text-[10px] text-gray-500 font-semibold uppercase tracking-widest">Official Store</span>
                 </div>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-md hidden md:block relative">
+                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm kiếm vợt Li-Ning (Axforce, Halbertec, BladeX...)" 
+                    class="w-full pl-10 pr-4 py-2.5 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:bg-white transition-all">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
             </div>
-            <button id="closeSidebarBtn" class="md:hidden text-slate-400 hover:text-white">
+
+            <!-- Actions -->
+            <div class="flex items-center gap-4">
+                <button onclick="toggleCart()" class="relative p-2.5 text-gray-700 hover:text-brand-red transition-colors">
+                    <i class="fa-solid fa-bag-shopping text-2xl"></i>
+                    <span id="cartBadge" class="absolute top-1 right-1 bg-brand-red text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div class="px-4 pb-3 md:hidden">
+            <div class="relative">
+                <input type="text" id="searchInputMobile" oninput="handleSearchMobile()" placeholder="Tìm kiếm vợt Li-Ning..." 
+                    class="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-red">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-brand-dark text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+            <div class="max-w-xl text-center md:text-left">
+                <span class="bg-brand-red/20 text-brand-red text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-brand-red/30">
+                    Bản Quyền Chính Hãng
+                </span>
+                <h1 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 mb-3 uppercase leading-tight">
+                    Bứt Phá Giới Hạn <br><span class="text-brand-red">Cùng Li-Ning</span>
+                </h1>
+                <p class="text-gray-400 text-sm sm:text-base mb-6 leading-relaxed">
+                    Khám phá đầy đủ các siêu phẩm vợt cầu lông Li-Ning từ dòng Thiên Công Tấn Công (Axforce), Công Thủ Toàn Diện (Halbertec) đến Tốc Độ Phản Tạt (BladeX).
+                </p>
+                <a href="#products" class="inline-flex items-center gap-2 bg-brand-red hover:bg-brand-reddark text-white font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-brand-red/30">
+                    Khám Phá Ngay <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="w-full max-w-sm flex justify-center">
+                <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80" alt="Li-Ning Racket" class="rounded-2xl shadow-2xl object-cover h-64 w-full">
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow" id="products">
+        
+        <!-- Category & Playstyle Filters -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+            <!-- Series Filters -->
+            <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
+                <button onclick="filterSeries('ALL')" class="series-btn active bg-brand-red text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">Tất Cả</button>
+                <button onclick="filterSeries('Axforce')" class="series-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">Axforce</button>
+                <button onclick="filterSeries('Halbertec')" class="series-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">Halbertec</button>
+                <button onclick="filterSeries('BladeX')" class="series-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">BladeX</button>
+                <button onclick="filterSeries('Tectonic')" class="series-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">Tectonic</button>
+                <button onclick="filterSeries('Calibar')" class="series-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">3D Calibar</button>
+                <button onclick="filterSeries('Windstorm')" class="series-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all">Windstorm</button>
+            </div>
+
+            <!-- Playstyle Filter Select -->
+            <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                <label class="text-xs font-bold text-gray-500 uppercase whitespace-nowrap"><i class="fa-solid fa-filter"></i> Lối chơi:</label>
+                <select id="playstyleSelect" onchange="applyFilters()" class="bg-gray-100 border-none rounded-xl text-xs font-bold text-gray-700 py-2 px-3 focus:ring-2 focus:ring-brand-red">
+                    <option value="ALL">Tất cả lối chơi</option>
+                    <option value="Tấn công">Tấn công uy lực</option>
+                    <option value="Toàn diện">Công thủ toàn diện</option>
+                    <option value="Phản tạt/Tốc độ">Phản tạt & Tốc độ</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Product cards rendered dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-16">
+            <i class="fa-solid fa-box-open text-5xl text-gray-300 mb-4"></i>
+            <h3 class="text-lg font-bold text-gray-700">Không tìm thấy sản phẩm nào!</h3>
+            <p class="text-sm text-gray-500 mt-1">Vui lòng thử tìm kiếm lại với từ khóa hoặc bộ lọc khác.</p>
+        </div>
+    </main>
+
+    <!-- Modal Xem Chi Tiết Vợt -->
+    <div id="productModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-fade-in">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-600 transition-colors z-10">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
-        </div>
 
-        <!-- Navigation Menu -->
-        <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-            <div class="px-3 pb-2 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Quản lý chung</div>
-            
-            <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium bg-brand-lime text-brand-navy transition-all shadow-md shadow-lime-500/20">
-                <i class="fa-solid fa-chart-pie w-5"></i>
-                <span>Tổng Quan</span>
-            </a>
-
-            <a href="#" onclick="switchTab('products')" id="nav-products" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
-                <i class="fa-solid fa-boxes-stacked w-5"></i>
-                <span>Sản Phẩm</span>
-                <span id="badge-products-count" class="ml-auto bg-slate-700 text-slate-300 text-xs px-2 py-0.5 rounded-full">0</span>
-            </a>
-
-            <a href="#" onclick="switchTab('orders')" id="nav-orders" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
-                <i class="fa-solid fa-file-invoice-dollar w-5"></i>
-                <span>Đơn Hàng</span>
-                <span id="badge-pending-orders" class="ml-auto bg-amber-500 text-slate-900 text-xs font-bold px-2 py-0.5 rounded-full">3</span>
-            </a>
-
-            <div class="pt-4 px-3 pb-2 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Đối tác & Tồn kho</div>
-
-            <a href="#" onclick="switchTab('customers')" id="nav-customers" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
-                <i class="fa-solid fa-users w-5"></i>
-                <span>Khách Hàng</span>
-            </a>
-
-            <a href="#" onclick="switchTab('inventory')" id="nav-inventory" class="nav-item flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
-                <i class="fa-solid fa-warehouse w-5"></i>
-                <span>Kho Hàng</span>
-                <span id="badge-low-stock" class="ml-auto bg-rose-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">2</span>
-            </a>
-        </nav>
-
-        <!-- Footer User Quick Card -->
-        <div class="p-4 bg-brand-navylight/50 border-t border-slate-700/50">
-            <div class="flex items-center space-x-3">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Admin Avatar" class="w-9 h-9 rounded-full object-cover ring-2 ring-brand-lime">
-                <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-white truncate">Bùi Duy An</p>
-                    <p class="text-xs text-slate-400 truncate">Quản trị viên Pickleball</p>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Overlay for mobile sidebar -->
-    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/50 z-20 hidden md:hidden"></div>
-
-    <!-- Main Content Shell -->
-    <div class="flex-1 flex flex-col h-screen overflow-hidden">
-        <!-- Top Navbar Header -->
-        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 z-10">
-            <div class="flex items-center space-x-4">
-                <button id="openSidebarBtn" class="md:hidden text-slate-600 hover:text-slate-900 focus:outline-none">
-                    <i class="fa-solid fa-bars text-xl"></i>
-                </button>
-                <div class="relative hidden sm:block w-64 lg:w-96">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                    </span>
-                    <input type="text" id="globalSearchInput" onkeyup="handleGlobalSearch(event)" placeholder="Tìm kiếm nhanh đơn hàng, vợt, khách hàng..." class="w-full pl-9 pr-4 py-2 bg-slate-100 text-slate-700 rounded-xl text-sm border border-transparent focus:border-brand-lime focus:bg-white focus:outline-none transition-all">
-                </div>
-            </div>
-
-            <!-- Header Actions -->
-            <div class="flex items-center space-x-3 md:space-x-4">
-                <!-- Quick Add Action Button -->
-                <button onclick="openModal('modal-add-product')" class="hidden sm:flex items-center space-x-2 bg-brand-lime hover:bg-brand-limedark text-brand-navy font-semibold text-xs md:text-sm px-3.5 py-2 rounded-xl transition-all shadow-sm">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Thêm Sản Phẩm</span>
-                </button>
-
-                <!-- Notifications dropdown trigger -->
-                <div class="relative">
-                    <button id="notifBtn" onclick="toggleNotifDropdown()" class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-all">
-                        <i class="fa-regular fa-bell text-lg"></i>
-                        <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-rose-500 rounded-full ring-2 ring-white"></span>
-                    </button>
-                    <!-- Notification Dropdown -->
-                    <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 py-2">
-                        <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
-                            <span class="font-bold text-sm text-slate-800">Thông báo mới</span>
-                            <span class="text-xs text-brand-limedark font-semibold cursor-pointer">Đánh dấu đã đọc</span>
-                        </div>
-                        <div class="divide-y divide-slate-50 max-h-64 overflow-y-auto">
-                            <div class="px-4 py-3 hover:bg-slate-50 transition cursor-pointer">
-                                <p class="text-xs text-slate-800 font-medium"><strong class="text-slate-900">Vợt Joola Perseus</strong> sắp hết hàng trong kho (Còn 2 sp)!</p>
-                                <span class="text-[10px] text-slate-400">10 phút trước</span>
-                            </div>
-                            <div class="px-4 py-3 hover:bg-slate-50 transition cursor-pointer">
-                                <p class="text-xs text-slate-800 font-medium">Đơn hàng mới <strong class="text-brand-navy">#PKL-8821</strong> cần được xác nhận giao hàng.</p>
-                                <span class="text-[10px] text-slate-400">35 phút trước</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="h-6 w-px bg-slate-200"></div>
-
-                <!-- Admin Profile Menu -->
-                <div class="flex items-center space-x-2">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-9 h-9 rounded-full object-cover">
-                    <span class="hidden md:inline-block text-sm font-semibold text-slate-700">Admin Pickleball</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Workspace (Dynamic Tabs) -->
-        <main class="flex-1 overflow-y-auto p-4 md:p-8 bg-slate-50">
-            
-            <div id="tab-dashboard" class="tab-content space-y-6">
-                <!-- Welcome Banner -->
-                <div class="bg-gradient-to-r from-brand-navy via-slate-800 to-slate-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
-                    <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div>
-                            <span class="bg-brand-lime/20 text-brand-lime text-xs font-bold px-3 py-1 rounded-full border border-brand-lime/30">Hệ Thống Bán Hàng Pickleball</span>
-                            <h2 class="text-2xl font-bold mt-2">OK Chưa AE Chào Chủ Tịch Bùi Duy An</h2>
-                            <p class="text-slate-300 text-sm mt-1">Doanh thu phụ kiện & vợt Pickleball tháng này tăng <span class="text-brand-lime font-semibold">+24.5%</span> so với tháng trước.</p>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <button onclick="switchTab('orders')" class="bg-brand-lime text-brand-navy hover:bg-brand-limedark font-bold text-sm px-4 py-2.5 rounded-xl transition-all shadow-md">
-                                Xử lý đơn hàng (<span id="count-pending-dash">3</span>)
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Decorative Background Element -->
-                    <div class="absolute -right-8 -bottom-8 opacity-10 pointer-events-none">
-                        <i class="fa-solid fa-table-tennis-paddle-ball text-9xl text-white"></i>
-                    </div>
-                </div>
-
-                <!-- KPI Cards Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <!-- KPI 1 -->
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Tổng Doanh Thu</p>
-                            <h3 class="text-2xl font-extrabold text-slate-900 mt-1" id="kpi-total-revenue">0 ₫</h3>
-                            <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center">
-                                <i class="fa-solid fa-arrow-trend-up mr-1"></i> +18.2% <span class="text-slate-400 font-normal ml-1">tháng này</span>
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
-                            <i class="fa-solid fa-sack-dollar"></i>
-                        </div>
-                    </div>
-
-                    <!-- KPI 2 -->
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Tổng Đơn Hàng</p>
-                            <h3 class="text-2xl font-extrabold text-slate-900 mt-1" id="kpi-total-orders">0</h3>
-                            <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center">
-                                <i class="fa-solid fa-arrow-trend-up mr-1"></i> +12.4% <span class="text-slate-400 font-normal ml-1">tháng này</span>
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 text-xl">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </div>
-                    </div>
-
-                    <!-- KPI 3 -->
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Vợt & Bóng Đã Bán</p>
-                            <h3 class="text-2xl font-extrabold text-slate-900 mt-1" id="kpi-items-sold">0</h3>
-                            <p class="text-xs text-emerald-600 font-medium mt-1 flex items-center">
-                                <i class="fa-solid fa-arrow-trend-up mr-1"></i> +32.1% <span class="text-slate-400 font-normal ml-1">sản phẩm</span>
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-lime-50 rounded-2xl flex items-center justify-center text-brand-limedark text-xl">
-                            <i class="fa-solid fa-table-tennis-paddle-ball"></i>
-                        </div>
-                    </div>
-
-                    <!-- KPI 4 -->
-                    <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Khách Hàng Mới</p>
-                            <h3 class="text-2xl font-extrabold text-slate-900 mt-1" id="kpi-total-customers">0</h3>
-                            <p class="text-xs text-purple-600 font-medium mt-1 flex items-center">
-                                <i class="fa-solid fa-user-plus mr-1"></i> +8.5% <span class="text-slate-400 font-normal ml-1">người chơi</span>
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 text-xl">
-                            <i class="fa-solid fa-users"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Charts Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Revenue Trend Chart -->
-                    <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                        <div class="flex items-center justify-between mb-4">
-                            <div>
-                                <h3 class="font-bold text-slate-800 text-base">Tăng Trưởng Doanh Thu (2026)</h3>
-                                <p class="text-xs text-slate-500">Doanh thu bán lẻ thiết bị Pickleball theo tháng</p>
-                            </div>
-                            <span class="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg">Đơn vị: Triệu VNĐ</span>
-                        </div>
-                        <div class="h-64 relative">
-                            <canvas id="revenueChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Category Breakdown Doughnut Chart -->
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
-                        <div class="mb-4">
-                            <h3 class="font-bold text-slate-800 text-base">Tỷ Tọng Doanh Số</h3>
-                            <p class="text-xs text-slate-500">Phân bổ theo danh mục sản phẩm</p>
-                        </div>
-                        <div class="h-64 relative flex items-center justify-center">
-                            <canvas id="categoryChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recent Orders Table Preview -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-                    <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-                        <div>
-                            <h3 class="font-bold text-slate-800 text-base">Đơn Hàng Mới Nhất</h3>
-                            <p class="text-xs text-slate-500">Các giao dịch từ cửa hàng trực tuyến</p>
-                        </div>
-                        <button onclick="switchTab('orders')" class="text-xs font-bold text-brand-limedark hover:underline flex items-center">
-                            <span>Xem tất cả</span>
-                            <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-slate-600">
-                            <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-100">
-                                <tr>
-                                    <th class="px-6 py-3">Mã Đơn</th>
-                                    <th class="px-6 py-3">Khách Hàng</th>
-                                    <th class="px-6 py-3">Sản Phẩm</th>
-                                    <th class="px-6 py-3">Tổng Tiền</th>
-                                    <th class="px-6 py-3">Trạng Thái</th>
-                                    <th class="px-6 py-3">Ngày Đặt</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dash-orders-tbody" class="divide-y divide-slate-100">
-                                <!-- Dynamic Render JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-products" class="tab-content hidden space-y-6">
-                <!-- Action Bar -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                    <div class="flex flex-1 items-center space-x-3">
-                        <div class="relative flex-1 max-w-xs">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                            </span>
-                            <input type="text" id="productSearch" onkeyup="renderProducts()" placeholder="Tìm tên sản phẩm..." class="w-full pl-8 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime">
-                        </div>
-
-                        <select id="productCatFilter" onchange="renderProducts()" class="py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none focus:border-brand-lime">
-                            <option value="ALL">Tất cả danh mục</option>
-                            <option value="Vợt Pickleball">Vợt Pickleball</option>
-                            <option value="Bóng Pickleball">Bóng Pickleball</option>
-                            <option value="Giày & Trang Phục">Giày & Trang Phục</option>
-                            <option value="Phụ Kiện">Phụ Kiện & Bao Vợt</option>
-                        </select>
-                    </div>
-
-                    <button onclick="openModal('modal-add-product')" class="bg-brand-lime hover:bg-brand-limedark text-brand-navy font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Thêm Sản Phẩm Mới</span>
-                    </button>
-                </div>
-
-                <!-- Products Table -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-slate-600">
-                            <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-100">
-                                <tr>
-                                    <th class="px-6 py-3.5">Sản Phẩm</th>
-                                    <th class="px-6 py-3.5">Danh Mục</th>
-                                    <th class="px-6 py-3.5">Thương Hiệu</th>
-                                    <th class="px-6 py-3.5">Giá Bán</th>
-                                    <th class="px-6 py-3.5">Tồn Kho</th>
-                                    <th class="px-6 py-3.5 text-right">Thao Tác</th>
-                                </tr>
-                            </thead>
-                            <tbody id="products-tbody" class="divide-y divide-slate-100">
-                                <!-- Render JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-orders" class="tab-content hidden space-y-6">
-                <!-- Orders Filter & Header -->
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="flex items-center space-x-3 flex-1">
-                        <div class="relative flex-1 max-w-xs">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                                <i class="fa-solid fa-magnifying-glass text-xs"></i>
-                            </span>
-                            <input type="text" id="orderSearch" onkeyup="renderOrders()" placeholder="Mã đơn hoặc tên khách..." class="w-full pl-8 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime">
-                        </div>
-                        <select id="orderStatusFilter" onchange="renderOrders()" class="py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:outline-none">
-                            <option value="ALL">Tất cả trạng thái</option>
-                            <option value="Chờ xử lý">Chờ xử lý</option>
-                            <option value="Đang giao">Đang giao</option>
-                            <option value="Hoàn thành">Hoàn thành</option>
-                            <option value="Đã hủy">Đã hủy</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Orders Table -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-slate-600">
-                            <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-100">
-                                <tr>
-                                    <th class="px-6 py-3.5">Mã Đơn</th>
-                                    <th class="px-6 py-3.5">Khách Hàng</th>
-                                    <th class="px-6 py-3.5">Số Điện Thoại</th>
-                                    <th class="px-6 py-3.5">Chi Tiết Sản Phẩm</th>
-                                    <th class="px-6 py-3.5">Thành Tiền</th>
-                                    <th class="px-6 py-3.5">Trạng Thái</th>
-                                    <th class="px-6 py-3.5 text-right">Hành Động</th>
-                                </tr>
-                            </thead>
-                            <tbody id="orders-tbody" class="divide-y divide-slate-100">
-                                <!-- Render JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-customers" class="tab-content hidden space-y-6">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex justify-between items-center">
-                    <div>
-                        <h3 class="font-bold text-slate-800">Danh Sách Khách Hàng / Vận Động Viên</h3>
-                        <p class="text-xs text-slate-500">Quản lý lịch sử mua hàng và khách hàng thân thiết</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="customers-cards-container">
-                    <!-- Dynamic Render JS -->
-                </div>
-            </div>
-
-            <div id="tab-inventory" class="tab-content hidden space-y-6">
-                <!-- Low Stock Banner Warning -->
-                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center space-x-3 text-amber-800">
-                    <i class="fa-solid fa-triangle-exclamation text-2xl text-amber-500"></i>
-                    <div>
-                        <h4 class="font-bold text-sm">Cảnh báo tồn kho ít!</h4>
-                        <p class="text-xs">Có các mặt hàng Vợt/Bóng Pickleball đạt ngưỡng dưới 10 sản phẩm. Cần nhập hàng bổ sung.</p>
-                    </div>
-                </div>
-
-                <!-- Inventory Table -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-                    <div class="p-5 border-b border-slate-100 font-bold text-slate-800">
-                        Báo Cáo Tồn Kho & Nhập Hàng
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-slate-600">
-                            <thead class="bg-slate-50 text-xs text-slate-500 uppercase tracking-wider font-semibold border-b border-slate-100">
-                                <tr>
-                                    <th class="px-6 py-3.5">Mặt Hàng Pickleball</th>
-                                    <th class="px-6 py-3.5">Danh Mục</th>
-                                    <th class="px-6 py-3.5">Tồn Hiện Tại</th>
-                                    <th class="px-6 py-3.5">Mức Cảnh Báo</th>
-                                    <th class="px-6 py-3.5">Tình Trạng Kho</th>
-                                    <th class="px-6 py-3.5 text-right">Nhập Thêm Tồn</th>
-                                </tr>
-                            </thead>
-                            <tbody id="inventory-tbody" class="divide-y divide-slate-100">
-                                <!-- Render JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <!-- Modal Add/Edit Product -->
-    <div id="modal-add-product" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6 border-b border-slate-100 flex items-center justify-between">
-                <h3 id="modal-product-title" class="text-lg font-bold text-slate-800">Thêm Sản Phẩm Pickleball Mới</h3>
-                <button onclick="closeModal('modal-add-product')" class="text-slate-400 hover:text-slate-600">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <form id="productForm" onsubmit="saveProduct(event)" class="p-6 space-y-4">
-                <input type="hidden" id="prod-id">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tên Sản Phẩm *</label>
-                    <input type="text" id="prod-name" required placeholder="Ví dụ: Vợt Pickleball Joola Perseus 16mm" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Danh Mục *</label>
-                        <select id="prod-category" required class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime">
-                            <option value="Vợt Pickleball">Vợt Pickleball</option>
-                            <option value="Bóng Pickleball">Bóng Pickleball</option>
-                            <option value="Giày & Trang Phục">Giày & Trang Phục</option>
-                            <option value="Phụ Kiện">Phụ Kiện & Bao Vợt</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Thương Hiệu *</label>
-                        <input type="text" id="prod-brand" required placeholder="Joola, Selkirk, Franklin..." class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Giá Bán (VNĐ) *</label>
-                        <input type="number" id="prod-price" required placeholder="3500000" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Số Lượng Tồn Kho *</label>
-                        <input type="number" id="prod-stock" required placeholder="25" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">URL Hình Ảnh</label>
-                    <input type="url" id="prod-image" placeholder="https://..." class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Mô Tả Sản Phẩm</label>
-                    <textarea id="prod-desc" rows="3" placeholder="Mô tả bề mặt Carbon, độ dày lõi..." class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-brand-lime"></textarea>
-                </div>
-                <div class="pt-4 flex items-center justify-end space-x-3">
-                    <button type="button" onclick="closeModal('modal-add-product')" class="px-4 py-2 text-xs font-semibold text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200">Hủy</button>
-                    <button type="submit" class="px-5 py-2 text-xs font-bold text-brand-navy bg-brand-lime rounded-xl hover:bg-brand-limedark shadow-sm">Lưu Sản Phẩm</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Order Detail & Status Change -->
-    <div id="modal-order-detail" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
-            <div class="p-5 bg-brand-navy text-white flex items-center justify-between">
-                <div>
-                    <h3 class="font-bold text-base" id="detail-order-id">Đơn hàng #PKL-000</h3>
-                    <p class="text-xs text-slate-300" id="detail-order-date">Chi tiết đơn hàng</p>
-                </div>
-                <button onclick="closeModal('modal-order-detail')" class="text-slate-300 hover:text-white">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <div class="p-6 space-y-4 text-sm text-slate-700">
-                <div class="space-y-1">
-                    <p class="text-xs text-slate-400 uppercase font-bold">Khách Hàng</p>
-                    <p class="font-bold text-slate-900" id="detail-customer-name">-</p>
-                    <p id="detail-customer-phone" class="text-xs text-slate-600">-</p>
-                    <p id="detail-customer-address" class="text-xs text-slate-500 italic">-</p>
-                </div>
-                <hr class="border-slate-100">
-                <div>
-                    <p class="text-xs text-slate-400 uppercase font-bold mb-2">Sản phẩm đặt mua</p>
-                    <div id="detail-items-list" class="bg-slate-50 p-3 rounded-xl space-y-2 text-xs">
-                        <!-- Dynamic items -->
-                    </div>
-                </div>
-                <div class="flex justify-between items-center font-bold text-base pt-2">
-                    <span>Tổng tiền thanh toán:</span>
-                    <span id="detail-total-price" class="text-brand-limedark">0 ₫</span>
-                </div>
-                <hr class="border-slate-100">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Cập Nhật Trạng Thái Đơn Hàng</label>
-                    <select id="detail-order-status-select" class="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none">
-                        <option value="Chờ xử lý">Chờ xử lý</option>
-                        <option value="Đang giao">Đang giao</option>
-                        <option value="Hoàn thành">Hoàn thành</option>
-                        <option value="Đã hủy">Đã hủy</option>
-                    </select>
-                </div>
-            </div>
-            <div class="p-4 bg-slate-50 flex justify-end space-x-2">
-                <button onclick="updateOrderStatusFromModal()" class="px-4 py-2 bg-brand-navy text-white text-xs font-bold rounded-xl hover:bg-slate-800">Cập Nhật</button>
+            <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8" id="modalContent">
+                <!-- Modal Dynamic Content -->
             </div>
         </div>
     </div>
 
-    <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+    <!-- Drawer Giỏ Hàng -->
+    <div id="cartDrawer" class="fixed inset-0 bg-black/50 z-50 hidden">
+        <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col">
+            <!-- Header -->
+            <div class="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-brand-red text-xl"></i>
+                    <h3 class="font-bold text-gray-800 text-lg">Giỏ Hàng Của Bạn</h3>
+                </div>
+                <button onclick="toggleCart()" class="text-gray-400 hover:text-gray-600 p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
 
+            <!-- Items List -->
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4">
+                <!-- Dynamic Cart Items -->
+            </div>
+
+            <!-- Footer & Checkout -->
+            <div class="p-5 border-t border-gray-100 bg-gray-50">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-semibold text-gray-500">Tổng thanh toán:</span>
+                    <span id="cartTotalPrice" class="text-xl font-black text-brand-red">0 VNĐ</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-brand-red hover:bg-brand-reddark text-white font-bold py-3 rounded-xl transition-all shadow-md">
+                    Tiến Hành Đặt Hàng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-gray-400 text-sm py-10 mt-16 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <p class="font-bold text-white text-base">LI-NING BADMINTON STORE VIETNAM</p>
+            <p>Chuyên cung cấp vợt cầu lông Li-Ning chính hãng — Hệ thống phân phối toàn quốc</p>
+            <p class="text-xs text-gray-600">© 2026 Li-Ning Badminton Catalog. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
     <script>
-        // --- INITIAL MOCK DATA (PICKLEBALL SPECIFIC) ---
-        let products = [
-            { id: 1, name: "Vợt Pickleball Joola Perseus 16mm Carbon", category: "Vợt Pickleball", brand: "Joola", price: 5490000, stock: 8, image: "https://images.unsplash.com/photo-1626248801379-51a0748a5f96?w=300&auto=format&fit=crop&q=80", desc: "Vợt thi đấu đỉnh cao của Ben Johns bọc sợi carbon ma sát cao." },
-            { id: 2, name: "Vợt Pickleball Selkirk Vanguard Power Air", category: "Vợt Pickleball", brand: "Selkirk", price: 4850000, stock: 15, image: "https://images.unsplash.com/photo-1511067007398-7e4b90cfa4bc?w=300&auto=format&fit=crop&q=80", desc: "Thiết kế không viền khí động học, kiểm soát xoáy tối đa." },
-            { id: 3, name: "Bóng Pickleball Thi Đấu Outdoor 40 Lỗ (Hộp 6 quả)", category: "Bóng Pickleball", brand: "Franklin", price: 320000, stock: 120, image: "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=300&auto=format&fit=crop&q=80", desc: "Bóng chuẩn thi đấu quốc tế USAPA bền bỉ nảy chuẩn." },
-            { id: 4, name: "Giày Sân Pickleball Asics Gel-Renma", category: "Giày & Trang Phục", brand: "Asics", price: 2390000, stock: 18, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&auto=format&fit=crop&q=80", desc: "Bám sân cực tốt, chống lật cổ chân khi di chuyển nhanh." },
-            { id: 5, name: "Bao Vợt Pickleball Chống Sốc Chuyên Dụng", category: "Phụ Kiện", brand: "PicklePro", price: 450000, stock: 4, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&auto=format&fit=crop&q=80", desc: "Chứa 2 vợt và 4 quả bóng có ngăn cách nhiệt." },
-            { id: 6, name: "Băng Quấn Cán Vợt Pickleball V-Grip (Thùng 10 cái)", category: "Phụ Kiện", brand: "Gamma", price: 280000, stock: 55, image: "https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=300&auto=format&fit=crop&q=80", desc: "Thấm hút mồ hôi chống trơn trượt tối ưu." }
-        ];
-
-        let orders = [
-            { id: "PKL-8821", customer: "Trần Minh Hoàng", phone: "0905 123 456", address: "Sân Pickleball Thảo Điền, Q.2, TP.HCM", items: "1x Vợt Joola Perseus 16mm", total: 5490000, status: "Chờ xử lý", date: "05/10/2026" },
-            { id: "PKL-8820", customer: "Lê Ngọc Anh", phone: "0912 888 999", address: "124 Hoàng Quốc Việt, Cầu Giấy, Hà Nội", items: "2x Bóng Franklin 40 Lỗ, 1x Băng quấn Gamma", total: 920000, status: "Đang giao", date: "05/10/2026" },
-            { id: "PKL-8819", customer: "Phạm Quốc Bảo", phone: "0988 777 666", address: "CLB Pickleball Đà Nẵng, Hải Châu", items: "1x Giày Asics Gel-Renma", total: 2390000, status: "Hoàn thành", date: "04/10/2026" },
-            { id: "PKL-8818", customer: "Nguyễn Thị Phương", phone: "0934 112 233", address: "Sân Thể Thao Nam Sài Gòn, Q.7", items: "1x Vợt Selkirk Vanguard Power Air", total: 4850000, status: "Hoàn thành", date: "03/10/2026" },
-            { id: "PKL-8817", customer: "Đặng Hoàng Nam", phone: "0909 445 566", address: "22 Nguyễn Văn Cừ, Long Biên, Hà Nội", items: "1x Bao Vợt Chống Sốc", total: 450000, status: "Đã hủy", date: "02/10/2026" }
-        ];
-
-        let customers = [
-            { id: 1, name: "Trần Minh Hoàng", phone: "0905 123 456", totalSpent: 12400000, ordersCount: 4, rank: "VIP Gold", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" },
-            { id: 2, name: "Lê Ngọc Anh", phone: "0912 888 999", totalSpent: 3500000, ordersCount: 2, rank: "Thành viên", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80" },
-            { id: 3, name: "Phạm Quốc Bảo", phone: "0988 777 666", totalSpent: 8900000, ordersCount: 3, rank: "VIP Silver", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" }
-        ];
-
-        let activeOrderIdForModal = null;
-        let revenueChartInstance = null;
-        let categoryChartInstance = null;
-
-        // --- HELPER FUNCTIONS ---
-        function formatVND(amount) {
-            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast-enter pointer-events-auto px-4 py-3 rounded-xl shadow-xl text-xs font-bold text-white flex items-center space-x-2 ${type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'}`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-xmark'}"></i><span>${message}</span>`;
-            
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.add('toast-show'), 10);
-
-            setTimeout(() => {
-                toast.classList.remove('toast-show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // --- TAB SWITCHING ---
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.nav-item').forEach(el => {
-                el.classList.remove('bg-brand-lime', 'text-brand-navy', 'shadow-md', 'shadow-lime-500/20');
-                el.classList.add('text-slate-300');
-            });
-
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            const activeNav = document.getElementById(`nav-${tabId}`);
-            if (activeNav) {
-                activeNav.classList.add('bg-brand-lime', 'text-brand-navy', 'shadow-md', 'shadow-lime-500/20');
-                activeNav.classList.remove('text-slate-300');
+        // Danh sách dữ liệu sản phẩm Vợt Li-Ning
+        const products = [
+            {
+                id: 1,
+                name: "Vợt Cầu Lông Li-Ning Axforce 90 Max Dragon",
+                series: "Axforce",
+                price: 4350000,
+                oldPrice: 4800000,
+                playstyle: "Tấn công",
+                weight: "3U / 4U",
+                grip: "G5",
+                balance: "302 mm (Nặng đầu)",
+                flex: "Cứng",
+                tension: "30 LBS (13.5kg)",
+                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
+                description: "Siêu phẩm đỉnh cao dòng Axforce thiên về tấn công dồn dập, đập cầu uy lực mãnh liệt dành cho người chơi có lực cổ tay tốt."
+            },
+            {
+                id: 2,
+                name: "Vợt Cầu Lông Li-Ning Halbertec 8000",
+                series: "Halbertec",
+                price: 4100000,
+                oldPrice: 4500000,
+                playstyle: "Toàn diện",
+                weight: "3U / 4U",
+                grip: "G5",
+                balance: "295 mm (Cân bằng)",
+                flex: "Trung bình",
+                tension: "31 LBS (14kg)",
+                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
+                description: "Dòng vợt cao cấp được sử dụng bởi các tay vợt hàng đầu thế giới, mang đến sự kiểm soát điều cầu cực kỳ chính xác và linh hoạt."
+            },
+            {
+                id: 3,
+                name: "Vợt Cầu Lông Li-Ning BladeX 800",
+                series: "BladeX",
+                price: 3850000,
+                oldPrice: 4200000,
+                playstyle: "Phản tạt/Tốc độ",
+                weight: "3U / 4U",
+                grip: "G5",
+                balance: "290 mm (Nhẹ đầu)",
+                flex: "Cứng",
+                tension: "30 LBS (13.5kg)",
+                image: "https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?auto=format&fit=crop&w=600&q=80",
+                description: "Chuyên dụng cho lối chơi tốc độ, thủ cầu phản tạt nhanh dứt khoát trên lưới. Khung vợt vát sắc bén giảm tối đa lực cản gió."
+            },
+            {
+                id: 4,
+                name: "Vợt Cầu Lông Li-Ning Tectonic 9",
+                series: "Tectonic",
+                price: 4200000,
+                oldPrice: 4600000,
+                playstyle: "Tấn công",
+                weight: "3U / 4U / 5U",
+                grip: "G5",
+                balance: "300 mm (Nặng đầu)",
+                flex: "Cứng",
+                tension: "32 LBS (14.5kg)",
+                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
+                description: "Công nghệ sợi Carbon T1100G đàn hồi cao giúp gia tăng vận tốc nảy cầu, tạo nên những cú smash uy lực bất ngờ."
+            },
+            {
+                id: 5,
+                name: "Vợt Cầu Lông Li-Ning 3D Calibar 900B",
+                series: "Calibar",
+                price: 3600000,
+                oldPrice: 4000000,
+                playstyle: "Toàn diện",
+                weight: "3U",
+                grip: "G5",
+                balance: "292 mm (Cân bằng)",
+                flex: "Trung bình",
+                tension: "30 LBS",
+                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
+                description: "Thiết kế vát 3D khí động học giúp vung vợt mượt mà, kiểm soát trận đấu hoàn hảo ở cả tấn công lẫn phòng thủ."
+            },
+            {
+                id: 6,
+                name: "Vợt Cầu Lông Li-Ning Windstorm 72",
+                series: "Windstorm",
+                price: 2450000,
+                oldPrice: 2800000,
+                playstyle: "Phản tạt/Tốc độ",
+                weight: "6U (72g)",
+                grip: "G6",
+                balance: "315 mm (Nặng đầu nhẹ thân)",
+                flex: "Dẻo",
+                tension: "30 LBS",
+                image: "https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?auto=format&fit=crop&w=600&q=80",
+                description: "Cực kỳ siêu nhẹ dành cho các nữ lông thủ hoặc người thích phòng thủ linh hoạt, trợ lực thân dẻo rất dễ chơi."
+            },
+            {
+                id: 7,
+                name: "Vợt Cầu Lông Li-Ning Axforce 80",
+                series: "Axforce",
+                price: 3990000,
+                oldPrice: 4300000,
+                playstyle: "Tấn công",
+                weight: "3U / 4U / 5U",
+                grip: "G5",
+                balance: "300 mm (Nặng đầu)",
+                flex: "Cứng",
+                tension: "30 LBS",
+                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
+                description: "Vợt thi đấu chính thức của Chen Long, thiên hướng tấn công dồn dập với đường cầu cắm và đầm tay."
+            },
+            {
+                id: 8,
+                name: "Vợt Cầu Lông Li-Ning Halbertec 9000",
+                series: "Halbertec",
+                price: 4450000,
+                oldPrice: 4900000,
+                playstyle: "Toàn diện",
+                weight: "3U / 4U",
+                grip: "G5",
+                balance: "298 mm (Hơi nặng đầu)",
+                flex: "Cứng",
+                tension: "31 LBS",
+                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
+                description: "Đỉnh cao điều cầu và gài cầu chiến thuật, kết hợp giữa sự êm ái và khả năng phản hồi lực cực kỳ chính xác."
             }
+        ];
 
-            // Mobile close sidebar
-            document.getElementById('sidebar').classList.add('-translate-x-full');
-            document.getElementById('sidebarOverlay').classList.add('hidden');
+        let selectedSeries = 'ALL';
+        let cart = [];
+
+        // Formatting currency
+        function formatMoney(amount) {
+            return amount.toLocaleString('vi-VN') + ' VNĐ';
         }
 
-        // --- STREAMING_CHUNK:Rendering Dashboard KPI & Charts... ---
-        function renderDashboard() {
-            // Compute KPIs
-            const totalRevenue = orders.filter(o => o.status === 'Hoàn thành').reduce((acc, curr) => acc + curr.total, 0);
-            const pendingCount = orders.filter(o => o.status === 'Chờ xử lý').length;
+        // Render product grid
+        function renderProducts(items) {
+            const grid = document.getElementById('productGrid');
+            const empty = document.getElementById('emptyState');
 
-            document.getElementById('kpi-total-revenue').innerText = formatVND(totalRevenue);
-            document.getElementById('kpi-total-orders').innerText = orders.length;
-            document.getElementById('kpi-items-sold').innerText = "142";
-            document.getElementById('kpi-total-customers').innerText = customers.length + 18;
-
-            document.getElementById('badge-pending-orders').innerText = pendingCount;
-            document.getElementById('count-pending-dash').innerText = pendingCount;
-            document.getElementById('badge-products-count').innerText = products.length;
-
-            // Render Recent Orders on Dashboard
-            const dashTbody = document.getElementById('dash-orders-tbody');
-            dashTbody.innerHTML = orders.slice(0, 4).map(o => `
-                <tr class="hover:bg-slate-50/80 transition">
-                    <td class="px-6 py-3 font-bold text-brand-navy">${o.id}</td>
-                    <td class="px-6 py-3 font-medium text-slate-800">${o.customer}</td>
-                    <td class="px-6 py-3 text-slate-500 max-w-xs truncate">${o.items}</td>
-                    <td class="px-6 py-3 font-semibold text-slate-900">${formatVND(o.total)}</td>
-                    <td class="px-6 py-3">${getStatusBadge(o.status)}</td>
-                    <td class="px-6 py-3 text-xs text-slate-400">${o.date}</td>
-                </tr>
-            `).join('');
-
-            initCharts();
-        }
-
-        function getStatusBadge(status) {
-            switch(status) {
-                case 'Hoàn thành':
-                    return `<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800"><i class="fa-solid fa-check mr-1"></i>Hoàn thành</span>`;
-                case 'Đang giao':
-                    return `<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800"><i class="fa-solid fa-truck-fast mr-1"></i>Đang giao</span>`;
-                case 'Chờ xử lý':
-                    return `<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800"><i class="fa-solid fa-clock mr-1"></i>Chờ xử lý</span>`;
-                case 'Đã hủy':
-                    return `<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-100 text-rose-800"><i class="fa-solid fa-xmark mr-1"></i>Đã hủy</span>`;
-                default:
-                    return status;
-            }
-        }
-
-        function initCharts() {
-            // Revenue Chart
-            const ctx1 = document.getElementById('revenueChart').getContext('2d');
-            if (revenueChartInstance) revenueChartInstance.destroy();
-
-            revenueChartInstance = new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: ['T5', 'T6', 'T7', 'T8', 'T9', 'T10'],
-                    datasets: [{
-                        label: 'Doanh số (Triệu VNĐ)',
-                        data: [42, 68, 85, 110, 145, 192],
-                        borderColor: '#84cc16',
-                        backgroundColor: 'rgba(132, 204, 22, 0.15)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 5,
-                        pointBackgroundColor: '#0f172a'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: '#f1f5f9' }, ticks: { font: { family: 'Inter' } } },
-                        x: { grid: { display: false }, ticks: { font: { family: 'Inter' } } }
-                    }
-                }
-            });
-
-            // Category Chart
-            const ctx2 = document.getElementById('categoryChart').getContext('2d');
-            if (categoryChartInstance) categoryChartInstance.destroy();
-
-            categoryChartInstance = new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Vợt Pickleball', 'Bóng Pickleball', 'Giày & Trang phục', 'Phụ kiện'],
-                    datasets: [{
-                        data: [55, 20, 15, 10],
-                        backgroundColor: ['#84cc16', '#06b6d4', '#f59e0b', '#64748b'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 } } }
-                    },
-                    cutout: '70%'
-                }
-            });
-        }
-
-        // --- STREAMING_CHUNK:Rendering Products & CRUD Actions... ---
-        function renderProducts() {
-            const search = document.getElementById('productSearch').value.toLowerCase();
-            const cat = document.getElementById('productCatFilter').value;
-
-            const filtered = products.filter(p => {
-                const matchSearch = p.name.toLowerCase().includes(search) || p.brand.toLowerCase().includes(search);
-                const matchCat = cat === 'ALL' || p.category === cat;
-                return matchSearch && matchCat;
-            });
-
-            const tbody = document.getElementById('products-tbody');
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-8 text-slate-400">Không tìm thấy sản phẩm phù hợp.</td></tr>`;
+            if (items.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
                 return;
             }
 
-            tbody.innerHTML = filtered.map(p => `
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="px-6 py-3.5">
-                        <div class="flex items-center space-x-3">
-                            <img src="${p.image}" class="w-10 h-10 rounded-xl object-cover border border-slate-200" onerror="this.src='https://placehold.co/100x100?text=Pickleball'">
+            empty.classList.add('hidden');
+            grid.innerHTML = items.map(p => {
+                let badgeClass = p.playstyle === 'Tấn công' ? 'badge-attack' : (p.playstyle === 'Toàn diện' ? 'badge-allround' : 'badge-speed');
+                return `
+                    <div class="product-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+                        <div class="relative bg-gray-100 h-56 overflow-hidden cursor-pointer" onclick="openModal(${p.id})">
+                            <img src="${p.image}" alt="${p.name}" class="product-img w-full h-full object-cover transition-transform duration-500">
+                            <span class="absolute top-3 left-3 text-[11px] font-bold px-2.5 py-1 rounded-lg ${badgeClass}">
+                                ${p.playstyle}
+                            </span>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between">
                             <div>
-                                <p class="font-bold text-slate-900">${p.name}</p>
-                                <p class="text-xs text-slate-400 max-w-xs truncate">${p.desc}</p>
+                                <span class="text-[11px] font-extrabold uppercase text-brand-red tracking-wider">${p.series} Series</span>
+                                <h3 onclick="openModal(${p.id})" class="font-bold text-gray-800 text-sm sm:text-base mt-1 line-clamp-2 hover:text-brand-red cursor-pointer transition-colors">
+                                    ${p.name}
+                                </h3>
+                                <div class="mt-2 space-y-1 text-xs text-gray-500">
+                                    <p><i class="fa-solid fa-weight-hanging text-gray-400 w-4"></i> Trọng lượng: <span class="font-semibold text-gray-700">${p.weight}</span></p>
+                                    <p><i class="fa-solid fa-arrows-to-dot text-gray-400 w-4"></i> Điểm cân bằng: <span class="font-semibold text-gray-700">${p.balance}</span></p>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                                <div>
+                                    <div class="text-xs text-gray-400 line-through">${formatMoney(p.oldPrice)}</div>
+                                    <div class="text-base font-black text-brand-red">${formatMoney(p.price)}</div>
+                                </div>
+                                <button onclick="addToCart(${p.id})" class="bg-gray-900 hover:bg-brand-red text-white p-3 rounded-xl transition-colors shadow-sm">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
                             </div>
                         </div>
-                    </td>
-                    <td class="px-6 py-3.5"><span class="bg-slate-100 text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-lg">${p.category}</span></td>
-                    <td class="px-6 py-3.5 font-medium text-slate-700">${p.brand}</td>
-                    <td class="px-6 py-3.5 font-bold text-slate-900">${formatVND(p.price)}</td>
-                    <td class="px-6 py-3.5">
-                        <span class="font-bold ${p.stock <= 5 ? 'text-rose-600' : 'text-slate-800'}">${p.stock} sp</span>
-                    </td>
-                    <td class="px-6 py-3.5 text-right space-x-2">
-                        <button onclick="editProduct(${p.id})" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button onclick="deleteProduct(${p.id})" class="p-2 text-rose-600 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
+                    </div>
+                `;
+            }).join('');
         }
 
-        function saveProduct(e) {
-            e.preventDefault();
-            const id = document.getElementById('prod-id').value;
-            const name = document.getElementById('prod-name').value;
-            const category = document.getElementById('prod-category').value;
-            const brand = document.getElementById('prod-brand').value;
-            const price = parseFloat(document.getElementById('prod-price').value);
-            const stock = parseInt(document.getElementById('prod-stock').value);
-            const image = document.getElementById('prod-image').value || "https://images.unsplash.com/photo-1626248801379-51a0748a5f96?w=300&auto=format&fit=crop&q=80";
-            const desc = document.getElementById('prod-desc').value;
-
-            if (id) {
-                // Update
-                const index = products.findIndex(p => p.id == id);
-                if (index !== -1) {
-                    products[index] = { id: parseInt(id), name, category, brand, price, stock, image, desc };
-                    showToast("Đã cập nhật sản phẩm!");
+        // Filters
+        function filterSeries(series) {
+            selectedSeries = series;
+            document.querySelectorAll('.series-btn').forEach(btn => {
+                if (btn.textContent.trim().toLowerCase() === series.toLowerCase() || (series === 'ALL' && btn.textContent.trim() === 'Tất Cả')) {
+                    btn.className = "series-btn active bg-brand-red text-white px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all";
+                } else {
+                    btn.className = "series-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all";
                 }
-            } else {
-                // Add new
-                const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
-                products.push({ id: newId, name, category, brand, price, stock, image, desc });
-                showToast("Thêm sản phẩm thành công!");
-            }
-
-            closeModal('modal-add-product');
-            renderProducts();
-            renderDashboard();
-            renderInventory();
+            });
+            applyFilters();
         }
 
-        function editProduct(id) {
-            const p = products.find(x => x.id === id);
-            if (!p) return;
-            document.getElementById('modal-product-title').innerText = "Chỉnh Sửa Sản Phẩm Pickleball";
-            document.getElementById('prod-id').value = p.id;
-            document.getElementById('prod-name').value = p.name;
-            document.getElementById('prod-category').value = p.category;
-            document.getElementById('prod-brand').value = p.brand;
-            document.getElementById('prod-price').value = p.price;
-            document.getElementById('prod-stock').value = p.stock;
-            document.getElementById('prod-image').value = p.image;
-            document.getElementById('prod-desc').value = p.desc;
-            openModal('modal-add-product');
-        }
+        function applyFilters() {
+            const playstyle = document.getElementById('playstyleSelect').value;
+            const searchTerm = (document.getElementById('searchInput').value || document.getElementById('searchInputMobile').value).toLowerCase();
 
-        function deleteProduct(id) {
-            if (confirm("Bạn có chắc chắn muốn xoá sản phẩm này khỏi danh mục?")) {
-                products = products.filter(p => p.id !== id);
-                showToast("Đã xoá sản phẩm thành công!");
-                renderProducts();
-                renderDashboard();
-                renderInventory();
-            }
-        }
-
-        // --- STREAMING_CHUNK:Rendering Orders & Customers & Inventory... ---
-        function renderOrders() {
-            const search = document.getElementById('orderSearch').value.toLowerCase();
-            const status = document.getElementById('orderStatusFilter').value;
-
-            const filtered = orders.filter(o => {
-                const matchSearch = o.id.toLowerCase().includes(search) || o.customer.toLowerCase().includes(search);
-                const matchStatus = status === 'ALL' || o.status === status;
-                return matchSearch && matchStatus;
+            let filtered = products.filter(p => {
+                const matchSeries = selectedSeries === 'ALL' || p.series.toLowerCase() === selectedSeries.toLowerCase();
+                const matchPlaystyle = playstyle === 'ALL' || p.playstyle === playstyle;
+                const matchSearch = p.name.toLowerCase().includes(searchTerm) || p.series.toLowerCase().includes(searchTerm);
+                return matchSeries && matchPlaystyle && matchSearch;
             });
 
-            const tbody = document.getElementById('orders-tbody');
-            tbody.innerHTML = filtered.map(o => `
-                <tr class="hover:bg-slate-50 transition">
-                    <td class="px-6 py-3.5 font-bold text-brand-navy">${o.id}</td>
-                    <td class="px-6 py-3.5 font-semibold text-slate-800">${o.customer}</td>
-                    <td class="px-6 py-3.5 text-slate-500">${o.phone}</td>
-                    <td class="px-6 py-3.5 text-slate-600 max-w-xs truncate">${o.items}</td>
-                    <td class="px-6 py-3.5 font-bold text-slate-900">${formatVND(o.total)}</td>
-                    <td class="px-6 py-3.5">${getStatusBadge(o.status)}</td>
-                    <td class="px-6 py-3.5 text-right">
-                        <button onclick="openOrderDetail('${o.id}')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg">Chi tiết</button>
-                    </td>
-                </tr>
-            `).join('');
+            renderProducts(filtered);
         }
 
-        function openOrderDetail(orderId) {
-            const o = orders.find(x => x.id === orderId);
-            if (!o) return;
-            activeOrderIdForModal = orderId;
+        function handleSearch() { applyFilters(); }
+        function handleSearchMobile() { applyFilters(); }
 
-            document.getElementById('detail-order-id').innerText = `Đơn hàng ${o.id}`;
-            document.getElementById('detail-order-date').innerText = `Ngày đặt: ${o.date}`;
-            document.getElementById('detail-customer-name').innerText = o.customer;
-            document.getElementById('detail-customer-phone').innerText = `SĐT: ${o.phone}`;
-            document.getElementById('detail-customer-address').innerText = `Địa chỉ: ${o.address}`;
-            document.getElementById('detail-items-list').innerHTML = `<p class="font-semibold text-slate-800">${o.items}</p>`;
-            document.getElementById('detail-total-price').innerText = formatVND(o.total);
-            document.getElementById('detail-order-status-select').value = o.status;
+        // Modal Specs
+        function openModal(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
 
-            openModal('modal-order-detail');
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="bg-gray-100 rounded-2xl overflow-hidden h-72 md:h-full flex items-center justify-center">
+                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-brand-red tracking-wider">${p.series} Series</span>
+                        <h2 class="text-xl font-bold text-gray-900 mt-1">${p.name}</h2>
+                        
+                        <div class="mt-3 flex items-baseline gap-3">
+                            <span class="text-2xl font-black text-brand-red">${formatMoney(p.price)}</span>
+                            <span class="text-sm text-gray-400 line-through">${formatMoney(p.oldPrice)}</span>
+                        </div>
+
+                        <p class="text-xs text-gray-600 mt-3 leading-relaxed">${p.description}</p>
+
+                        <!-- Specifications Table -->
+                        <div class="mt-5 border border-gray-100 rounded-xl overflow-hidden bg-gray-50 text-xs">
+                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
+                                <span class="text-gray-500 font-medium">Lối chơi</span>
+                                <span class="font-bold text-gray-800">${p.playstyle}</span>
+                            </div>
+                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
+                                <span class="text-gray-500 font-medium">Trọng lượng / Chu vi cán</span>
+                                <span class="font-bold text-gray-800">${p.weight} (${p.grip})</span>
+                            </div>
+                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
+                                <span class="text-gray-500 font-medium">Điểm cân bằng</span>
+                                <span class="font-bold text-gray-800">${p.balance}</span>
+                            </div>
+                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
+                                <span class="text-gray-500 font-medium">Độ cứng thân vợt</span>
+                                <span class="font-bold text-gray-800">${p.flex}</span>
+                            </div>
+                            <div class="p-2.5 flex justify-between">
+                                <span class="text-gray-500 font-medium">Sức căng tối đa</span>
+                                <span class="font-bold text-gray-800">${p.tension}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex gap-3">
+                        <button onclick="addToCart(${p.id}); closeModal();" class="flex-1 bg-brand-red hover:bg-brand-reddark text-white font-bold py-3 rounded-xl transition-all shadow-md">
+                            Thêm Vào Giỏ Hàng
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('productModal').classList.remove('hidden');
         }
 
-        function updateOrderStatusFromModal() {
-            const newStatus = document.getElementById('detail-order-status-select').value;
-            const o = orders.find(x => x.id === activeOrderIdForModal);
-            if (o) {
-                o.status = newStatus;
-                showToast(`Đã chuyển đơn hàng ${o.id} sang trạng thái: ${newStatus}`);
-                closeModal('modal-order-detail');
-                renderOrders();
-                renderDashboard();
+        function closeModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        // Cart Drawer
+        function toggleCart() {
+            document.getElementById('cartDrawer').classList.toggle('hidden');
+        }
+
+        function addToCart(id) {
+            const item = cart.find(x => x.id === id);
+            if (item) {
+                item.qty += 1;
+            } else {
+                const p = products.find(x => x.id === id);
+                cart.push({ ...p, qty: 1 });
             }
+            updateCartUI();
         }
 
-        function renderCustomers() {
-            const container = document.getElementById('customers-cards-container');
-            container.innerHTML = customers.map(c => `
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-start space-x-4">
-                    <img src="${c.avatar}" class="w-12 h-12 rounded-full object-cover ring-2 ring-brand-lime">
+        function updateQty(id, delta) {
+            const item = cart.find(x => x.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(x => x.id !== id);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const list = document.getElementById('cartItemsList');
+            const total = document.getElementById('cartTotalPrice');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            badge.textContent = totalCount;
+            total.textContent = formatMoney(totalPrice);
+
+            if (cart.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3"></i>
+                        <p class="text-sm">Giỏ hàng của bạn đang trống</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                    <img src="${item.image}" class="w-14 h-14 object-cover rounded-lg">
                     <div class="flex-1">
-                        <div class="flex items-center justify-between">
-                            <h4 class="font-bold text-slate-800">${c.name}</h4>
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${c.rank.includes('VIP') ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">${c.rank}</span>
-                        </div>
-                        <p class="text-xs text-slate-500 mt-0.5">${c.phone}</p>
-                        <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between text-xs">
-                            <div>
-                                <p class="text-slate-400">Số đơn mua</p>
-                                <p class="font-bold text-slate-800">${c.ordersCount} đơn</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-slate-400">Tổng chi tiêu</p>
-                                <p class="font-bold text-brand-limedark">${formatVND(c.totalSpent)}</p>
-                            </div>
-                        </div>
+                        <h4 class="font-bold text-xs text-gray-800 line-clamp-1">${item.name}</h4>
+                        <div class="text-xs text-brand-red font-extrabold mt-1">${formatMoney(item.price)}</div>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border border-gray-200">
+                        <button onclick="updateQty(${item.id}, -1)" class="text-gray-500 hover:text-brand-red text-xs px-1">-</button>
+                        <span class="text-xs font-bold text-gray-800">${item.qty}</span>
+                        <button onclick="updateQty(${item.id}, 1)" class="text-gray-500 hover:text-brand-red text-xs px-1">+</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function renderInventory() {
-            const tbody = document.getElementById('inventory-tbody');
-            let lowStockCount = 0;
-
-            tbody.innerHTML = products.map(p => {
-                const isLow = p.stock <= 10;
-                if (isLow) lowStockCount++;
-
-                return `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="px-6 py-3.5 font-bold text-slate-800">${p.name}</td>
-                        <td class="px-6 py-3.5 text-xs text-slate-500">${p.category}</td>
-                        <td class="px-6 py-3.5 font-extrabold ${isLow ? 'text-rose-600' : 'text-slate-900'}">${p.stock}</td>
-                        <td class="px-6 py-3.5 text-xs text-slate-400">10 sp</td>
-                        <td class="px-6 py-3.5">
-                            ${isLow ? '<span class="px-2 py-1 text-xs font-bold bg-rose-100 text-rose-700 rounded-full">Sắp hết hàng</span>' : '<span class="px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full">Ổn định</span>'}
-                        </td>
-                        <td class="px-6 py-3.5 text-right">
-                            <button onclick="addStock(${p.id})" class="px-3 py-1 bg-brand-lime hover:bg-brand-limedark text-brand-navy font-bold text-xs rounded-lg shadow-sm">+10 Tồn Kho</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-
-            document.getElementById('badge-low-stock').innerText = lowStockCount;
-        }
-
-        function addStock(productId) {
-            const p = products.find(x => x.id === productId);
-            if (p) {
-                p.stock += 10;
-                showToast(`Đã cộng +10 tồn kho cho ${p.name}`);
-                renderInventory();
-                renderProducts();
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Giỏ hàng của bạn đang trống!");
+                return;
             }
+            alert("Cảm ơn bạn đã đặt hàng! Đơn hàng vợt Li-Ning của bạn đã được ghi nhận thành công.");
+            cart = [];
+            updateCartUI();
+            toggleCart();
         }
 
-        // Search Redirect Logic
-        function handleGlobalSearch(e) {
-            const val = e.target.value.toLowerCase();
-            if (e.key === 'Enter' && val) {
-                switchTab('products');
-                document.getElementById('productSearch').value = val;
-                renderProducts();
-            }
-        }
-
-        // --- MODALS CONTROL ---
-        function openModal(id) {
-            if (id === 'modal-add-product' && !document.getElementById('prod-id').value) {
-                document.getElementById('productForm').reset();
-                document.getElementById('modal-product-title').innerText = "Thêm Sản Phẩm Pickleball Mới";
-            }
-            document.getElementById(id).classList.remove('hidden');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-            if (id === 'modal-add-product') {
-                document.getElementById('prod-id').value = '';
-            }
-        }
-
-        function toggleNotifDropdown() {
-            document.getElementById('notifDropdown').classList.toggle('hidden');
-        }
-
-        // --- STREAMING_CHUNK:App Initialization & Event Listeners... ---
-        window.onload = function() {
-            // Sidebar Mobile Toggle
-            document.getElementById('openSidebarBtn').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.remove('-translate-x-full');
-                document.getElementById('sidebarOverlay').classList.remove('hidden');
-            });
-
-            document.getElementById('closeSidebarBtn').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.add('-translate-x-full');
-                document.getElementById('sidebarOverlay').classList.add('hidden');
-            });
-
-            document.getElementById('sidebarOverlay').addEventListener('click', () => {
-                document.getElementById('sidebar').classList.add('-translate-x-full');
-                document.getElementById('sidebarOverlay').classList.add('hidden');
-            });
-
-            // Initial Renders
-            renderDashboard();
-            renderProducts();
-            renderOrders();
-            renderCustomers();
-            renderInventory();
-        };
+        // Initialize App
+        renderProducts(products);
     </script>
 </body>
 </html>
