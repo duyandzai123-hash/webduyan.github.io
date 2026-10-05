@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Li-Ning Badminton Master - Cửa Hàng Vợt Cầu Lông Chính Hãng</title>
+    <title>Li-Ning Badminton - Vợt Cầu Lông Chính Hãng</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -15,12 +15,13 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
+                        lining: {
                             red: '#e60012',
                             reddark: '#b3000e',
-                            dark: '#121212',
-                            gray: '#1e1e1e',
-                            lightgray: '#f4f5f7'
+                            black: '#111111',
+                            dark: '#1a1a1a',
+                            gray: '#f4f4f6',
+                            gold: '#d4af37'
                         }
                     },
                     fontFamily: {
@@ -31,729 +32,649 @@
         }
     </script>
     <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .product-card:hover .product-img { transform: scale(1.08); }
-        .badge-attack { background-color: #fee2e2; color: #991b1b; }
-        .badge-allround { background-color: #e0e7ff; color: #3730a3; }
-        .badge-speed { background-color: #dcfce7; color: #166534; }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e60012;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b3000e;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .glass-header {
+            background: rgba(17, 17, 17, 0.92);
+            backdrop-filter: blur(12px);
+        }
     </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-800 antialiased flex flex-col min-h-screen">
+<body class="bg-slate-900 text-slate-100 font-sans antialiased selection:bg-lining-red selection:text-white pb-16">
 
-    <!-- Top Banner -->
-    <div class="bg-brand-red text-white text-xs font-semibold py-2 px-4 text-center tracking-wide">
-        🔥 CAM KẾT VỢT CẦU LÔNG LI-NING CHÍNH HÃNG 100% — TẶNG KÈM LƯỚI & BAO VỢT CAO CẤP!
-    </div>
+    <header class="fixed top-0 left-0 right-0 z-50 glass-header border-b border-neutral-800 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center space-x-3 group">
+                    <div class="bg-lining-red p-2.5 rounded-xl shadow-lg shadow-lining-red/30 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-bolt text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black tracking-wider text-white block leading-none">LI-NING</span>
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-lining-red">Badminton Pro</span>
+                    </div>
+                </a>
 
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-3">
-                <div class="bg-brand-red text-white p-2 rounded-xl font-black text-xl tracking-wider">
-                    LI-NING
+                <!-- Search Input Desktop -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                    <input type="text" id="searchInput" onkeyup="filterRackets()" placeholder="Tìm kiếm vợt (Axforce 80, BladeX 800, Tectonic 9...)" class="w-full bg-neutral-800 text-sm text-white pl-10 pr-4 py-2.5 rounded-xl border border-neutral-700 focus:outline-none focus:border-lining-red transition-colors">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-neutral-400 text-sm"></i>
                 </div>
-                <div>
-                    <span class="font-extrabold text-xl tracking-tight text-gray-900 block leading-none">BADMINTON</span>
-                    <span class="text-[10px] text-gray-500 font-semibold uppercase tracking-widest">Official Store</span>
+
+                <!-- Header Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Quick Cart Button -->
+                    <button onclick="toggleCartModal()" class="relative bg-neutral-800 hover:bg-neutral-700 p-3 rounded-xl border border-neutral-700 text-white transition">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
+                        <span id="cartCountBadge" class="absolute -top-1.5 -right-1.5 bg-lining-red text-white text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-900">0</span>
+                    </button>
+                    <!-- Mobile Menu Trigger -->
+                    <button id="mobileMenuBtn" class="md:hidden text-2xl text-white focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
-            </a>
-
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-md hidden md:block relative">
-                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm theo tên vợt hoặc phiên bản (70, 80, 90, 800, 79S...)" 
-                    class="w-full pl-10 pr-4 py-2.5 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-red focus:bg-white transition-all">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-            </div>
-
-            <!-- Actions -->
-            <div class="flex items-center gap-4">
-                <button onclick="toggleCart()" class="relative p-2.5 text-gray-700 hover:text-brand-red transition-colors">
-                    <i class="fa-solid fa-bag-shopping text-2xl"></i>
-                    <span id="cartBadge" class="absolute top-1 right-1 bg-brand-red text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
-                </button>
             </div>
         </div>
 
-        <!-- Mobile Search Bar -->
-        <div class="px-4 pb-3 md:hidden">
-            <div class="relative">
-                <input type="text" id="searchInputMobile" oninput="handleSearchMobile()" placeholder="Tìm kiếm phiên bản vợt..." 
-                    class="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-red">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <!-- Quick Anchor Navigation Bar for Series -->
+        <div class="bg-neutral-950 border-t border-neutral-800/80 overflow-x-auto py-2.5 px-4 scrollbar-none">
+            <div class="max-w-7xl mx-auto flex items-center space-x-2 md:space-x-4 min-w-max text-xs sm:text-sm font-bold">
+                <span class="text-neutral-500 uppercase text-[11px] font-extrabold tracking-wider mr-2"><i class="fa-solid fa-filter mr-1 text-lining-red"></i> Dòng vợt:</span>
+                <a href="#axforce" class="px-4 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                    <span>AXFORCE</span>
+                </a>
+                <a href="#bladex" class="px-4 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                    <span>BLADEX</span>
+                </a>
+                <a href="#calibar" class="px-4 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                    <span>3D CALIBAR</span>
+                </a>
+                <a href="#windstorm" class="px-4 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>WINDSTORM</span>
+                </a>
+                <a href="#tectonic" class="px-4 py-1.5 rounded-lg bg-neutral-900 text-neutral-300 hover:bg-lining-red hover:text-white transition-all border border-neutral-800 flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                    <span>TECTONIC</span>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="bg-brand-dark text-white py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-            <div class="max-w-xl text-center md:text-left">
-                <span class="bg-brand-red/20 text-brand-red text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider border border-brand-red/30">
-                    Bản Quyền Chính Hãng
+    <section class="pt-36 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-neutral-950 via-slate-900 to-neutral-900 border border-neutral-800 p-8 sm:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="max-w-xl z-10">
+                <span class="inline-flex items-center space-x-2 bg-lining-red/20 text-lining-red border border-lining-red/30 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                    <i class="fa-solid fa-crown text-lining-gold"></i>
+                    <span>Li-Ning Badminton Flagship</span>
                 </span>
-                <h1 class="text-3xl sm:text-5xl font-black tracking-tight mt-4 mb-3 uppercase leading-tight">
-                    Hệ Thống Dòng Vợt <br><span class="text-brand-red">Li-Ning Đa Dạng</span>
+                <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight uppercase leading-none">
+                    Bản Lĩnh <span class="text-lining-red">Chiến Hạm</span> Cầu Lông
                 </h1>
-                <p class="text-gray-400 text-sm sm:text-base mb-6 leading-relaxed">
-                    Lựa chọn đầy đủ các dòng vợt nổi tiếng và các phiên bản con: <strong>Axforce (70, 80, 90, 100)</strong>, <strong>BladeX (700, 800, 900)</strong>, <strong>Tectonic (1, 3, 7, 9)</strong>, <strong>Windstorm (72, 75, 76, 79S)</strong> & <strong>Halbertec</strong>.
+                <p class="text-neutral-400 text-sm sm:text-base mt-4 leading-relaxed">
+                    Khám phá trọn bộ các dòng vợt Li-Ning đỉnh cao: Từ **Axforce** tấn công bộc phá, **BladeX** phản tạt tốc độ, **3D Calibar** uy lực uy hiếp, **Windstorm** siêu nhẹ thanh thoát tới **Tectonic** năng lượng linh hoạt.
                 </p>
-                <a href="#products" class="inline-flex items-center gap-2 bg-brand-red hover:bg-brand-reddark text-white font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-brand-red/30">
-                    Xem Sản Phẩm <i class="fa-solid fa-arrow-down"></i>
-                </a>
+                <div class="mt-6 flex flex-wrap gap-4">
+                    <a href="#axforce" class="bg-lining-red hover:bg-lining-reddark text-white font-bold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-lining-red/30 flex items-center space-x-2">
+                        <span>Khám phá ngay</span>
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                    <button onclick="filterAll()" class="bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-semibold text-sm px-6 py-3 rounded-xl border border-neutral-700 transition">
+                        Xem tất cả sản phẩm
+                    </button>
+                </div>
             </div>
-            <div class="w-full max-w-sm flex justify-center">
-                <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80" alt="Li-Ning Racket" class="rounded-2xl shadow-2xl object-cover h-60 w-full">
+            
+            <div class="relative w-full md:w-1/2 h-64 sm:h-80 flex items-center justify-center">
+                <div class="absolute w-64 h-64 bg-lining-red/20 rounded-full filter blur-3xl"></div>
+                <img src="https://images.unsplash.com/photo-1626248801379-51a0748a5f96?w=800&auto=format&fit=crop&q=80" alt="Li-Ning Rackets Display" class="relative z-10 max-h-full object-contain rounded-2xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 border border-neutral-700">
             </div>
         </div>
     </section>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow" id="products">
-        
-        <!-- Main Line Filters -->
-        <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm mb-6">
-            <div class="text-xs font-extrabold text-gray-400 uppercase tracking-wider mb-3">Chọn Dòng Vợt Chính:</div>
-            <div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-                <button onclick="filterMainLine('ALL')" class="line-btn active bg-brand-red text-white px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shadow-sm">
-                    Tất Cả Dòng Vợt
-                </button>
-                <button onclick="filterMainLine('Axforce')" class="line-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
-                    🔥 Dòng Axforce (Tấn Công)
-                </button>
-                <button onclick="filterMainLine('BladeX')" class="line-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
-                    ⚡ Dòng BladeX (Tốc Độ)
-                </button>
-                <button onclick="filterMainLine('Tectonic')" class="line-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
-                    💥 Dòng Tectonic (Bùng Nổ)
-                </button>
-                <button onclick="filterMainLine('Windstorm')" class="line-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
-                    🍃 Dòng Windstorm (Siêu Nhẹ)
-                </button>
-                <button onclick="filterMainLine('Halbertec')" class="line-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all">
-                    🎯 Dòng Halbertec (Toàn Diện)
-                </button>
+    <!-- MAIN PRODUCT CATEGORIES CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20 mt-8">
+
+        <section id="axforce" class="scroll-mt-36">
+            <!-- Category Header Banner -->
+            <div class="bg-gradient-to-r from-neutral-900 via-rose-950/40 to-neutral-900 border-l-4 border-rose-500 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs font-black uppercase tracking-widest text-rose-400 bg-rose-500/20 px-2.5 py-1 rounded-md border border-rose-500/30">Heavy Attack</span>
+                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng AXFORCE</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Dòng vợt thiên về **Tấn công uy lực**, điểm cân bằng nặng đầu kết hợp công nghệ Box Wing Frame gia tăng độ bộc phá trong từng cú đập.</p>
+                </div>
+                <span class="text-xs text-rose-400 font-semibold bg-neutral-900/80 px-3 py-1.5 rounded-xl border border-neutral-800 self-start sm:self-center">4 Phiên bản (70, 80, 90, 100)</span>
             </div>
-        </div>
 
-        <!-- Sub-version Pills Filter (Dynamic) -->
-        <div id="subVersionContainer" class="bg-gray-100 p-3 rounded-xl mb-8 flex items-center gap-2 overflow-x-auto no-scrollbar">
-            <span class="text-xs font-bold text-gray-500 whitespace-nowrap px-2">Phiên bản:</span>
-            <div id="subVersionPills" class="flex items-center gap-2">
-                <!-- Pills generated dynamically -->
+            <!-- Racket Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-axforce">
+                <!-- Javascript dynamic injection -->
             </div>
-        </div>
+        </section>
 
-        <!-- Products Grid -->
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Product cards rendered dynamically -->
-        </div>
+        <section id="bladex" class="scroll-mt-36">
+            <!-- Category Header Banner -->
+            <div class="bg-gradient-to-r from-neutral-900 via-cyan-950/40 to-neutral-900 border-l-4 border-cyan-400 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs font-black uppercase tracking-widest text-cyan-400 bg-cyan-500/20 px-2.5 py-1 rounded-md border border-cyan-500/30">Speed & Control</span>
+                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng BLADEX</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Thiết kế tối ưu cho lối đánh **Phản tạt tốc độ & Tốc độ vung nhanh**, khung vợt khí động học Sharpen Wave Frame cho khả năng điều cầu vẩy cổ tay chớp nhoáng.</p>
+                </div>
+                <span class="text-xs text-cyan-400 font-semibold bg-neutral-900/80 px-3 py-1.5 rounded-xl border border-neutral-800 self-start sm:self-center">3 Phiên bản (700, 800, 900)</span>
+            </div>
 
-        <!-- Empty State -->
-        <div id="emptyState" class="hidden text-center py-16">
-            <i class="fa-solid fa-box-open text-5xl text-gray-300 mb-4"></i>
-            <h3 class="text-lg font-bold text-gray-700">Không tìm thấy sản phẩm nào!</h3>
-            <p class="text-sm text-gray-500 mt-1">Vui lòng chọn dòng vợt khác hoặc thử từ khóa tìm kiếm khác.</p>
-        </div>
+            <!-- Racket Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-bladex">
+                <!-- Javascript dynamic injection -->
+            </div>
+        </section>
+
+        <section id="calibar" class="scroll-mt-36">
+            <!-- Category Header Banner -->
+            <div class="bg-gradient-to-r from-neutral-900 via-amber-950/40 to-neutral-900 border-l-4 border-amber-400 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-amber-500/20 px-2.5 py-1 rounded-md border border-amber-500/30">3D Aero Frame</span>
+                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng 3D CALIBAR</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Thiết kế vát hình vòm 3D độc quyền giảm tối đa sức cản không khí, tạo ra những cú **Đập cầu cầu vồng** biến hóa dữ dội và cắm sân.</p>
+                </div>
+                <span class="text-xs text-amber-400 font-semibold bg-neutral-900/80 px-3 py-1.5 rounded-xl border border-neutral-800 self-start sm:self-center">3 Phiên bản (300, 600, 900)</span>
+            </div>
+
+            <!-- Racket Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-calibar">
+                <!-- Javascript dynamic injection -->
+            </div>
+        </section>
+
+        <section id="windstorm" class="scroll-mt-36">
+            <!-- Category Header Banner -->
+            <div class="bg-gradient-to-r from-neutral-900 via-emerald-950/40 to-neutral-900 border-l-4 border-emerald-400 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs font-black uppercase tracking-widest text-emerald-400 bg-emerald-500/20 px-2.5 py-1 rounded-md border border-emerald-500/30">Ultra Light Tech</span>
+                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng WINDSTORM</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Dòng vợt **Siêu nhẹ Super Light Tech** linh hoạt tột đỉnh, thích hợp cho nữ giới và người chơi ưa thích lối bắt lưới, linh hoạt tạt cầu phòng thủ.</p>
+                </div>
+                <span class="text-xs text-emerald-400 font-semibold bg-neutral-900/80 px-3 py-1.5 rounded-xl border border-neutral-800 self-start sm:self-center">4 Phiên bản (72, 75, 76, 79S)</span>
+            </div>
+
+            <!-- Racket Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-windstorm">
+                <!-- Javascript dynamic injection -->
+            </div>
+        </section>
+
+        <section id="tectonic" class="scroll-mt-36">
+            <!-- Category Header Banner -->
+            <div class="bg-gradient-to-r from-neutral-900 via-purple-950/40 to-neutral-900 border-l-4 border-purple-500 p-6 rounded-2xl mb-8 shadow-lg flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs font-black uppercase tracking-widest text-purple-400 bg-purple-500/20 px-2.5 py-1 rounded-md border border-purple-500/30">Flexible Energy</span>
+                        <h2 class="text-2xl sm:text-3xl font-black uppercase tracking-wide text-white">Dòng TECTONIC</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-neutral-400 mt-2">Công nghệ sợi carbon đàn hồi Tectonic đệm năng lượng ở góc 5 & 7 giờ, giải phóng lực linh hoạt tối đa cho cả **Công toàn diện & Thủ chắc chắn**.</p>
+                </div>
+                <span class="text-xs text-purple-400 font-semibold bg-neutral-900/80 px-3 py-1.5 rounded-xl border border-neutral-800 self-start sm:self-center">4 Phiên bản (1, 3, 7, 9)</span>
+            </div>
+
+            <!-- Racket Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="grid-tectonic">
+                <!-- Javascript dynamic injection -->
+            </div>
+        </section>
+
     </main>
 
-    <!-- Modal Xem Chi Tiết Vợt -->
-    <div id="productModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-fade-in">
-            <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-600 transition-colors z-10">
-                <i class="fa-solid fa-xmark text-lg"></i>
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex justify-end hidden">
+        <div class="w-full max-w-md bg-neutral-900 h-full flex flex-col shadow-2xl border-l border-neutral-800">
+            <div class="p-6 border-b border-neutral-800 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-cart-shopping text-lining-red text-xl"></i>
+                    <h3 class="font-black text-lg text-white">Giỏ Hàng Của Bạn</h3>
+                </div>
+                <button onclick="toggleCartModal()" class="text-neutral-400 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Dynamic cart content -->
+            </div>
+
+            <div class="p-6 border-t border-neutral-800 bg-neutral-950 space-y-4">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-neutral-400">Tổng cộng thanh toán:</span>
+                    <span id="cartTotalPrice" class="text-xl font-black text-lining-red">0 ₫</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-lining-red hover:bg-lining-reddark text-white font-bold py-3.5 rounded-xl shadow-lg shadow-lining-red/30 transition text-sm">
+                    Xác Nhận Đặt Hàng (COD)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Spec Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 relative">
+            <button onclick="closeDetailModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-
-            <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8" id="modalContent">
-                <!-- Modal Dynamic Content -->
+            
+            <div id="detailModalContent">
+                <!-- Javascript populated -->
             </div>
         </div>
     </div>
 
-    <!-- Drawer Giỏ Hàng -->
-    <div id="cartDrawer" class="fixed inset-0 bg-black/50 z-50 hidden">
-        <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col">
-            <!-- Header -->
-            <div class="p-5 border-b border-gray-100 flex items-center justify-between bg-gray-50">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-bag-shopping text-brand-red text-xl"></i>
-                    <h3 class="font-bold text-gray-800 text-lg">Giỏ Hàng Của Bạn</h3>
-                </div>
-                <button onclick="toggleCart()" class="text-gray-400 hover:text-gray-600 p-1">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-
-            <!-- Items List -->
-            <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4">
-                <!-- Dynamic Cart Items -->
-            </div>
-
-            <!-- Footer & Checkout -->
-            <div class="p-5 border-t border-gray-100 bg-gray-50">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-sm font-semibold text-gray-500">Tổng thanh toán:</span>
-                    <span id="cartTotalPrice" class="text-xl font-black text-brand-red">0 VNĐ</span>
-                </div>
-                <button onclick="checkout()" class="w-full bg-brand-red hover:bg-brand-reddark text-white font-bold py-3 rounded-xl transition-all shadow-md">
-                    Tiến Hành Đặt Hàng
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-brand-dark text-gray-400 text-sm py-10 mt-16 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
-            <p class="font-bold text-white text-base">LI-NING BADMINTON STORE VIETNAM</p>
-            <p>Hệ thống phân phối vợt cầu lông Li-Ning chính hãng với đầy đủ các phiên bản con</p>
-            <p class="text-xs text-gray-600">© 2026 Li-Ning Badminton Catalog. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- JavaScript Application Logic -->
     <script>
-        // Dữ liệu danh sách vợt Li-Ning phân loại theo dòng và các con
+        // --- COMPLETE LI-NING RACKET DATABASE ---
         const products = [
-            // --- DÒNG AXFORCE (Tấn công) ---
+            // AXFORCE SERIES (70, 80, 90, 100)
             {
-                id: 101,
-                name: "Vợt Cầu Lông Li-Ning Axforce 70",
-                line: "Axforce",
-                version: "Axforce 70",
-                price: 3450000,
-                oldPrice: 3800000,
-                playstyle: "Tấn công",
-                weight: "4U / 5U",
-                grip: "G5",
-                balance: "300 mm (Nặng đầu)",
-                flex: "Trung bình",
-                tension: "30 LBS (13.5kg)",
-                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
-                description: "Phiên bản Axforce 70 với thân vợt dẻo hơn linh hoạt, hỗ trợ smash uy lực mà không tốn quá nhiều sức cổ tay."
+                id: 'ax-70',
+                series: 'axforce',
+                name: 'Vợt Cầu Lông Li-Ning Axforce 70',
+                price: 3890000,
+                badge: 'Mới 2024',
+                image: 'https://www.google.com/aclk?sa=L&ai=DChsSEwj1xvag7qGXAxWfmGYCHRNVF20YACICCAEQARoCc20&co=1&ase=2&gclid=Cj0KCQjw8ofWBhCHARIsANBj4LvmZ8rxdUnwiCKjnx2x9SDYan7HoqpV0UhWE3L9le4N4fVX1qeRkKoaApfCEALw_wcB&cid=CAAS3QHkaPpXCRYn623pRUSKJcKs11PCgAjjEIpPC7NAWpZ4H2UlzLobNx2rU3rpTgECpKwp3W-RDVsTp5Ot58dg0PSVcehr19ZYZoqVESA-U5FU2HPQGfaiqDdrUYbYRntQ0BuUW-VpUisHXG8YKAbBS62-H3ssOAo8uXRgI_pIuJdm8i2JLW0IYxptbWAClNunfBXkwmkCmBWszqz_D0qPK8qQ9A_prnEtzDMNPWlxNHW23KcZ5nxU9SDet8mITWFVLvbajZ3wfEUhDf5NvkKse95JCo-BiYeaH61VqJOnNA&cce=2&category=acrcp_v1_32&sig=AOD64_3VsVCbpo3kJu2-Z0kuKJNwxM5IPQ&ctype=5&q=&nis=4&ved=2ahUKEwjToPOg7qGXAxVgd2wGHSs3HSYQ8w4oAHoFCJ8CEAE&adurl=',
+                weight: '4U (83g) / 3U',
+                balance: '298 mm (Nặng đầu nhẹ)',
+                flexibility: 'Trung bình',
+                tension: '28 lbs',
+                desc: 'Thiết kế xám ánh kim thanh lịch, thiên về công thủ toàn diện hơi nghiêng về tấn công dồn dập.'
             },
             {
-                id: 102,
-                name: "Vợt Cầu Lông Li-Ning Axforce 80",
-                line: "Axforce",
-                version: "Axforce 80",
-                price: 3990000,
-                oldPrice: 4300000,
-                playstyle: "Tấn công",
-                weight: "3U / 4U / 5U",
-                grip: "G5",
-                balance: "300 mm (Nặng đầu)",
-                flex: "Cứng",
-                tension: "30 LBS (13.5kg)",
-                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
-                description: "Vợt thi đấu đỉnh cao từng cùng Chen Long gặt hái danh hiệu. Cho cú đập cắm sân và đường cầu đầm tay."
-            },
-            {
-                id: 103,
-                name: "Vợt Cầu Lông Li-Ning Axforce 90 Max Dragon",
-                line: "Axforce",
-                version: "Axforce 90",
+                id: 'ax-80',
+                series: 'axforce',
+                name: 'Vợt Cầu Lông Li-Ning Axforce 80 (Chen Long)',
                 price: 4350000,
-                oldPrice: 4800000,
-                playstyle: "Tấn công",
-                weight: "3U / 4U",
-                grip: "G5",
-                balance: "302 mm (Nặng đầu)",
-                flex: "Rất cứng",
-                tension: "31 LBS (14kg)",
-                image: "https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?auto=format&fit=crop&w=600&q=80",
-                description: "Siêu phẩm Axforce 90 Max họa tiết Rồng thiêng. Khả năng tích tụ lực smash dồn dập áp đảo đối thủ hoàn toàn."
+                badge: 'Best Seller',
+                image: 'https://images.unsplash.com/photo-1511067007398-7e4b90cfa4bc?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U / 5U',
+                balance: '300 mm (Nặng đầu)',
+                flexibility: 'Cứng',
+                tension: '30 lbs',
+                desc: 'Dòng vợt đồng hành cùng tay đập Chen Long, khung Box Wing cho cú smash xé gió bộc phá.'
             },
             {
-                id: 104,
-                name: "Vợt Cầu Lông Li-Ning Axforce 100 Golden Armor",
-                line: "Axforce",
-                version: "Axforce 100",
-                price: 4650000,
-                oldPrice: 5100000,
-                playstyle: "Tấn công",
-                weight: "3U / 4U",
-                grip: "G5",
-                balance: "305 mm (Siêu nặng đầu)",
-                flex: "Cứng",
-                tension: "32 LBS (14.5kg)",
-                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
-                description: "Cây vợt đập cầu mạnh nhất dòng Axforce. Công nghệ M50 Carbon đúc nguyên khối cho cú smash xé gió."
+                id: 'ax-90',
+                series: 'axforce',
+                name: 'Vợt Cầu Lông Li-Ning Axforce 90 Dragon / Tiger',
+                price: 4890000,
+                badge: 'Cao Cấp',
+                image: 'https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U',
+                balance: '305 mm (Rất nặng đầu)',
+                flexibility: 'Cứng',
+                tension: '31 lbs',
+                desc: 'Siêu phẩm ấn tượng với 2 phiên bản Dragon (Rồng) chuyên công và Tiger (Hổ) linh hoạt phản tạt.'
+            },
+            {
+                id: 'ax-100',
+                series: 'axforce',
+                name: 'Vợt Cầu Lông Li-Ning Axforce 100 Golden Kirin',
+                price: 5200000,
+                badge: 'Flagship 2026',
+                image: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U',
+                balance: '308 mm (Siêu nặng đầu)',
+                flexibility: 'Rất cứng',
+                tension: '32 lbs',
+                desc: 'Dòng vợt đỉnh cao nhất lịch sử Axforce, đũa vợt siêu mỏng 6.0mm M50 Carbon tạo sức mạnh tối thượng.'
             },
 
-            // --- DÒNG BLADEX (Tốc độ / Phản tạt) ---
+            // BLADEX SERIES (700, 800, 900)
             {
-                id: 201,
-                name: "Vợt Cầu Lông Li-Ning BladeX 700",
-                line: "BladeX",
-                version: "BladeX 700",
-                price: 3250000,
-                oldPrice: 3600000,
-                playstyle: "Phản tạt/Tốc độ",
-                weight: "3U / 4U / 5U",
-                grip: "G5",
-                balance: "290 mm (Nhẹ đầu)",
-                flex: "Trung bình",
-                tension: "30 LBS (13.5kg)",
-                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
-                description: "BladeX 700 tối ưu cho khả năng tạt cầu nhanh và xoay chuyển linh hoạt trong các pha cầu cận lưới."
+                id: 'bx-700',
+                series: 'bladex',
+                name: 'Vợt Cầu Lông Li-Ning BladeX 700',
+                price: 3650000,
+                badge: 'Tốc độ',
+                image: 'https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U / 5U',
+                balance: '292 mm (Cân bằng)',
+                flexibility: 'Trung bình',
+                tension: '29 lbs',
+                desc: 'Tối ưu cho vị trí điều cầu phản tạt trên lưới, khả năng vung vợt thoát gió nhanh nhạy.'
             },
             {
-                id: 202,
-                name: "Vợt Cầu Lông Li-Ning BladeX 800",
-                line: "BladeX",
-                version: "BladeX 800",
-                price: 3850000,
-                oldPrice: 4200000,
-                playstyle: "Phản tạt/Tốc độ",
-                weight: "3U / 4U",
-                grip: "G5",
-                balance: "292 mm (Cân bằng nhẹ)",
-                flex: "Cứng",
-                tension: "31 LBS (14kg)",
-                image: "https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?auto=format&fit=crop&w=600&q=80",
-                description: "Khung vát sắc bén giảm tối đa lực cản không khí, phản tạt tốc độ cao chuyên trị các tay đập mạnh."
-            },
-            {
-                id: 203,
-                name: "Vợt Cầu Lông Li-Ning BladeX 900 Sun Max",
-                line: "BladeX",
-                version: "BladeX 900",
+                id: 'bx-800',
+                series: 'bladex',
+                name: 'Vợt Cầu Lông Li-Ning BladeX 800 (Zheng Si Wei)',
                 price: 4290000,
-                oldPrice: 4700000,
-                playstyle: "Phản tạt/Tốc độ",
-                weight: "3U / 4U",
-                grip: "G5",
-                balance: "295 mm (Cân bằng)",
-                flex: "Cứng",
-                tension: "31 LBS (14kg)",
-                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
-                description: "Flagship của dòng BladeX với khung Carbon HDF Shock Absorption hấp thụ chấn rung tuyệt đối."
+                badge: 'Đánh đôi Pro',
+                image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U',
+                balance: '290 mm (Cân bằng nhẹ đầu)',
+                flexibility: 'Cứng',
+                tension: '31 lbs',
+                desc: 'Vũ khí phản tạt chớp nhoáng của huyền thoại đánh đôi Zheng Siwei, tạt cầu cực rát.'
+            },
+            {
+                id: 'bx-900',
+                series: 'bladex',
+                name: 'Vợt Cầu Lông Li-Ning BladeX 900 Moon / Sun',
+                price: 4950000,
+                badge: 'Mới Nhất',
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U',
+                balance: '295 mm (Cân bằng)',
+                flexibility: 'Cứng',
+                tension: '31 lbs',
+                desc: 'Hai thái cực Sun Max (Công nhanh) và Moon Max (Thủ chắc), sử dụng chất liệu Carbon HDF Shock Absorption.'
             },
 
-            // --- DÒNG TECTONIC (Bùng nổ) ---
+            // 3D CALIBAR SERIES (300, 600, 900)
             {
-                id: 301,
-                name: "Vợt Cầu Lông Li-Ning Tectonic 1",
-                line: "Tectonic",
-                version: "Tectonic 1",
-                price: 1350000,
-                oldPrice: 1600000,
-                playstyle: "Toàn diện",
-                weight: "3U / 4U",
-                grip: "G5",
-                balance: "290 mm (Cân bằng)",
-                flex: "Dẻo",
-                tension: "27 LBS (12kg)",
-                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
-                description: "Dòng Tectonic phân khúc tầm trung dễ chơi, thân dẻo trợ lực tốt phù hợp người mới và phong trào."
-            },
-            {
-                id: 302,
-                name: "Vợt Cầu Lông Li-Ning Tectonic 3",
-                line: "Tectonic",
-                version: "Tectonic 3",
-                price: 2150000,
-                oldPrice: 2500000,
-                playstyle: "Tấn công",
-                weight: "4U / 5U",
-                grip: "G5",
-                balance: "298 mm (Hơi nặng đầu)",
-                flex: "Trung bình",
-                tension: "28 LBS (12.5kg)",
-                image: "https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?auto=format&fit=crop&w=600&q=80",
-                description: "Tectonic 3 gia tăng độ đàn hồi ở góc 5h và 7h trên khung, tạo sức bật đột biến khi vung vợt."
-            },
-            {
-                id: 303,
-                name: "Vợt Cầu Lông Li-Ning Tectonic 7",
-                line: "Tectonic",
-                version: "Tectonic 7",
-                price: 3600000,
-                oldPrice: 4000000,
-                playstyle: "Toàn diện",
-                weight: "4U",
-                grip: "G5",
-                balance: "295 mm (Cân bằng)",
-                flex: "Trung bình",
-                tension: "30 LBS (13.5kg)",
-                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
-                description: "Sử dụng bởi tay vợt đôi nữ hàng đầu thế giới. Cho phản tạt linh hoạt và kiểm soát cầu chuẩn xác."
-            },
-            {
-                id: 304,
-                name: "Vợt Cầu Lông Li-Ning Tectonic 9",
-                line: "Tectonic",
-                version: "Tectonic 9",
-                price: 4200000,
-                oldPrice: 4600000,
-                playstyle: "Tấn công",
-                weight: "3U / 4U / 5U",
-                grip: "G5",
-                balance: "300 mm (Nặng đầu)",
-                flex: "Cứng",
-                tension: "32 LBS (14.5kg)",
-                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
-                description: "Khung Carbon T1100G chịu lực căng lớn, chuyên dành cho các VĐV thi đấu chuyên nghiệp."
-            },
-
-            // --- DÒNG WINDSTORM (Siêu nhẹ) ---
-            {
-                id: 401,
-                name: "Vợt Cầu Lông Li-Ning Windstorm 72",
-                line: "Windstorm",
-                version: "Windstorm 72",
+                id: 'ca-300',
+                series: 'calibar',
+                name: 'Vợt Cầu Lông Li-Ning 3D Calibar 300 (B, C, P)',
                 price: 2450000,
-                oldPrice: 2800000,
-                playstyle: "Phản tạt/Tốc độ",
-                weight: "6U (72g)",
-                grip: "G6",
-                balance: "315 mm (Nặng đầu nhẹ thân)",
-                flex: "Dẻo",
-                tension: "30 LBS",
-                image: "https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?auto=format&fit=crop&w=600&q=80",
-                description: "Siêu nhẹ 72 gram giúp xoay phản tạt nhanh như chớp, trợ lực tốt cho các bạn nữ."
+                badge: 'Tầm Trung',
+                image: 'https://images.unsplash.com/photo-1511067007398-7e4b90cfa4bc?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U',
+                balance: '296 mm (Hơi nặng đầu)',
+                flexibility: 'Trung bình',
+                tension: '28 lbs',
+                desc: 'Thiết kế khung vát 3D chống xoắn vặn. Phân loại B (Combat), C (Drive) và P (Power) phù hợp mọi phong cách.'
             },
             {
-                id: 402,
-                name: "Vợt Cầu Lông Li-Ning Windstorm 75",
-                line: "Windstorm",
-                version: "Windstorm 75",
-                price: 2550000,
-                oldPrice: 2900000,
-                playstyle: "Phản tạt/Tốc độ",
-                weight: "6U (75g)",
-                grip: "G6",
-                balance: "305 mm (Nặng đầu)",
-                flex: "Dẻo",
-                tension: "30 LBS",
-                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
-                description: "Thiết kế phối màu nổi bật, đầu nặng hỗ trợ đi cầu sâu ra cuối sân mà không tốn sức."
+                id: 'ca-600',
+                series: 'calibar',
+                name: 'Vợt Cầu Lông Li-Ning 3D Calibar 600',
+                price: 3350000,
+                badge: 'Toàn Diện',
+                image: 'https://images.unsplash.com/photo-1626248801379-51a0748a5f96?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U',
+                balance: '300 mm (Nặng đầu)',
+                flexibility: 'Cứng vừa',
+                tension: '30 lbs',
+                desc: 'Mang lại sự kết hợp tuyệt vời giữa đập cầu uy lực và khả năng trợ lực đẩy cầu sâu cuối sân.'
             },
             {
-                id: 403,
-                name: "Vợt Cầu Lông Li-Ning Windstorm 76",
-                line: "Windstorm",
-                version: "Windstorm 76",
-                price: 2500000,
-                oldPrice: 2850000,
-                playstyle: "Toàn diện",
-                weight: "6U (76g)",
-                grip: "G6",
-                balance: "300 mm (Cân bằng)",
-                flex: "Trung bình",
-                tension: "30 LBS",
-                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
-                description: "Cân bằng linh hoạt giữa phòng thủ thủ cầu cận lưới và bắt lưới nhanh trong đánh đôi."
-            },
-            {
-                id: 404,
-                name: "Vợt Cầu Lông Li-Ning Windstorm 79S",
-                line: "Windstorm",
-                version: "Windstorm 79S",
-                price: 2650000,
-                oldPrice: 3000000,
-                playstyle: "Phản tạt/Tốc độ",
-                weight: "5U (79g)",
-                grip: "G5",
-                balance: "298 mm (Hơi nặng đầu)",
-                flex: "Dẻo",
-                tension: "30 LBS",
-                image: "https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?auto=format&fit=crop&w=600&q=80",
-                description: "Phiên bản nâng cấp 79S đầm tay hơn, vừa giữ độ nhẹ nhạy vừa cho cú smash có lực hơn."
+                id: 'ca-900',
+                series: 'calibar',
+                name: 'Vợt Cầu Lông Li-Ning 3D Calibar 900 / 900B / 900C',
+                price: 4500000,
+                badge: 'Huyền Thoại',
+                image: 'https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U',
+                balance: '302 mm (Nặng đầu)',
+                flexibility: 'Cứng',
+                tension: '32 lbs',
+                desc: 'Dòng vợt vang danh thế giới của Li-Ning với khung khí động học vát kim cương chống rung cản gió cực tốt.'
             },
 
-            // --- DÒNG HALBERTEC (Toàn diện) ---
+            // WINDSTORM SERIES (72, 75, 76, 79S)
             {
-                id: 501,
-                name: "Vợt Cầu Lông Li-Ning Halbertec 8000",
-                line: "Halbertec",
-                version: "Halbertec 8000",
-                price: 4100000,
-                oldPrice: 4500000,
-                playstyle: "Toàn diện",
-                weight: "3U / 4U",
-                grip: "G5",
-                balance: "295 mm (Cân bằng)",
-                flex: "Trung bình",
-                tension: "31 LBS (14kg)",
-                image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=600&q=80",
-                description: "Mẫu vợt kiệt tác điều cầu cực kỳ chính xác từng milimet dành cho các tay vợt kỹ thuật cao."
+                id: 'ws-72',
+                series: 'windstorm',
+                name: 'Vợt Cầu Lông Li-Ning Windstorm 72',
+                price: 2190000,
+                badge: 'Siêu Nhẹ 6U',
+                image: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=600&auto=format&fit=crop&q=80',
+                weight: '6U (72g)',
+                balance: '315 mm (Nặng đầu trợ lực)',
+                flexibility: 'Hơi dẻo',
+                tension: '30 lbs',
+                desc: 'Trọng lượng siêu nhẹ chỉ 72g nhưng thân vợt nặng đầu giúp người chơi lực tay yếu vẫn đập cầu cắm sân.'
             },
             {
-                id: 502,
-                name: "Vợt Cầu Lông Li-Ning Halbertec 9000",
-                line: "Halbertec",
-                version: "Halbertec 9000",
-                price: 4450000,
-                oldPrice: 4900000,
-                playstyle: "Toàn diện",
-                weight: "3U / 4U",
-                grip: "G5",
-                balance: "298 mm (Hơi nặng đầu)",
-                flex: "Cứng",
-                tension: "31 LBS (14kg)",
-                image: "https://images.unsplash.com/photo-1613918108466-292b78a8ef95?auto=format&fit=crop&w=600&q=80",
-                description: "Cây vợt cao cấp nhất dòng Halbertec, hoàn hảo từng cú bỏ nhỏ, gài cầu và thủ đập."
+                id: 'ws-75',
+                series: 'windstorm',
+                name: 'Vợt Cầu Lông Li-Ning Windstorm 75',
+                price: 2350000,
+                badge: 'Dễ Chơi',
+                image: 'https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=600&auto=format&fit=crop&q=80',
+                weight: '5U (75g)',
+                balance: '300 mm (Nặng đầu)',
+                flexibility: 'Trung bình',
+                tension: '30 lbs',
+                desc: 'Thiết kế phối màu pastel cực kỳ hiện đại, phản tạt thủ cầu linh hoạt tối ưu cho cả nam & nữ.'
+            },
+            {
+                id: 'ws-76',
+                series: 'windstorm',
+                name: 'Vợt Cầu Lông Li-Ning Windstorm 76',
+                price: 2490000,
+                badge: 'Phòng Thủ',
+                image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80',
+                weight: '5U (76g)',
+                balance: '298 mm (Cân bằng)',
+                flexibility: 'Trung bình',
+                tension: '30 lbs',
+                desc: 'Trợ lực vung vợt chớp nhoáng, giúp phòng thủ bỏ nhỏ lưới chính xác không tốn quá nhiều sức.'
+            },
+            {
+                id: 'ws-79s',
+                series: 'windstorm',
+                name: 'Vợt Cầu Lông Li-Ning Windstorm 79S',
+                price: 2690000,
+                badge: 'Hot Item',
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80',
+                weight: '5U (79g)',
+                balance: '298 mm (Cân bằng nhẹ)',
+                flexibility: 'Dẻo',
+                tension: '30 lbs',
+                desc: 'Dòng nâng cấp đũa vợt mỏng đàn hồi tốt hơn, cho cảm giác cầu chuẩn xác từ cú phòng thủ đến tạt cầu.'
+            },
+
+            // TECTONIC SERIES (1, 3, 7, 9)
+            {
+                id: 'tc-1',
+                series: 'tectonic',
+                name: 'Vợt Cầu Lông Li-Ning Tectonic 1 / 1S',
+                price: 1390000,
+                badge: 'Quốc Dân',
+                image: 'https://images.unsplash.com/photo-1511067007398-7e4b90cfa4bc?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U',
+                balance: '290 mm (Cân bằng)',
+                flexibility: 'Trung bình',
+                tension: '26 lbs',
+                desc: 'Cây vợt quốc dân cho người mới bắt đầu chơi cầu lông, dễ thuần phục và cực kỳ bền bỉ.'
+            },
+            {
+                id: 'tc-3',
+                series: 'tectonic',
+                name: 'Vợt Cầu Lông Li-Ning Tectonic 3',
+                price: 2190000,
+                badge: 'Bán Chạy',
+                image: 'https://images.unsplash.com/photo-1626248801379-51a0748a5f96?w=600&auto=format&fit=crop&q=80',
+                weight: '4U / 5U',
+                balance: '298 mm (Hơi nặng đầu)',
+                flexibility: 'Trung bình',
+                tension: '28 lbs',
+                desc: 'Sở hữu công nghệ đệm Tectonic góc 5&7h mang lại độ nảy cầu đàn hồi vượt trội tầm giá.'
+            },
+            {
+                id: 'tc-7',
+                series: 'tectonic',
+                name: 'Vợt Cầu Lông Li-Ning Tectonic 7 / 7D / 7I',
+                price: 3890000,
+                badge: 'Đánh Đôi Chuyên Nghiệp',
+                image: 'https://images.unsplash.com/photo-1521537634581-0dced2efa2a3?w=600&auto=format&fit=crop&q=80',
+                weight: '4U / 5U (7I)',
+                balance: '304 mm (Nặng đầu)',
+                flexibility: 'Cứng',
+                tension: '30 lbs',
+                desc: 'Vũ khí khuyên dùng cho đánh đôi. Phiên bản 7I (Instinct) siêu nhẹ bắt lưới cực nhạy.'
+            },
+            {
+                id: 'tc-9',
+                series: 'tectonic',
+                name: 'Vợt Cầu Lông Li-Ning Tectonic 9 (Loh Kean Yew)',
+                price: 4690000,
+                badge: 'Vô Địch Thế Giới',
+                image: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=600&auto=format&fit=crop&q=80',
+                weight: '3U / 4U / 5U',
+                balance: '305 mm (Nặng đầu)',
+                flexibility: 'Cứng',
+                tension: '32 lbs',
+                desc: 'Cây vợt cùng Loh Kean Yew lên ngôi Vô địch Thế Giới. Khung carbon cao cấp đàn hồi nhả lực đập bộc phát.'
             }
         ];
 
-        let selectedLine = 'ALL';
-        let selectedSubVersion = 'ALL';
         let cart = [];
 
-        // Currency Format
-        function formatMoney(amount) {
-            return amount.toLocaleString('vi-VN') + ' VNĐ';
+        // Helper format VND
+        function formatVND(val) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
         }
 
-        // Render Sub-version Pills based on selected Main Line
-        function updateSubVersionPills() {
-            const container = document.getElementById('subVersionPills');
-            let availableVersions = [];
+        // Render Racket Cards to specific series container
+        function renderAllSeries() {
+            const seriesList = ['axforce', 'bladex', 'calibar', 'windstorm', 'tectonic'];
 
-            if (selectedLine === 'ALL') {
-                availableVersions = [...new Set(products.map(p => p.version))];
-            } else {
-                availableVersions = [...new Set(products.filter(p => p.line === selectedLine).map(p => p.version))];
-            }
+            seriesList.forEach(s => {
+                const container = document.getElementById(`grid-${s}`);
+                const items = products.filter(p => p.series === s);
 
-            let html = `<button onclick="filterSubVersion('ALL')" class="sub-pill ${selectedSubVersion === 'ALL' ? 'bg-gray-800 text-white' : 'bg-white text-gray-700 hover:bg-gray-200'} px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap transition-all shadow-sm">Tất cả bản con</button>`;
-
-            html += availableVersions.map(v => `
-                <button onclick="filterSubVersion('${v}')" class="sub-pill ${selectedSubVersion === v ? 'bg-brand-red text-white' : 'bg-white text-gray-700 hover:bg-gray-200'} px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap transition-all shadow-sm">
-                    ${v}
-                </button>
-            `).join('');
-
-            container.innerHTML = html;
-        }
-
-        // Filter main line
-        function filterMainLine(line) {
-            selectedLine = line;
-            selectedSubVersion = 'ALL';
-
-            document.querySelectorAll('.line-btn').forEach(btn => {
-                if ((line === 'ALL' && btn.textContent.includes('Tất Cả')) || btn.textContent.toLowerCase().includes(line.toLowerCase())) {
-                    btn.className = "line-btn active bg-brand-red text-white px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shadow-sm";
-                } else {
-                    btn.className = "line-btn bg-gray-100 text-gray-700 hover:bg-gray-200 px-5 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all";
-                }
-            });
-
-            updateSubVersionPills();
-            applyFilters();
-        }
-
-        // Filter sub-version
-        function filterSubVersion(version) {
-            selectedSubVersion = version;
-            updateSubVersionPills();
-            applyFilters();
-        }
-
-        // Apply all filters
-        function applyFilters() {
-            const searchTerm = (document.getElementById('searchInput').value || document.getElementById('searchInputMobile').value).toLowerCase();
-
-            let filtered = products.filter(p => {
-                const matchLine = selectedLine === 'ALL' || p.line === selectedLine;
-                const matchVersion = selectedSubVersion === 'ALL' || p.version === selectedSubVersion;
-                const matchSearch = p.name.toLowerCase().includes(searchTerm) || p.version.toLowerCase().includes(searchTerm) || p.line.toLowerCase().includes(searchTerm);
-                return matchLine && matchVersion && matchSearch;
-            });
-
-            renderProducts(filtered);
-        }
-
-        function handleSearch() { applyFilters(); }
-        function handleSearchMobile() { applyFilters(); }
-
-        // Render product cards
-        function renderProducts(items) {
-            const grid = document.getElementById('productGrid');
-            const empty = document.getElementById('emptyState');
-
-            if (items.length === 0) {
-                grid.innerHTML = '';
-                empty.classList.remove('hidden');
-                return;
-            }
-
-            empty.classList.add('hidden');
-            grid.innerHTML = items.map(p => {
-                let badgeClass = p.playstyle === 'Tấn công' ? 'badge-attack' : (p.playstyle === 'Toàn diện' ? 'badge-allround' : 'badge-speed');
-                return `
-                    <div class="product-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
-                        <div class="relative bg-gray-100 h-56 overflow-hidden cursor-pointer" onclick="openModal(${p.id})">
-                            <img src="${p.image}" alt="${p.name}" class="product-img w-full h-full object-cover transition-transform duration-500">
-                            <span class="absolute top-3 left-3 text-[11px] font-bold px-2.5 py-1 rounded-lg ${badgeClass}">
-                                ${p.playstyle}
-                            </span>
-                            <span class="absolute bottom-3 right-3 bg-black/70 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md">
-                                ${p.version}
-                            </span>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col justify-between">
+                if (container) {
+                    container.innerHTML = items.map(p => `
+                        <div class="bg-neutral-900 border border-neutral-800 hover:border-lining-red/50 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-1.5 shadow-xl flex flex-col justify-between group">
                             <div>
-                                <span class="text-[11px] font-extrabold uppercase text-brand-red tracking-wider">${p.line} Series</span>
-                                <h3 onclick="openModal(${p.id})" class="font-bold text-gray-800 text-sm sm:text-base mt-1 line-clamp-2 hover:text-brand-red cursor-pointer transition-colors">
-                                    ${p.name}
-                                </h3>
-                                <div class="mt-2 space-y-1 text-xs text-gray-500">
-                                    <p><i class="fa-solid fa-weight-hanging text-gray-400 w-4"></i> Trọng lượng: <span class="font-semibold text-gray-700">${p.weight}</span></p>
-                                    <p><i class="fa-solid fa-arrows-to-dot text-gray-400 w-4"></i> Điểm cân bằng: <span class="font-semibold text-gray-700">${p.balance}</span></p>
+                                <!-- Image Preview -->
+                                <div class="relative w-full h-48 bg-neutral-950 rounded-xl overflow-hidden mb-4 border border-neutral-800 flex items-center justify-center p-2">
+                                    <span class="absolute top-2 left-2 bg-lining-red/90 text-white text-[10px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider z-10">${p.badge}</span>
+                                    <img src="${p.image}" alt="${p.name}" class="max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
+                                </div>
+
+                                <!-- Racket Title -->
+                                <h3 class="font-extrabold text-white text-base group-hover:text-lining-red transition-colors line-clamp-2">${p.name}</h3>
+                                <p class="text-xs text-neutral-400 mt-1 line-clamp-2">${p.desc}</p>
+
+                                <!-- Tech Spec Highlights Grid -->
+                                <div class="mt-4 bg-neutral-950/80 p-3 rounded-xl border border-neutral-800/80 space-y-1 text-[11px]">
+                                    <div class="flex justify-between">
+                                        <span class="text-neutral-500"><i class="fa-solid fa-weight-hanging mr-1 text-lining-red"></i>Trọng lượng:</span>
+                                        <span class="font-bold text-neutral-300">${p.weight}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-neutral-500"><i class="fa-solid fa-scale-balanced mr-1 text-lining-red"></i>Điểm cân bằng:</span>
+                                        <span class="font-bold text-neutral-300">${p.balance}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-neutral-500"><i class="fa-solid fa-arrows-up-down mr-1 text-lining-red"></i>Độ cứng đũa:</span>
+                                        <span class="font-bold text-neutral-300">${p.flexibility}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                            <!-- Price & Action Row -->
+                            <div class="mt-5 pt-3 border-t border-neutral-800 flex items-center justify-between">
                                 <div>
-                                    <div class="text-xs text-gray-400 line-through">${formatMoney(p.oldPrice)}</div>
-                                    <div class="text-base font-black text-brand-red">${formatMoney(p.price)}</div>
+                                    <span class="text-[10px] text-neutral-500 uppercase block font-semibold">Giá chính hãng</span>
+                                    <span class="text-base font-black text-white">${formatVND(p.price)}</span>
                                 </div>
-                                <button onclick="addToCart(${p.id})" class="bg-gray-900 hover:bg-brand-red text-white p-3 rounded-xl transition-colors shadow-sm">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </button>
+                                <div class="flex space-x-2">
+                                    <button onclick="openDetailModal('${p.id}')" title="Xem thông số chi tiết" class="bg-neutral-800 hover:bg-neutral-700 text-neutral-300 p-2.5 rounded-xl border border-neutral-700 transition">
+                                        <i class="fa-solid fa-eye text-xs"></i>
+                                    </button>
+                                    <button onclick="addToCart('${p.id}')" title="Thêm vào giỏ" class="bg-lining-red hover:bg-lining-reddark text-white p-2.5 rounded-xl transition shadow-md shadow-lining-red/20">
+                                        <i class="fa-solid fa-cart-plus text-xs"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // Modal Specs
-        function openModal(id) {
-            const p = products.find(x => x.id === id);
-            if (!p) return;
-
-            const modalContent = document.getElementById('modalContent');
-            modalContent.innerHTML = `
-                <div class="bg-gray-100 rounded-2xl overflow-hidden h-72 md:h-full flex items-center justify-center">
-                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
-                </div>
-                <div class="flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-extrabold uppercase text-brand-red tracking-wider">${p.line} Series</span>
-                            <span class="bg-gray-100 text-gray-700 text-[10px] font-bold px-2 py-0.5 rounded-md">${p.version}</span>
-                        </div>
-                        <h2 class="text-xl font-bold text-gray-900 mt-1">${p.name}</h2>
-                        
-                        <div class="mt-3 flex items-baseline gap-3">
-                            <span class="text-2xl font-black text-brand-red">${formatMoney(p.price)}</span>
-                            <span class="text-sm text-gray-400 line-through">${formatMoney(p.oldPrice)}</span>
-                        </div>
-
-                        <p class="text-xs text-gray-600 mt-3 leading-relaxed">${p.description}</p>
-
-                        <!-- Specifications Table -->
-                        <div class="mt-5 border border-gray-100 rounded-xl overflow-hidden bg-gray-50 text-xs">
-                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
-                                <span class="text-gray-500 font-medium">Phiên bản con</span>
-                                <span class="font-bold text-gray-800">${p.version}</span>
-                            </div>
-                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
-                                <span class="text-gray-500 font-medium">Lối chơi</span>
-                                <span class="font-bold text-gray-800">${p.playstyle}</span>
-                            </div>
-                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
-                                <span class="text-gray-500 font-medium">Trọng lượng / Chu vi cán</span>
-                                <span class="font-bold text-gray-800">${p.weight} (${p.grip})</span>
-                            </div>
-                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
-                                <span class="text-gray-500 font-medium">Điểm cân bằng</span>
-                                <span class="font-bold text-gray-800">${p.balance}</span>
-                            </div>
-                            <div class="p-2.5 border-b border-gray-200 flex justify-between">
-                                <span class="text-gray-500 font-medium">Độ cứng thân vợt</span>
-                                <span class="font-bold text-gray-800">${p.flex}</span>
-                            </div>
-                            <div class="p-2.5 flex justify-between">
-                                <span class="text-gray-500 font-medium">Sức căng tối đa</span>
-                                <span class="font-bold text-gray-800">${p.tension}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 flex gap-3">
-                        <button onclick="addToCart(${p.id}); closeModal();" class="flex-1 bg-brand-red hover:bg-brand-reddark text-white font-bold py-3 rounded-xl transition-all shadow-md">
-                            Thêm Vào Giỏ Hàng
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.getElementById('productModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('productModal').classList.add('hidden');
-        }
-
-        // Cart Logic
-        function toggleCart() {
-            document.getElementById('cartDrawer').classList.toggle('hidden');
-        }
-
-        function addToCart(id) {
-            const item = cart.find(x => x.id === id);
-            if (item) {
-                item.qty += 1;
-            } else {
-                const p = products.find(x => x.id === id);
-                cart.push({ ...p, qty: 1 });
-            }
-            updateCartUI();
-        }
-
-        function updateQty(id, delta) {
-            const item = cart.find(x => x.id === id);
-            if (item) {
-                item.qty += delta;
-                if (item.qty <= 0) {
-                    cart = cart.filter(x => x.id !== id);
+                    `).join('');
                 }
+            });
+        }
+
+        // --- CART SYSTEM LOGIC ---
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
             }
+
+            updateCartUI();
+            toggleCartModal(true);
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
             updateCartUI();
         }
 
         function updateCartUI() {
-            const badge = document.getElementById('cartBadge');
-            const list = document.getElementById('cartItemsList');
-            const total = document.getElementById('cartTotalPrice');
+            const cartCountBadge = document.getElementById('cartCountBadge');
+            const cartItemsList = document.getElementById('cartItemsList');
+            const cartTotalPrice = document.getElementById('cartTotalPrice');
 
-            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
             const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-            badge.textContent = totalCount;
-            total.textContent = formatMoney(totalPrice);
+            cartCountBadge.innerText = totalQty;
+            cartTotalPrice.innerText = formatVND(totalPrice);
 
             if (cart.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-12 text-gray-400">
-                        <i class="fa-solid fa-basket-shopping text-4xl mb-3"></i>
+                cartItemsList.innerHTML = `
+                    <div class="text-center py-12 text-neutral-500">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 block opacity-30"></i>
                         <p class="text-sm">Giỏ hàng của bạn đang trống</p>
                     </div>
                 `;
                 return;
             }
 
-            list.innerHTML = cart.map(item => `
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl border border-gray-100">
-                    <img src="${item.image}" class="w-14 h-14 object-cover rounded-lg">
-                    <div class="flex-1">
-                        <h4 class="font-bold text-xs text-gray-800 line-clamp-1">${item.name}</h4>
-                        <div class="text-xs text-brand-red font-extrabold mt-1">${formatMoney(item.price)}</div>
+            cartItemsList.innerHTML = cart.map(item => `
+                <div class="flex items-center space-x-3 bg-neutral-950 p-3 rounded-xl border border-neutral-800">
+                    <img src="${item.image}" class="w-14 h-14 object-cover rounded-lg bg-neutral-900 border border-neutral-800">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-xs font-bold text-white truncate">${item.name}</h4>
+                        <p class="text-xs text-lining-red font-bold mt-1">${formatVND(item.price)} x ${item.qty}</p>
                     </div>
-                    <div class="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border border-gray-200">
-                        <button onclick="updateQty(${item.id}, -1)" class="text-gray-500 hover:text-brand-red text-xs px-1">-</button>
-                        <span class="text-xs font-bold text-gray-800">${item.qty}</span>
-                        <button onclick="updateQty(${item.id}, 1)" class="text-gray-500 hover:text-brand-red text-xs px-1">+</button>
-                    </div>
+                    <button onclick="removeFromCart('${item.id}')" class="text-neutral-500 hover:text-rose-500 p-2">
+                        <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
                 </div>
             `).join('');
+        }
+
+        function toggleCartModal(show = null) {
+            const modal = document.getElementById('cartModal');
+            if (show === true) {
+                modal.classList.remove('hidden');
+            } else if (show === false) {
+                modal.classList.add('hidden');
+            } else {
+                modal.classList.toggle('hidden');
+            }
         }
 
         function checkout() {
@@ -761,15 +682,95 @@
                 alert("Giỏ hàng của bạn đang trống!");
                 return;
             }
-            alert("Cảm ơn bạn đã đặt hàng! Đơn hàng vợt Li-Ning của bạn đã được ghi nhận thành công.");
+            alert("Cảm ơn bạn đã đặt hàng! Nhân viên tư vấn Li-Ning Badminton sẽ liên hệ xác nhận đơn hàng ngay.");
             cart = [];
             updateCartUI();
-            toggleCart();
+            toggleCartModal(false);
         }
 
-        // Init
-        updateSubVersionPills();
-        renderProducts(products);
+        // --- SPEC DETAIL MODAL ---
+        function openDetailModal(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+
+            const modalContent = document.getElementById('detailModalContent');
+            modalContent.innerHTML = `
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <div class="w-full sm:w-1/2 bg-neutral-950 rounded-2xl p-4 border border-neutral-800 flex items-center justify-center">
+                        <img src="${p.image}" class="max-h-64 object-contain">
+                    </div>
+                    <div class="w-full sm:w-1/2 space-y-3">
+                        <span class="bg-lining-red text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest">${p.series.toUpperCase()} SERIES</span>
+                        <h2 class="text-xl font-black text-white">${p.name}</h2>
+                        <p class="text-2xl font-extrabold text-lining-red">${formatVND(p.price)}</p>
+                        <p class="text-xs text-neutral-400 leading-relaxed">${p.desc}</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 border-t border-neutral-800 pt-6">
+                    <h4 class="font-extrabold text-sm uppercase text-white mb-3 tracking-wider flex items-center">
+                        <i class="fa-solid fa-sliders text-lining-red mr-2"></i> Thông Số Kỹ Thuật Chi Tiết
+                    </h4>
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="bg-neutral-950 p-3 rounded-xl border border-neutral-800">
+                            <span class="text-neutral-500 block">Trọng lượng / Chu vi cán</span>
+                            <span class="font-bold text-white text-sm">${p.weight}</span>
+                        </div>
+                        <div class="bg-neutral-950 p-3 rounded-xl border border-neutral-800">
+                            <span class="text-neutral-500 block">Điểm cân bằng</span>
+                            <span class="font-bold text-white text-sm">${p.balance}</span>
+                        </div>
+                        <div class="bg-neutral-950 p-3 rounded-xl border border-neutral-800">
+                            <span class="text-neutral-500 block">Độ cứng thân vợt</span>
+                            <span class="font-bold text-white text-sm">${p.flexibility}</span>
+                        </div>
+                        <div class="bg-neutral-950 p-3 rounded-xl border border-neutral-800">
+                            <span class="text-neutral-500 block">Mức căng tối đa</span>
+                            <span class="font-bold text-white text-sm">${p.tension}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button onclick="closeDetailModal()" class="px-5 py-2.5 bg-neutral-800 text-neutral-300 rounded-xl font-bold text-xs hover:bg-neutral-700">Đóng</button>
+                    <button onclick="addToCart('${p.id}'); closeDetailModal();" class="px-6 py-2.5 bg-lining-red text-white rounded-xl font-bold text-xs hover:bg-lining-reddark shadow-lg shadow-lining-red/30">Thêm vào giỏ ngay</button>
+                </div>
+            `;
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        // --- FILTER & SEARCH ---
+        function filterRackets() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const seriesList = ['axforce', 'bladex', 'calibar', 'windstorm', 'tectonic'];
+
+            seriesList.forEach(s => {
+                const section = document.getElementById(s);
+                const items = products.filter(p => p.series === s && (p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query)));
+                
+                if (items.length === 0 && query !== '') {
+                    section.classList.add('hidden');
+                } else {
+                    section.classList.remove('hidden');
+                }
+            });
+        }
+
+        function filterAll() {
+            document.getElementById('searchInput').value = '';
+            filterRackets();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // App Init
+        window.onload = function() {
+            renderAllSeries();
+        };
     </script>
 </body>
 </html>
