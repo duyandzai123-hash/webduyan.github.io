@@ -56,7 +56,7 @@
                 </div>
                 <div>
                     <span class="font-black text-xl tracking-tight text-white block leading-none">FLAGSHIP<span class="text-red-500">.VN</span></span>
-                    <span class="text-[10px] text-gray-400 font-bold tracking-widest uppercase">Next-Gen Smartphones</span>
+                    <span class="text-[10px] text-gray-400 font-bold tracking-widest uppercase">Next-Gen Smartphones 2026</span>
                 </div>
             </a>
 
@@ -87,24 +87,24 @@
     </header>
 
     <!-- Hero Banner -->
-    <section class="relative bg-gradient-to-b from-[#131722] to-[#0B0D12] py-12 px-4 border-b border-flagship-border/50">
+    <section class="relative bg-gradient-to-b from-[#131722] to-[#0B0D12] py-10 px-4 border-b border-flagship-border/50">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
             <div class="max-w-2xl text-center lg:text-left space-y-4">
                 <span class="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/30 text-red-500 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-bolt"></i> Siêu Phẩm Flagship 2026
+                    <i class="fa-solid fa-bolt"></i> Siêu Phẩm Flagship Thế Hệ Mới
                 </span>
                 <h1 class="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-none">
                     Bộ Tẩy Smartphone <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-amber-400 to-blue-500">Đỉnh Cao Công Nghệ</span>
                 </h1>
                 <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                    Trải nghiệm trọn bộ các dòng máy flagship hàng đầu thế giới: <strong>iPhone 17 Series</strong>, <strong>Samsung Galaxy S26 Series</strong>, <strong>Xiaomi 17 Series</strong>, <strong>Vivo X300 Series</strong>, và <strong>Oppo Find X9 Series</strong>.
+                    Trải nghiệm trọn bộ 5 siêu phẩm flagship đứng đầu thế giới: <strong>iPhone 17 Series</strong>, <strong>Samsung Galaxy S26 Series</strong>, <strong>Xiaomi 17 Series</strong>, <strong>Vivo X300 Series</strong>, và <strong>Oppo Find X9 Series</strong>.
                 </p>
             </div>
 
             <!-- Quick Jump Category Buttons -->
             <div class="w-full lg:w-auto grid grid-cols-2 sm:grid-cols-5 lg:flex lg:flex-col gap-2.5">
                 <a href="#brand-apple" class="flex items-center gap-3 bg-[#141822] hover:bg-red-500/20 border border-flagship-border hover:border-red-500 p-3 rounded-xl transition-all">
-                    <i class="fa-brands fa-apple text-lg text-gray-300"></i>
+                    <i class="fa-brands fa-apple text-lg text-sky-400"></i>
                     <span class="text-xs font-bold text-white">iPhone 17 Series</span>
                 </a>
                 <a href="#brand-samsung" class="flex items-center gap-3 bg-[#141822] hover:bg-red-500/20 border border-flagship-border hover:border-red-500 p-3 rounded-xl transition-all">
@@ -189,40 +189,105 @@
     <footer class="bg-[#0B0D12] border-t border-flagship-border text-gray-400 text-xs py-10">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
             <p class="font-bold text-white text-sm">FLAGSHIP STORE VIETNAM</p>
-            <p>Phân phối chính hãng iPhone 17, Galaxy S26, Xiaomi 17, Vivo X300 & Oppo Find X9 Series</p>
+            <p>Chuyên cung cấp iPhone 17, Galaxy S26, Xiaomi 17, Vivo X300 & Oppo Find X9 Series chính hãng</p>
             <p class="text-gray-600">© 2026 Flagship Store. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- JavaScript App Logic -->
     <script>
-        // Hàm tạo ảnh SVG Vector điện thoại sắc nét, mã hóa an toàn không bao giờ vỡ ảnh
-        function generatePhoneSVG(name, colorHex, accentHex) {
+        // Hàm tạo hình ảnh SVG Vector chi tiết mô phỏng đúng thiết kế cụm camera và đường nét thực tế của từng mẫu máy
+        function generatePhoneSVG(type, name, mainColor, accentColor, bgGradient) {
             const encodedName = encodeURIComponent(name);
+            let cameraSvg = '';
+
+            // Tùy biến cụm camera đặc trưng theo từng dòng máy
+            if (type === 'apple') { // Camera chéo hoặc 3 mắt iPhone
+                cameraSvg = `
+                    <rect x="100" y="52" width="62" height="62" rx="18" fill="#1C2333" stroke="${accentColor}" stroke-width="1.5" opacity="0.9"/>
+                    <circle cx="118" cy="70" r="10" fill="#0A0D14" stroke="${accentColor}" stroke-width="2"/>
+                    <circle cx="118" cy="70" r="4" fill="#3B82F6"/>
+                    <circle cx="144" cy="96" r="10" fill="#0A0D14" stroke="${accentColor}" stroke-width="2"/>
+                    <circle cx="144" cy="96" r="4" fill="#3B82F6"/>
+                    <circle cx="144" cy="70" r="9" fill="#0A0D14" stroke="${accentColor}" stroke-width="2"/>
+                    <circle cx="144" cy="70" r="3" fill="#3B82F6"/>
+                `;
+            } else if (type === 'samsung') { // Mắt camera rời xếp dọc Samsung Ultra/S26
+                cameraSvg = `
+                    <circle cx="116" cy="65" r="12" fill="#0A0D14" stroke="${accentColor}" stroke-width="2.5"/>
+                    <circle cx="116" cy="65" r="5" fill="#60A5FA"/>
+                    <circle cx="116" cy="95" r="12" fill="#0A0D14" stroke="${accentColor}" stroke-width="2.5"/>
+                    <circle cx="116" cy="95" r="5" fill="#60A5FA"/>
+                    <circle cx="116" cy="125" r="12" fill="#0A0D14" stroke="${accentColor}" stroke-width="2.5"/>
+                    <circle cx="116" cy="125" r="5" fill="#60A5FA"/>
+                    <circle cx="142" cy="80" r="8" fill="#0A0D14" stroke="${accentColor}" stroke-width="1.5"/>
+                `;
+            } else if (type === 'vivo') { // Mô-đun camera tròn ZEISS trung tâm của Vivo X300
+                cameraSvg = `
+                    <circle cx="175" cy="100" r="42" fill="#141A28" stroke="${accentColor}" stroke-width="2"/>
+                    <circle cx="175" cy="100" r="36" fill="#0A0D14"/>
+                    <circle cx="160" cy="88" r="9" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
+                    <circle cx="190" cy="88" r="9" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
+                    <circle cx="175" cy="112" r="11" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
+                    <text x="175" y="132" text-anchor="middle" fill="#06B6D4" font-size="7" font-weight="900">ZEISS T*</text>
+                `;
+            } else if (type === 'oppo') { // Mô-đun tròn Hasselblad sang trọng của Oppo Find X9
+                cameraSvg = `
+                    <circle cx="175" cy="105" r="44" fill="#182232" stroke="${accentColor}" stroke-width="2"/>
+                    <circle cx="175" cy="105" r="38" fill="#0D131D"/>
+                    <circle cx="158" cy="92" r="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+                    <circle cx="192" cy="92" r="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+                    <circle cx="158" cy="118" r="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+                    <circle cx="192" cy="118" r="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+                    <text x="175" y="108" text-anchor="middle" fill="#10B981" font-size="8" font-weight="900">H</text>
+                `;
+            } else if (type === 'xiaomi') { // Cụm camera vuông bo tròn mô-đun Leica Xiaomi 17
+                cameraSvg = `
+                    <rect x="120" y="55" width="110" height="90" rx="20" fill="#182030" stroke="${accentColor}" stroke-width="2"/>
+                    <line x1="175" y1="55" x2="175" y2="145" stroke="#2D3748" stroke-width="1"/>
+                    <line x1="120" y1="100" x2="230" y2="100" stroke="#2D3748" stroke-width="1"/>
+                    <circle cx="147" cy="78" r="12" fill="#0A0D14" stroke="#F97316" stroke-width="1.5"/>
+                    <circle cx="202" cy="78" r="12" fill="#0A0D14" stroke="#F97316" stroke-width="1.5"/>
+                    <circle cx="147" cy="122" r="12" fill="#0A0D14" stroke="#F97316" stroke-width="1.5"/>
+                    <text x="202" y="125" text-anchor="middle" fill="#F97316" font-size="8" font-weight="900">LEICA</text>
+                `;
+            } else if (type === 'fold') { // Smartphone gập Vivo X300 Fold
+                cameraSvg = `
+                    <line x1="175" y1="30" x2="175" y2="370" stroke="#06B6D4" stroke-width="2" stroke-dasharray="4 2"/>
+                    <circle cx="215" cy="95" r="30" fill="#141A28" stroke="${accentColor}" stroke-width="2"/>
+                    <circle cx="205" cy="88" r="7" fill="#0A0D14" stroke="#06B6D4" stroke-width="1"/>
+                    <circle cx="225" cy="88" r="7" fill="#0A0D14" stroke="#06B6D4" stroke-width="1"/>
+                    <circle cx="215" cy="105" r="8" fill="#0A0D14" stroke="#06B6D4" stroke-width="1"/>
+                `;
+            }
+
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 420" width="100%" height="100%" style="background:#0F121A;">
                 <defs>
-                    <linearGradient id="phoneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="${colorHex}" stop-opacity="0.9"/>
-                        <stop offset="100%" stop-color="#0A0C12" stop-opacity="1"/>
+                    <linearGradient id="phoneBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="${mainColor}" stop-opacity="0.95"/>
+                        <stop offset="100%" stop-color="#090C14" stop-opacity="1"/>
                     </linearGradient>
-                    <linearGradient id="screenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#1E2638"/>
+                    <linearGradient id="screenDisplay" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#1A2234"/>
                         <stop offset="100%" stop-color="#0B0E17"/>
                     </linearGradient>
                 </defs>
-                <rect x="85" y="30" width="180" height="340" rx="28" fill="url(#phoneGrad)" stroke="${accentHex}" stroke-width="3" opacity="0.95"/>
-                <rect x="92" y="37" width="166" height="326" rx="22" fill="url(#screenGrad)"/>
-                <circle cx="175" cy="50" r="4" fill="#000000"/>
-                <rect x="110" y="70" width="130" height="130" rx="16" fill="#141926" stroke="${accentHex}" stroke-width="1.5" opacity="0.8"/>
-                <circle cx="140" cy="100" r="18" fill="#0A0D14" stroke="${accentHex}" stroke-width="2"/>
-                <circle cx="140" cy="100" r="8" fill="#1A2233"/>
-                <circle cx="190" cy="100" r="18" fill="#0A0D14" stroke="${accentHex}" stroke-width="2"/>
-                <circle cx="190" cy="100" r="8" fill="#1A2233"/>
-                <circle cx="165" cy="150" r="20" fill="#0A0D14" stroke="${accentHex}" stroke-width="2"/>
-                <circle cx="165" cy="150" r="9" fill="#1A2233"/>
+
+                <!-- Khung viền điện thoại -->
+                <rect x="80" y="30" width="190" height="340" rx="30" fill="url(#phoneBody)" stroke="${accentColor}" stroke-width="3" opacity="0.95"/>
+                <!-- Màn hình hiển thị -->
+                <rect x="88" y="38" width="174" height="324" rx="24" fill="url(#screenDisplay)"/>
+                <!-- Dynamic Island / Punch Hole -->
+                <rect x="150" y="46" width="50" height="10" rx="5" fill="#000000"/>
+
+                <!-- Cụm Camera đặc trưng -->
+                ${cameraSvg}
+
+                <!-- Tên Model và Logo -->
                 <text x="50%" y="72%" dominant-baseline="middle" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="14" font-weight="800">${encodedName}</text>
-                <text x="50%" y="80%" dominant-baseline="middle" text-anchor="middle" fill="${accentHex}" font-family="sans-serif" font-size="11" font-weight="700">FLAGSHIP 2026 EDITION</text>
+                <text x="50%" y="80%" dominant-baseline="middle" text-anchor="middle" fill="${accentColor}" font-family="sans-serif" font-size="11" font-weight="700">FLAGSHIP EDITION 2026</text>
             </svg>`;
+
             return `data:image/svg+xml;utf8,${svg}`;
         }
 
@@ -245,7 +310,7 @@
                         camera: "48MP Main + 48MP Ultrawide",
                         battery: "3.900 mAh - Sạc nhanh 35W",
                         ramRom: "8GB RAM / 128GB ROM",
-                        image: generatePhoneSVG("iPhone 17", "#38BDF8", "#0284C7"),
+                        image: generatePhoneSVG('apple', "iPhone 17", "#0284C7", "#38BDF8"),
                         desc: "Màn hình LTPO 120Hz chính thức xuất hiện trên dòng tiêu chuẩn. Camera nâng cấp toàn diện 48MP."
                     },
                     {
@@ -259,7 +324,7 @@
                         camera: "48MP Fusion Camera",
                         battery: "3.500 mAh - Khung Titan Siêu Nhẹ",
                         ramRom: "8GB RAM / 256GB ROM",
-                        image: generatePhoneSVG("iPhone 17 Air", "#E2E8F0", "#94A3B8"),
+                        image: generatePhoneSVG('apple', "iPhone 17 Air", "#64748B", "#94A3B8"),
                         desc: "Độ mỏng kỷ lục chỉ 5.5mm. Khung vỏ Titan nguyên khối siêu nhẹ kết hợp cùng chip A19 Pro."
                     },
                     {
@@ -273,7 +338,7 @@
                         camera: "48MP Main + 48MP Ultrawide + 48MP Tele 5x",
                         battery: "4.200 mAh - Sạc 45W",
                         ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG("iPhone 17 Pro", "#CBD5E1", "#64748B"),
+                        image: generatePhoneSVG('apple', "iPhone 17 Pro", "#334155", "#64748B"),
                         desc: "Bộ 3 camera 48MP đồng nét. RAM 12GB tối ưu tuyệt đối cho Apple Intelligence 2.0."
                     },
                     {
@@ -287,7 +352,7 @@
                         camera: "48MP Main + 48MP Ultrawide + 48MP Periscope 10x",
                         battery: "4.850 mAh - Pin trâu nhất Lịch sử",
                         ramRom: "12GB RAM / 512GB ROM",
-                        image: generatePhoneSVG("iPhone 17 Pro Max", "#F59E0B", "#D97706"),
+                        image: generatePhoneSVG('apple', "iPhone 17 Pro Max", "#B45309", "#F59E0B"),
                         desc: "Đỉnh cao iPhone với thời lượng pin kỷ lục, khung Titan nhám chống xước và quay phim 8K Spatial Video."
                     }
                 ]
@@ -303,13 +368,13 @@
                         name: "Samsung Galaxy S26",
                         price: 20990000,
                         oldPrice: 22990000,
-                        badge: "NHỎ GỌN MẠNH ME",
+                        badge: "NHỎ GỌN MẠNH MẼ",
                         chip: "Snapdragon 8 Gen 5 / Exynos 2600",
                         display: "6.2 inch Dynamic AMOLED 2X, 120Hz",
                         camera: "50MP Main + 12MP Ultrawide + 10MP Tele 3x",
                         battery: "4.200 mAh - Sạc 30W",
                         ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG("Galaxy S26", "#3B82F6", "#1D4ED8"),
+                        image: generatePhoneSVG('samsung', "Galaxy S26", "#1D4ED8", "#3B82F6"),
                         desc: "Thiết kế nhỏ gọn vừa vặn lòng bàn tay, hiệu năng cực đỉnh cùng AI thông minh hỗ trợ dịch thuật trực tiếp."
                     },
                     {
@@ -317,13 +382,13 @@
                         name: "Samsung Galaxy S26+",
                         price: 25990000,
                         oldPrice: 28990000,
-                        badge: "MÀN HÌNH LỚN MANG MẼ",
+                        badge: "MÀN HÌNH LỚN",
                         chip: "Snapdragon 8 Gen 5 (3nm)",
                         display: "6.7 inch Dynamic AMOLED 2X QHD+, 120Hz",
                         camera: "50MP Main + 12MP Ultrawide + 10MP Tele 3x",
                         battery: "4.900 mAh - Sạc 45W",
                         ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG("Galaxy S26+", "#60A5FA", "#2563EB"),
+                        image: generatePhoneSVG('samsung', "Galaxy S26+", "#2563EB", "#60A5FA"),
                         desc: "Màn hình 2K+ siêu nét, sạc nhanh 45W và thời lượng pin vượt trội cho cả ngày dài chiến game."
                     },
                     {
@@ -337,7 +402,7 @@
                         camera: "200MP Main + 50MP Ultrawide + 50MP Periscope 5x + 10MP 3x",
                         battery: "5.100 mAh - Sạc 65W",
                         ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG("S26 Ultra", "#1E3A8A", "#3B82F6"),
+                        image: generatePhoneSVG('samsung', "S26 Ultra", "#0F172A", "#3B82F6"),
                         desc: "Màn hình phẳng chống lóa phủ Armor Aluminum, tích hợp bút S-Pen, zoom 100x AI rõ nét đêm ngày."
                     }
                 ]
@@ -359,7 +424,7 @@
                         camera: "50MP Leica Main + 50MP Tele 3.2x + 50MP Ultrawide",
                         battery: "4.880 mAh - Sạc 90W",
                         ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG("Xiaomi 17", "#F97316", "#EA580C"),
+                        image: generatePhoneSVG('xiaomi', "Xiaomi 17", "#C2410C", "#F97316"),
                         desc: "Kích thước màn hình vàng 6.36 inch, viền màn hình siêu mỏng 1.2mm, nhiếp ảnh màu sắc Leica chân thực."
                     },
                     {
@@ -373,7 +438,7 @@
                         camera: "50MP Leica Variable Aperture + 50MP Tele + 50MP UW",
                         battery: "5.300 mAh - Sạc 120W",
                         ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG("Xiaomi 17 Pro", "#FB923C", "#C2410C"),
+                        image: generatePhoneSVG('xiaomi', "Xiaomi 17 Pro", "#EA580C", "#FB923C"),
                         desc: "Khẩu độ thay đổi f/1.4 - f/4.0 linh hoạt, sạc đầy 100% pin chỉ trong 18 phút."
                     },
                     {
@@ -387,7 +452,7 @@
                         camera: "50MP Cảm biến 1 inch + 200MP Periscope Leica + 50MP UW",
                         battery: "5.500 mAh - Sạc 90W Không dây",
                         ramRom: "16GB RAM / 1TB ROM",
-                        image: generatePhoneSVG("Xiaomi 17 Ultra", "#7C2D12", "#F97316"),
+                        image: generatePhoneSVG('xiaomi', "Xiaomi 17 Ultra", "#7C2D12", "#F97316"),
                         desc: "Hệ thống ống kính Leica Quad-Camera với cảm biến 200MP Tele Periscope zoom quang học biến thiên xuất sắc."
                     }
                 ]
@@ -409,7 +474,7 @@
                         camera: "50MP ZEISS Main + 50MP Tele 3x + 50MP UW",
                         battery: "5.400 mAh - Sạc 100W",
                         ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG("Vivo X300", "#06B6D4", "#0891B2"),
+                        image: generatePhoneSVG('vivo', "Vivo X300", "#0891B2", "#06B6D4"),
                         desc: "Chuyên gia chụp ảnh chân dung ZEISS Multifocal, mặt lưng kính satin đổi màu lấp lánh."
                     },
                     {
@@ -423,7 +488,7 @@
                         camera: "50MP Cảm biến 1 inch + 200MP ZEISS APO Tele + 50MP UW",
                         battery: "6.000 mAh Siêu Khủng - Sạc 90W",
                         ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG("X300 Pro", "#22D3EE", "#0E7490"),
+                        image: generatePhoneSVG('vivo', "X300 Pro", "#0E7490", "#22D3EE"),
                         desc: "Sở hữu ống kính ZEISS APO 200MP tái tạo chi tiết hình ảnh hoàn hảo, viên pin 6000mAh bền bỉ bất tận."
                     },
                     {
@@ -437,7 +502,7 @@
                         camera: "50MP Sony LYT-900 + 200MP ZEISS Periscope + 50MP UW + 50MP Tele 85mm",
                         battery: "5.800 mAh - Sạc 100W",
                         ramRom: "16GB RAM / 1TB ROM",
-                        image: generatePhoneSVG("X300 Ultra", "#155E75", "#06B6D4"),
+                        image: generatePhoneSVG('vivo', "X300 Ultra", "#155E75", "#67E8F9"),
                         desc: "Cấu hình đỉnh nhất thế giới Android với 2 chip xử lý hình ảnh V4 độc lập, quay video ZEISS Cinematic 4K 120fps."
                     },
                     {
@@ -451,7 +516,7 @@
                         camera: "50MP ZEISS Main + 50MP Periscope + 50MP UW",
                         battery: "5.700 mAh - Sạc 100W",
                         ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG("X300 Fold", "#67E8F9", "#0891B2"),
+                        image: generatePhoneSVG('fold', "X300 Fold", "#164E63", "#22D3EE"),
                         desc: "Điện thoại gập mỏng nhẹ nhất phân khúc với bản lề Carbon siêu bền và tiêu chuẩn kháng nước IPX8."
                     }
                 ]
@@ -473,7 +538,7 @@
                         camera: "50MP Hasselblad Main + 50MP Periscope 3x + 50MP UW",
                         battery: "5.600 mAh - Sạc 80W SuperVOOC",
                         ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG("Find X9", "#10B981", "#059669"),
+                        image: generatePhoneSVG('oppo', "Find X9", "#059669", "#10B981"),
                         desc: "Hệ thống màu sắc Hasselblad Natural Color mang đến những góc ảnh mang đậm chất điện ảnh."
                     },
                     {
@@ -487,7 +552,7 @@
                         camera: "50MP Sony LYT-900 + 50MP Periscope 3x + 50MP Periscope 6x",
                         battery: "5.800 mAh - Sạc 100W SuperVOOC",
                         ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG("Find X9 Pro", "#34D399", "#047857"),
+                        image: generatePhoneSVG('oppo', "Find X9 Pro", "#047857", "#34D399"),
                         desc: "Sở hữu 2 ống kính tiềm vọng Periscope riêng biệt cho chụp chân dung cận cảnh và zoom xa cực mịn."
                     },
                     {
@@ -501,7 +566,7 @@
                         camera: "50MP Quad Main Camera (1 inch LYT-900 + Dual Periscope 135mm)",
                         battery: "5.700 mAh - Sạc 100W Dây / 50W Không dây",
                         ramRom: "16GB RAM / 1TB ROM",
-                        image: generatePhoneSVG("Find X9 Ultra", "#064E3B", "#10B981"),
+                        image: generatePhoneSVG('oppo', "Find X9 Ultra", "#064E3B", "#10B981"),
                         desc: "4 camera 50MP phía sau với 2 cảm biến tiềm vọng, quay video Dolby Vision 4K HDR siêu sắc nét."
                     }
                 ]
@@ -548,7 +613,7 @@
                             ${filteredItems.map(p => `
                                 <div class="phone-card bg-[#141822] border border-flagship-border rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between">
                                     <div class="relative bg-[#0F121A] p-4 cursor-pointer overflow-hidden group" onclick="openModal(${p.id})">
-                                        <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md z-10 uppercase tracking-wider">
+                                        <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md z-10 uppercase tracking-wider shadow">
                                             ${p.badge}
                                         </span>
                                         <div class="h-64 w-full flex items-center justify-center">
