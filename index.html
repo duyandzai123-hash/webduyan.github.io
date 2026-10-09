@@ -3,814 +3,1000 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FLAGSHIP STORE - Thế Giới Smartphone Siêu Cấp 2026</title>
+    <title>HomeSmart - Đồ Gia Dụng Thông Minh & Hiện Đại</title>
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        flagship: {
-                            red: '#E60012',
-                            dark: '#0B0D12',
-                            card: '#141822',
-                            border: '#232938',
-                            blue: '#3B82F6',
-                            gold: '#F59E0B'
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        },
+                        accent: {
+                            500: '#f97316',
+                            600: '#ea580c',
                         }
                     },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .phone-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .phone-card:hover { transform: translateY(-6px); }
-        .phone-card:hover .phone-img { transform: scale(1.06); }
-        .tab-btn.active {
-            background-color: #E60012;
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(230, 0, 18, 0.4);
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        .animate-fade-in { animation: fadeIn 0.25s ease-out forwards; }
     </style>
 </head>
-<body class="bg-[#0B0D12] text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 z-40 bg-[#0F121A]/90 backdrop-blur-md border-b border-flagship-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="bg-gradient-to-tr from-red-600 to-amber-500 text-white p-2.5 rounded-2xl font-black text-xl tracking-tighter shadow-lg shadow-red-600/30">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-                </div>
-                <div>
-                    <span class="font-black text-xl tracking-tight text-white block leading-none">FLAGSHIP<span class="text-red-500">.VN</span></span>
-                    <span class="text-[10px] text-gray-400 font-bold tracking-widest uppercase">Next-Gen Smartphones 2026</span>
-                </div>
-            </a>
-
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-md hidden md:block relative">
-                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm iPhone 17, Galaxy S26, Xiaomi 17, Vivo X300, Oppo Find X9..." 
-                    class="w-full pl-11 pr-4 py-2.5 bg-[#181D2A] border border-flagship-border rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-red-500 transition-all">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
-            </div>
-
-            <!-- Cart Trigger Button -->
+    <!-- Top Bar -->
+    <div class="bg-slate-900 text-slate-200 text-xs py-2 px-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <button onclick="toggleCart()" class="relative p-3 bg-[#181D2A] hover:bg-flagship-border rounded-xl border border-flagship-border text-white transition-all">
-                    <i class="fa-solid fa-bag-shopping text-xl"></i>
-                    <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#0B0D12]">0</span>
-                </button>
+                <span><i class="fa-solid fa-truck-fast text-brand-500 mr-1"></i> Miễn phí vận chuyển cho đơn hàng từ 500k</span>
+                <span class="hidden md:inline"><i class="fa-solid fa-headset text-brand-500 mr-1"></i> Hotline: 1900 6868</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-brand-500 transition">Hệ thống cửa hàng</a>
+                <a href="#" class="hover:text-brand-500 transition">Tra cứu đơn hàng</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20 gap-4">
+                
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2.5 shrink-0">
+                    <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                        <i class="fa-solid fa-house-laptop text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-xl tracking-tight text-slate-900 block leading-tight">Home<span class="text-brand-600">Smart</span></span>
+                        <span class="text-[10px] text-slate-400 font-medium tracking-wider uppercase block">Gia Dụng Việt</span>
+                    </div>
+                </a>
+
+                <!-- Search Bar with Quick Autocomplete -->
+                <div class="flex-1 max-w-xl relative hidden md:block">
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="Tìm nồi chiên không dầu, robot hút bụi, máy lọc không khí..." 
+                               class="w-full pl-10 pr-10 py-2.5 bg-slate-100 border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <button id="clear-search-btn" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- Search Suggestions Popup -->
+                    <div id="search-suggestions" class="hidden absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden divide-y divide-slate-100">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- User Actions (Wishlist & Cart) -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <!-- Wishlist Button -->
+                    <button id="wishlist-btn" class="relative p-2.5 text-slate-600 hover:text-red-500 hover:bg-slate-100 rounded-full transition" title="Danh sách yêu thích">
+                        <i class="fa-regular fa-heart text-xl"></i>
+                        <span id="wishlist-badge" class="hidden absolute top-1 right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Cart Button -->
+                    <button id="cart-drawer-btn" class="relative bg-brand-50 hover:bg-brand-100 text-brand-700 px-4 py-2.5 rounded-full flex items-center gap-2.5 font-semibold text-sm transition shadow-sm">
+                        <i class="fa-solid fa-bag-shopping text-lg text-brand-600"></i>
+                        <span class="hidden sm:inline">Giỏ hàng</span>
+                        <span id="cart-badge" class="bg-brand-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Search Bar -->
+            <div class="pb-3 md:hidden">
+                <div class="relative">
+                    <input type="text" id="mobile-search-input" placeholder="Tìm sản phẩm gia dụng..." 
+                           class="w-full pl-9 pr-8 py-2 bg-slate-100 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                </div>
             </div>
         </div>
 
-        <!-- Mobile Search Input -->
-        <div class="px-4 pb-3 md:hidden">
-            <div class="relative">
-                <input type="text" id="searchInputMobile" oninput="handleSearchMobile()" placeholder="Tìm kiếm siêu phẩm..." 
-                    class="w-full pl-10 pr-4 py-2 bg-[#181D2A] border border-flagship-border rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-red-500">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
+        <!-- Navigation Categories Bar -->
+        <nav class="border-t border-slate-100 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-2 sm:gap-6 overflow-x-auto py-2.5 scrollbar-none text-xs sm:text-sm font-medium text-slate-600">
+                    <button data-cat="all" class="nav-cat-btn active text-brand-600 font-semibold px-3 py-1.5 rounded-lg bg-brand-50 whitespace-nowrap transition">
+                        <i class="fa-solid fa-border-all mr-1.5"></i>Tất cả sản phẩm
+                    </button>
+                    <button data-cat="kitchen" class="nav-cat-btn hover:text-brand-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+                        🍳 Đồ dùng nhà bếp
+                    </button>
+                    <button data-cat="cleaning" class="nav-cat-btn hover:text-brand-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+                        🧹 Thiết bị làm sạch
+                    </button>
+                    <button data-cat="electric" class="nav-cat-btn hover:text-brand-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+                        ⚡ Điện gia dụng
+                    </button>
+                    <button data-cat="smart" class="nav-cat-btn hover:text-brand-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+                        🤖 Đồ dùng thông minh
+                    </button>
+                    <button data-cat="health" class="nav-cat-btn hover:text-brand-600 hover:bg-slate-50 px-3 py-1.5 rounded-lg whitespace-nowrap transition">
+                        🌿 Chăm sóc sức khỏe
+                    </button>
+                </div>
             </div>
-        </div>
+        </nav>
     </header>
 
-    <!-- Hero Banner -->
-    <section class="relative bg-gradient-to-b from-[#131722] to-[#0B0D12] py-10 px-4 border-b border-flagship-border/50">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div class="max-w-2xl text-center lg:text-left space-y-4">
-                <span class="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/30 text-red-500 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-bolt"></i> Siêu Phẩm Flagship Thế Hệ Mới
+    <!-- Hero Slider Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6">
+        <div class="relative rounded-3xl overflow-hidden shadow-xl bg-gradient-to-r from-slate-900 via-slate-800 to-brand-950 text-white min-h-[320px] sm:min-h-[380px] flex items-center">
+            
+            <!-- Slide Content -->
+            <div class="relative z-10 max-w-xl p-6 sm:p-12 space-y-4">
+                <span class="inline-block bg-accent-500/20 text-accent-500 border border-accent-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    🔥 Siêu Ưu Đãi Tháng này
                 </span>
-                <h1 class="text-3xl sm:text-5xl font-black text-white uppercase tracking-tight leading-none">
-                    Bộ Tẩy Smartphone <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-amber-400 to-blue-500">Đỉnh Cao Công Nghệ</span>
+                <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                    Giải Pháp Gia Dụng Smart <br class="hidden sm:inline">Nâng Tầm Không Gian Sống
                 </h1>
-                <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                    Trải nghiệm trọn bộ 5 siêu phẩm flagship đứng đầu thế giới: <strong>iPhone 17 Series</strong>, <strong>Samsung Galaxy S26 Series</strong>, <strong>Xiaomi 17 Series</strong>, <strong>Vivo X300 Series</strong>, và <strong>Oppo Find X9 Series</strong>.
+                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                    Giảm giá đến <strong class="text-accent-500 text-base">45%</strong> cho các sản phẩm Robot hút bụi, Nồi chiên không dầu và Máy lọc không khí cao cấp.
                 </p>
+                <div class="pt-2 flex flex-wrap gap-3">
+                    <a href="#products-section" class="bg-brand-600 hover:bg-brand-500 text-white font-semibold px-6 py-3 rounded-full text-sm shadow-lg shadow-brand-600/30 transition flex items-center gap-2">
+                        <span>Khám phá ngay</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <div class="flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md text-xs">
+                        <i class="fa-solid fa-shield-halved text-brand-500 text-base"></i>
+                        <span>Bảo hành chính hãng 24 tháng</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Quick Jump Category Buttons -->
-            <div class="w-full lg:w-auto grid grid-cols-2 sm:grid-cols-5 lg:flex lg:flex-col gap-2.5">
-                <a href="#brand-apple" class="flex items-center gap-3 bg-[#141822] hover:bg-red-500/20 border border-flagship-border hover:border-red-500 p-3 rounded-xl transition-all">
-                    <i class="fa-brands fa-apple text-lg text-sky-400"></i>
-                    <span class="text-xs font-bold text-white">iPhone 17 Series</span>
-                </a>
-                <a href="#brand-samsung" class="flex items-center gap-3 bg-[#141822] hover:bg-red-500/20 border border-flagship-border hover:border-red-500 p-3 rounded-xl transition-all">
-                    <i class="fa-solid fa-mobile-button text-lg text-blue-400"></i>
-                    <span class="text-xs font-bold text-white">Galaxy S26 Series</span>
-                </a>
-                <a href="#brand-xiaomi" class="flex items-center gap-3 bg-[#141822] hover:bg-red-500/20 border border-flagship-border hover:border-red-500 p-3 rounded-xl transition-all">
-                    <i class="fa-solid fa-microchip text-lg text-amber-500"></i>
-                    <span class="text-xs font-bold text-white">Xiaomi 17 Series</span>
-                </a>
-                <a href="#brand-vivo" class="flex items-center gap-3 bg-[#141822] hover:bg-red-500/20 border border-flagship-border hover:border-red-500 p-3 rounded-xl transition-all">
-                    <i class="fa-solid fa-camera text-lg text-cyan-400"></i>
-                    <span class="text-xs font-bold text-white">Vivo X300 Series</span>
-                </a>
-                <a href="#brand-oppo" class="flex items-center gap-3 bg-[#141822] hover:bg-red-500/20 border border-flagship-border hover:border-red-500 p-3 rounded-xl transition-all">
-                    <i class="fa-solid fa-gem text-lg text-emerald-400"></i>
-                    <span class="text-xs font-bold text-white">Oppo Find X9 Series</span>
-                </a>
+            <!-- Background Decorative Image -->
+            <div class="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 opacity-30 lg:opacity-90 pointer-events-none">
+                <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1000&q=80" 
+                     alt="Smart Home" 
+                     class="w-full h-full object-cover object-center [mask-image:linear-gradient(to_right,transparent_0%,black_100%)]">
             </div>
         </div>
     </section>
 
-    <!-- Category Nav Bar Sticky -->
-    <div class="sticky top-20 z-30 bg-[#0F121A]/95 backdrop-blur-md border-b border-flagship-border py-3 shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 flex items-center gap-2 overflow-x-auto no-scrollbar">
-            <button onclick="filterBrand('ALL')" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-[#181D2A] text-gray-400 hover:text-white transition-all">Tất Cả Flagship</button>
-            <button onclick="filterBrand('apple')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-[#181D2A] text-gray-400 hover:text-white transition-all">🍎 iPhone 17 Series</button>
-            <button onclick="filterBrand('samsung')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-[#181D2A] text-gray-400 hover:text-white transition-all">🌌 Galaxy S26 Series</button>
-            <button onclick="filterBrand('xiaomi')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-[#181D2A] text-gray-400 hover:text-white transition-all">🟠 Xiaomi 17 Series</button>
-            <button onclick="filterBrand('vivo')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-[#181D2A] text-gray-400 hover:text-white transition-all">🔵 Vivo X300 Series</button>
-            <button onclick="filterBrand('oppo')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-[#181D2A] text-gray-400 hover:text-white transition-all">🟢 Oppo Find X9 Series</button>
-        </div>
-    </div>
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex-1 w-full" id="products-section">
+        
+        <!-- Filter Toolbar -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-8 flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4">
+            
+            <!-- Category Title & Count -->
+            <div>
+                <h2 class="font-bold text-slate-900 text-lg sm:text-xl flex items-center gap-2" id="current-cat-title">
+                    <span>Tất cả sản phẩm</span>
+                    <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-normal" id="product-count">0 sản phẩm</span>
+                </h2>
+                <p class="text-xs text-slate-500 mt-0.5">Trải nghiệm tiện nghi hiện đại với mức giá ưu đãi tốt nhất</p>
+            </div>
 
-    <!-- Main Content Display Categories -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow space-y-16" id="productsContainer">
-        <!-- Rendered Dynamically -->
+            <!-- Controls (Price Filter & Sorting) -->
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- Price Range Filter Dropdown -->
+                <div class="relative">
+                    <select id="price-filter" class="appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs sm:text-sm rounded-xl px-3.5 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer font-medium">
+                        <option value="all">💰 Tất cả mức giá</option>
+                        <option value="under-1m">Dưới 1.000.000đ</option>
+                        <option value="1m-3m">1.000.000đ - 3.000.000đ</option>
+                        <option value="3m-5m">3.000.000đ - 5.000.000đ</option>
+                        <option value="above-5m">Trên 5.000.000đ</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                </div>
+
+                <!-- Sort Dropdown -->
+                <div class="relative">
+                    <select id="sort-select" class="appearance-none bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs sm:text-sm rounded-xl px-3.5 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer font-medium">
+                        <option value="popular">🔥 Mới nhất & Bán chạy</option>
+                        <option value="price-asc">Giá: Thấp đến Cao</option>
+                        <option value="price-desc">Giá: Cao đến Thấp</option>
+                        <option value="rating">Đánh giá cao nhất</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <!-- Dynamic Products HTML Inserted Here -->
+        </div>
+
+        <!-- Empty State (When no product matches filter) -->
+        <div id="empty-state" class="hidden py-16 text-center">
+            <div class="w-20 h-20 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fa-solid fa-box-open"></i>
+            </div>
+            <h3 class="font-bold text-slate-700 text-lg">Không tìm thấy sản phẩm nào</h3>
+            <p class="text-slate-500 text-sm mt-1">Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc khoảng giá của bạn</p>
+            <button id="reset-filters-btn" class="mt-4 bg-brand-600 text-white font-medium text-xs px-4 py-2 rounded-lg hover:bg-brand-500 transition">
+                Xóa tất cả bộ lọc
+            </button>
+        </div>
     </main>
 
-    <!-- Modal Chi Tiết Thông Số Máy -->
-    <div id="productModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-[#141822] border border-flagship-border rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-[#1C2232] hover:bg-red-600 text-gray-400 hover:text-white rounded-full flex items-center justify-center transition-colors z-10">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-            <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8" id="modalContent">
-                <!-- Modal Content Dynamic -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Drawer Giỏ Hàng -->
-    <div id="cartDrawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden">
-        <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-[#141822] border-l border-flagship-border shadow-2xl flex flex-col">
-            <div class="p-5 border-b border-flagship-border flex items-center justify-between bg-[#181D2A]">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-bag-shopping text-red-500 text-xl"></i>
-                    <h3 class="font-bold text-white text-lg">Giỏ Hàng Của Bạn</h3>
+    <!-- Footer Section -->
+    <footer class="bg-slate-900 text-slate-400 text-xs sm:text-sm border-t border-slate-800 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <!-- Brand info -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold">
+                            <i class="fa-solid fa-house-laptop"></i>
+                        </div>
+                        <span class="font-bold text-lg text-white">Home<span class="text-brand-500">Smart</span></span>
+                    </div>
+                    <p class="text-slate-400 text-xs leading-relaxed">
+                        Hệ thống cung cấp các giải pháp thiết bị gia dụng thông minh hàng đầu Việt Nam, giúp tối ưu hóa công việc nhà cho cuộc sống thảnh thơi.
+                    </p>
+                    <div class="flex gap-3 text-slate-300 text-base">
+                        <a href="#" class="hover:text-brand-500"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-brand-500"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="hover:text-brand-500"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
                 </div>
-                <button onclick="toggleCart()" class="text-gray-400 hover:text-white p-1">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
 
-            <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4">
-                <!-- Cart items list -->
-            </div>
-
-            <div class="p-5 border-t border-flagship-border bg-[#181D2A]">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-xs font-semibold text-gray-400 uppercase">Tổng tiền thanh toán:</span>
-                    <span id="cartTotalPrice" class="text-xl font-black text-red-500">0 VNĐ</span>
+                <!-- Column 1 -->
+                <div>
+                    <h4 class="font-semibold text-white mb-3 text-sm">Danh Mục Nổi Bật</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Robot Hút Bụi Lau Nhà</a></li>
+                        <li><a href="#" class="hover:text-white transition">Nồi Chiên Không Dầu</a></li>
+                        <li><a href="#" class="hover:text-white transition">Máy Lọc Không Khí</a></li>
+                        <li><a href="#" class="hover:text-white transition">Bàn Cầu Thông Minh</a></li>
+                    </ul>
                 </div>
-                <button onclick="checkout()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-red-600/30">
-                    Đặt Mua Flagship
-                </button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="bg-[#0B0D12] border-t border-flagship-border text-gray-400 text-xs py-10">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
-            <p class="font-bold text-white text-sm">FLAGSHIP STORE VIETNAM</p>
-            <p>Chuyên cung cấp iPhone 17, Galaxy S26, Xiaomi 17, Vivo X300 & Oppo Find X9 Series chính hãng</p>
-            <p class="text-gray-600">© 2026 Flagship Store. All rights reserved.</p>
+                <!-- Column 2 -->
+                <div>
+                    <h4 class="font-semibold text-white mb-3 text-sm">Chính Sách & Hỗ Trợ</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Chính sách bảo hành 1 đổi 1</a></li>
+                        <li><a href="#" class="hover:text-white transition">Hướng dẫn thanh toán</a></li>
+                        <li><a href="#" class="hover:text-white transition">Chính sách vận chuyển</a></li>
+                        <li><a href="#" class="hover:text-white transition">Trung tâm hỗ trợ khách hàng</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 -->
+                <div>
+                    <h4 class="font-semibold text-white mb-3 text-sm">Liên Hệ</h4>
+                    <p class="mb-2"><i class="fa-solid fa-location-dot text-brand-500 mr-2"></i> 123 Nguyễn Trãi, Q. Thanh Xuân, Hà Nội</p>
+                    <p class="mb-2"><i class="fa-solid fa-phone text-brand-500 mr-2"></i> Hotline: 1900 6868</p>
+                    <p class="mb-4"><i class="fa-solid fa-envelope text-brand-500 mr-2"></i> cskh@homesmart.vn</p>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs">Thanh toán an toàn:</span>
+                        <i class="fa-brands fa-cc-visa text-xl text-slate-200"></i>
+                        <i class="fa-brands fa-cc-mastercard text-xl text-slate-200"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 mt-10 pt-6 text-center text-xs text-slate-500">
+                © 2026 HomeSmart Vietnam. Bản quyền thuộc về thương hiệu Gia Dụng Việt.
+            </div>
         </div>
     </footer>
 
-    <!-- JavaScript App Logic -->
+    <!-- Cart Drawer -->
+    <div id="cart-drawer-backdrop" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 transition-opacity"></div>
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        
+        <!-- Cart Header -->
+        <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-bag-shopping text-brand-600 text-lg"></i>
+                <h3 class="font-bold text-slate-800">Giỏ Hàng Của Bạn</h3>
+                <span id="cart-total-badge" class="bg-brand-100 text-brand-700 text-xs font-bold px-2 py-0.5 rounded-full">0 món</span>
+            </div>
+            <button id="close-cart-btn" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 divide-y divide-slate-100">
+            <!-- Items rendered dynamically -->
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="p-4 border-t border-slate-200 bg-slate-50 space-y-3">
+            
+            <!-- Coupon Input -->
+            <div class="flex gap-2">
+                <input type="text" id="coupon-code-input" placeholder="Mã giảm giá (Thử HOMESMART10)" class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs uppercase focus:outline-none focus:ring-1 focus:ring-brand-500">
+                <button id="apply-coupon-btn" class="bg-slate-800 hover:bg-slate-900 text-white font-medium px-3 py-2 rounded-lg text-xs transition">Áp dụng</button>
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="space-y-1.5 text-xs text-slate-600 pt-2 border-t border-slate-200">
+                <div class="flex justify-between">
+                    <span>Tạm tính:</span>
+                    <span id="cart-subtotal" class="font-medium text-slate-800">0đ</span>
+                </div>
+                <div class="flex justify-between text-brand-600 hidden" id="discount-row">
+                    <span>Giảm giá:</span>
+                    <span id="cart-discount">-0đ</span>
+                </div>
+                <div class="flex justify-between text-xs text-slate-500">
+                    <span>Phí vận chuyển:</span>
+                    <span class="text-brand-600 font-medium">Miễn phí</span>
+                </div>
+                <div class="flex justify-between text-sm font-bold text-slate-900 pt-2 border-t border-slate-200">
+                    <span>Tổng thanh toán:</span>
+                    <span id="cart-grand-total" class="text-brand-600 text-base">0đ</span>
+                </div>
+            </div>
+
+            <!-- Checkout Button -->
+            <button id="open-checkout-btn" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-brand-600/20 text-sm transition flex items-center justify-center gap-2">
+                <span>Tiến hành thanh toán</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Quick View Product Modal -->
+    <div id="quickview-modal-backdrop" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-fade-in">
+            <button id="close-quickview-btn" class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="quickview-content" class="p-6">
+                <!-- Dynamic Quickview content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal-backdrop" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative p-6">
+            <button id="close-checkout-btn" class="absolute top-4 right-4 w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 class="font-bold text-slate-900 text-xl mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-credit-card text-brand-600"></i> Thanh Toán Đơn Hàng
+            </h3>
+
+            <form id="checkout-form" class="space-y-4">
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Thông tin giao hàng</h4>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Họ và tên *</label>
+                        <input type="text" required placeholder="Nguyễn Văn A" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Số điện thoại *</label>
+                            <input type="tel" required placeholder="0912 345 678" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Email</label>
+                            <input type="email" placeholder="example@gmail.com" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Địa chỉ nhận hàng *</label>
+                        <input type="text" required placeholder="Số nhà, đường, phường/xã, quận/huyện..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-500 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Phương thức thanh toán</h4>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="payment" value="cod" checked class="text-brand-600 focus:ring-brand-500">
+                            <i class="fa-solid fa-hand-holding-dollar text-slate-600"></i>
+                            <span class="text-xs sm:text-sm font-medium">Thanh toán khi nhận hàng (COD)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="payment" value="qr" class="text-brand-600 focus:ring-brand-500">
+                            <i class="fa-solid fa-qrcode text-slate-600"></i>
+                            <span class="text-xs sm:text-sm font-medium">Chuyển khoản ngân hàng (VietQR)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="payment" value="momo" class="text-brand-600 focus:ring-brand-500">
+                            <i class="fa-solid fa-wallet text-slate-600"></i>
+                            <span class="text-xs sm:text-sm font-medium">Ví MoMo / VNPay</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-200 flex items-center justify-between">
+                    <div>
+                        <span class="block text-xs text-slate-500">Tổng tiền thanh toán:</span>
+                        <span id="checkout-final-price" class="text-lg font-bold text-brand-600">0đ</span>
+                    </div>
+                    <button type="submit" class="bg-brand-600 hover:bg-brand-500 text-white font-bold px-6 py-2.5 rounded-xl shadow-lg shadow-brand-600/20 text-sm transition">
+                        Xác nhận đặt hàng
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-sm border border-slate-800">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-brand-500 text-lg"></i>
+        <span id="toast-msg" class="font-medium">Thông báo</span>
+    </div>
+
     <script>
-        // Hàm tạo hình ảnh SVG Vector chi tiết mô phỏng đúng thiết kế cụm camera và đường nét thực tế của từng mẫu máy
-        function generatePhoneSVG(type, name, mainColor, accentColor, bgGradient) {
-            const encodedName = encodeURIComponent(name);
-            let cameraSvg = '';
-
-            // Tùy biến cụm camera đặc trưng theo từng dòng máy
-            if (type === 'apple') { // Camera chéo hoặc 3 mắt iPhone
-                cameraSvg = `
-                    <rect x="100" y="52" width="62" height="62" rx="18" fill="#1C2333" stroke="${accentColor}" stroke-width="1.5" opacity="0.9"/>
-                    <circle cx="118" cy="70" r="10" fill="#0A0D14" stroke="${accentColor}" stroke-width="2"/>
-                    <circle cx="118" cy="70" r="4" fill="#3B82F6"/>
-                    <circle cx="144" cy="96" r="10" fill="#0A0D14" stroke="${accentColor}" stroke-width="2"/>
-                    <circle cx="144" cy="96" r="4" fill="#3B82F6"/>
-                    <circle cx="144" cy="70" r="9" fill="#0A0D14" stroke="${accentColor}" stroke-width="2"/>
-                    <circle cx="144" cy="70" r="3" fill="#3B82F6"/>
-                `;
-            } else if (type === 'samsung') { // Mắt camera rời xếp dọc Samsung Ultra/S26
-                cameraSvg = `
-                    <circle cx="116" cy="65" r="12" fill="#0A0D14" stroke="${accentColor}" stroke-width="2.5"/>
-                    <circle cx="116" cy="65" r="5" fill="#60A5FA"/>
-                    <circle cx="116" cy="95" r="12" fill="#0A0D14" stroke="${accentColor}" stroke-width="2.5"/>
-                    <circle cx="116" cy="95" r="5" fill="#60A5FA"/>
-                    <circle cx="116" cy="125" r="12" fill="#0A0D14" stroke="${accentColor}" stroke-width="2.5"/>
-                    <circle cx="116" cy="125" r="5" fill="#60A5FA"/>
-                    <circle cx="142" cy="80" r="8" fill="#0A0D14" stroke="${accentColor}" stroke-width="1.5"/>
-                `;
-            } else if (type === 'vivo') { // Mô-đun camera tròn ZEISS trung tâm của Vivo X300
-                cameraSvg = `
-                    <circle cx="175" cy="100" r="42" fill="#141A28" stroke="${accentColor}" stroke-width="2"/>
-                    <circle cx="175" cy="100" r="36" fill="#0A0D14"/>
-                    <circle cx="160" cy="88" r="9" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
-                    <circle cx="190" cy="88" r="9" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
-                    <circle cx="175" cy="112" r="11" fill="#1E293B" stroke="#06B6D4" stroke-width="1.5"/>
-                    <text x="175" y="132" text-anchor="middle" fill="#06B6D4" font-size="7" font-weight="900">ZEISS T*</text>
-                `;
-            } else if (type === 'oppo') { // Mô-đun tròn Hasselblad sang trọng của Oppo Find X9
-                cameraSvg = `
-                    <circle cx="175" cy="105" r="44" fill="#182232" stroke="${accentColor}" stroke-width="2"/>
-                    <circle cx="175" cy="105" r="38" fill="#0D131D"/>
-                    <circle cx="158" cy="92" r="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
-                    <circle cx="192" cy="92" r="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
-                    <circle cx="158" cy="118" r="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
-                    <circle cx="192" cy="118" r="10" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
-                    <text x="175" y="108" text-anchor="middle" fill="#10B981" font-size="8" font-weight="900">H</text>
-                `;
-            } else if (type === 'xiaomi') { // Cụm camera vuông bo tròn mô-đun Leica Xiaomi 17
-                cameraSvg = `
-                    <rect x="120" y="55" width="110" height="90" rx="20" fill="#182030" stroke="${accentColor}" stroke-width="2"/>
-                    <line x1="175" y1="55" x2="175" y2="145" stroke="#2D3748" stroke-width="1"/>
-                    <line x1="120" y1="100" x2="230" y2="100" stroke="#2D3748" stroke-width="1"/>
-                    <circle cx="147" cy="78" r="12" fill="#0A0D14" stroke="#F97316" stroke-width="1.5"/>
-                    <circle cx="202" cy="78" r="12" fill="#0A0D14" stroke="#F97316" stroke-width="1.5"/>
-                    <circle cx="147" cy="122" r="12" fill="#0A0D14" stroke="#F97316" stroke-width="1.5"/>
-                    <text x="202" y="125" text-anchor="middle" fill="#F97316" font-size="8" font-weight="900">LEICA</text>
-                `;
-            } else if (type === 'fold') { // Smartphone gập Vivo X300 Fold
-                cameraSvg = `
-                    <line x1="175" y1="30" x2="175" y2="370" stroke="#06B6D4" stroke-width="2" stroke-dasharray="4 2"/>
-                    <circle cx="215" cy="95" r="30" fill="#141A28" stroke="${accentColor}" stroke-width="2"/>
-                    <circle cx="205" cy="88" r="7" fill="#0A0D14" stroke="#06B6D4" stroke-width="1"/>
-                    <circle cx="225" cy="88" r="7" fill="#0A0D14" stroke="#06B6D4" stroke-width="1"/>
-                    <circle cx="215" cy="105" r="8" fill="#0A0D14" stroke="#06B6D4" stroke-width="1"/>
-                `;
-            }
-
-            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 420" width="100%" height="100%" style="background:#0F121A;">
-                <defs>
-                    <linearGradient id="phoneBody" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="${mainColor}" stop-opacity="0.95"/>
-                        <stop offset="100%" stop-color="#090C14" stop-opacity="1"/>
-                    </linearGradient>
-                    <linearGradient id="screenDisplay" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#1A2234"/>
-                        <stop offset="100%" stop-color="#0B0E17"/>
-                    </linearGradient>
-                </defs>
-
-                <!-- Khung viền điện thoại -->
-                <rect x="80" y="30" width="190" height="340" rx="30" fill="url(#phoneBody)" stroke="${accentColor}" stroke-width="3" opacity="0.95"/>
-                <!-- Màn hình hiển thị -->
-                <rect x="88" y="38" width="174" height="324" rx="24" fill="url(#screenDisplay)"/>
-                <!-- Dynamic Island / Punch Hole -->
-                <rect x="150" y="46" width="50" height="10" rx="5" fill="#000000"/>
-
-                <!-- Cụm Camera đặc trưng -->
-                ${cameraSvg}
-
-                <!-- Tên Model và Logo -->
-                <text x="50%" y="72%" dominant-baseline="middle" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="14" font-weight="800">${encodedName}</text>
-                <text x="50%" y="80%" dominant-baseline="middle" text-anchor="middle" fill="${accentColor}" font-family="sans-serif" font-size="11" font-weight="700">FLAGSHIP EDITION 2026</text>
-            </svg>`;
-
-            return `data:image/svg+xml;utf8,${svg}`;
-        }
-
-        // Danh sách toàn bộ các dòng máy Flagship theo đúng yêu cầu
-        const flagshipData = [
+        // Sample Smart Home Products Database
+        const productsData = [
             {
-                brandId: 'apple',
-                brandTitle: '🍎 IPHONE 17 SERIES (APPLE)',
-                description: 'Dòng iPhone thế hệ mới với chip A19 Pro 3nm vượt trội, màn hình ProMotion 120Hz mỏng gọn và phiên bản Slim đột phá.',
-                color: '#38BDF8',
-                items: [
-                    {
-                        id: 101,
-                        name: "iPhone 17",
-                        price: 22990000,
-                        oldPrice: 24990000,
-                        badge: "TIÊU CHUẨN 2026",
-                        chip: "Apple A19 Bionic (3nm)",
-                        display: "6.3 inch Super Retina XDR OLED, 120Hz",
-                        camera: "48MP Main + 48MP Ultrawide",
-                        battery: "3.900 mAh - Sạc nhanh 35W",
-                        ramRom: "8GB RAM / 128GB ROM",
-                        image: generatePhoneSVG('apple', "iPhone 17", "#0284C7", "#38BDF8"),
-                        desc: "Màn hình LTPO 120Hz chính thức xuất hiện trên dòng tiêu chuẩn. Camera nâng cấp toàn diện 48MP."
-                    },
-                    {
-                        id: 102,
-                        name: "iPhone 17 Air / Slim",
-                        price: 28990000,
-                        oldPrice: 30990000,
-                        badge: "SIÊU MỎNG ĐỘT PHÁ",
-                        chip: "Apple A19 Pro",
-                        display: "6.6 inch OLED ProMotion 120Hz",
-                        camera: "48MP Fusion Camera",
-                        battery: "3.500 mAh - Khung Titan Siêu Nhẹ",
-                        ramRom: "8GB RAM / 256GB ROM",
-                        image: generatePhoneSVG('apple', "iPhone 17 Air", "#64748B", "#94A3B8"),
-                        desc: "Độ mỏng kỷ lục chỉ 5.5mm. Khung vỏ Titan nguyên khối siêu nhẹ kết hợp cùng chip A19 Pro."
-                    },
-                    {
-                        id: 103,
-                        name: "iPhone 17 Pro",
-                        price: 31990000,
-                        oldPrice: 34990000,
-                        badge: "PRO PERFORMANCE",
-                        chip: "Apple A19 Pro (3nm Gen 2)",
-                        display: "6.3 inch Super Retina XDR 120Hz ProMotion",
-                        camera: "48MP Main + 48MP Ultrawide + 48MP Tele 5x",
-                        battery: "4.200 mAh - Sạc 45W",
-                        ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG('apple', "iPhone 17 Pro", "#334155", "#64748B"),
-                        desc: "Bộ 3 camera 48MP đồng nét. RAM 12GB tối ưu tuyệt đối cho Apple Intelligence 2.0."
-                    },
-                    {
-                        id: 104,
-                        name: "iPhone 17 Pro Max",
-                        price: 36990000,
-                        oldPrice: 39990000,
-                        badge: "KING OF FLAGSHIP",
-                        chip: "Apple A19 Pro (3nm Gen 2)",
-                        display: "6.9 inch Super Retina XDR 120Hz ProMotion",
-                        camera: "48MP Main + 48MP Ultrawide + 48MP Periscope 10x",
-                        battery: "4.850 mAh - Pin trâu nhất Lịch sử",
-                        ramRom: "12GB RAM / 512GB ROM",
-                        image: generatePhoneSVG('apple', "iPhone 17 Pro Max", "#B45309", "#F59E0B"),
-                        desc: "Đỉnh cao iPhone với thời lượng pin kỷ lục, khung Titan nhám chống xước và quay phim 8K Spatial Video."
-                    }
-                ]
+                id: 1,
+                name: "Robot Hút Bụi Lau Nhà Ecovacs Deebot X1 Omni",
+                category: "cleaning",
+                price: 14990000,
+                originalPrice: 18990000,
+                rating: 4.9,
+                reviews: 128,
+                image: "https://images.unsplash.com/photo-1618103138281-996093561c27?auto=format&fit=crop&w=600&q=80",
+                description: "Công nghệ camera AIVI 3D nhận diện vật cản thông minh, lực hút cực đại 5000Pa, tự động giặt giẻ và sấy khô bằng khí nóng.",
+                hot: true
             },
             {
-                brandId: 'samsung',
-                brandTitle: '🌌 SAMSUNG GALAXY S26 SERIES',
-                description: 'Quyền năng Galaxy AI thế hệ mới, tích hợp vi xử lý Snapdragon 8 Gen 5 cực khủng và camera 200MP bắt trọn mọi khoảnh khắc.',
-                color: '#3B82F6',
-                items: [
-                    {
-                        id: 201,
-                        name: "Samsung Galaxy S26",
-                        price: 20990000,
-                        oldPrice: 22990000,
-                        badge: "NHỎ GỌN MẠNH MẼ",
-                        chip: "Snapdragon 8 Gen 5 / Exynos 2600",
-                        display: "6.2 inch Dynamic AMOLED 2X, 120Hz",
-                        camera: "50MP Main + 12MP Ultrawide + 10MP Tele 3x",
-                        battery: "4.200 mAh - Sạc 30W",
-                        ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG('samsung', "Galaxy S26", "#1D4ED8", "#3B82F6"),
-                        desc: "Thiết kế nhỏ gọn vừa vặn lòng bàn tay, hiệu năng cực đỉnh cùng AI thông minh hỗ trợ dịch thuật trực tiếp."
-                    },
-                    {
-                        id: 202,
-                        name: "Samsung Galaxy S26+",
-                        price: 25990000,
-                        oldPrice: 28990000,
-                        badge: "MÀN HÌNH LỚN",
-                        chip: "Snapdragon 8 Gen 5 (3nm)",
-                        display: "6.7 inch Dynamic AMOLED 2X QHD+, 120Hz",
-                        camera: "50MP Main + 12MP Ultrawide + 10MP Tele 3x",
-                        battery: "4.900 mAh - Sạc 45W",
-                        ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG('samsung', "Galaxy S26+", "#2563EB", "#60A5FA"),
-                        desc: "Màn hình 2K+ siêu nét, sạc nhanh 45W và thời lượng pin vượt trội cho cả ngày dài chiến game."
-                    },
-                    {
-                        id: 203,
-                        name: "Samsung Galaxy S26 Ultra",
-                        price: 33990000,
-                        oldPrice: 37990000,
-                        badge: "ULTRA AI & S-PEN",
-                        chip: "Snapdragon 8 Gen 5 for Galaxy",
-                        display: "6.8 inch Dynamic AMOLED 2X QHD+, 1-120Hz",
-                        camera: "200MP Main + 50MP Ultrawide + 50MP Periscope 5x + 10MP 3x",
-                        battery: "5.100 mAh - Sạc 65W",
-                        ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG('samsung', "S26 Ultra", "#0F172A", "#3B82F6"),
-                        desc: "Màn hình phẳng chống lóa phủ Armor Aluminum, tích hợp bút S-Pen, zoom 100x AI rõ nét đêm ngày."
-                    }
-                ]
+                id: 2,
+                name: "Nồi Chiên Không Dầu Philips HD9860/90 XXL 7.3L",
+                category: "kitchen",
+                price: 6490000,
+                originalPrice: 7990000,
+                rating: 4.8,
+                reviews: 245,
+                image: "https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80",
+                description: "Cảm biến Smart Sensing tự động điều chỉnh thời gian & nhiệt độ, công nghệ Rapid Air giảm 90% lượng mỡ thừa.",
+                hot: true
             },
             {
-                brandId: 'xiaomi',
-                brandTitle: '🟠 XIAOMI 17 SERIES (LEICA CAMERA)',
-                description: 'Hợp tác chiến lược cùng Leica với hệ thống ống kính Summilux thế hệ mới, sạc siêu tốc 120W và hiệu năng dẫn đầu AnTuTu.',
-                color: '#F97316',
-                items: [
-                    {
-                        id: 301,
-                        name: "Xiaomi 17",
-                        price: 18990000,
-                        oldPrice: 20990000,
-                        badge: "FLAGSHIP MÀN NHỎ",
-                        chip: "Snapdragon 8 Gen 5",
-                        display: "6.36 inch OLED 1.5K 120Hz, 3000 nits",
-                        camera: "50MP Leica Main + 50MP Tele 3.2x + 50MP Ultrawide",
-                        battery: "4.880 mAh - Sạc 90W",
-                        ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG('xiaomi', "Xiaomi 17", "#C2410C", "#F97316"),
-                        desc: "Kích thước màn hình vàng 6.36 inch, viền màn hình siêu mỏng 1.2mm, nhiếp ảnh màu sắc Leica chân thực."
-                    },
-                    {
-                        id: 302,
-                        name: "Xiaomi 17 Pro",
-                        price: 23990000,
-                        oldPrice: 26990000,
-                        badge: "SẠC 120W SIÊU TỐC",
-                        chip: "Snapdragon 8 Gen 5",
-                        display: "6.73 inch LTPO OLED 2K 120Hz",
-                        camera: "50MP Leica Variable Aperture + 50MP Tele + 50MP UW",
-                        battery: "5.300 mAh - Sạc 120W",
-                        ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG('xiaomi', "Xiaomi 17 Pro", "#EA580C", "#FB923C"),
-                        desc: "Khẩu độ thay đổi f/1.4 - f/4.0 linh hoạt, sạc đầy 100% pin chỉ trong 18 phút."
-                    },
-                    {
-                        id: 303,
-                        name: "Xiaomi 17 Ultra",
-                        price: 30990000,
-                        oldPrice: 33990000,
-                        badge: "VUA NHIẾP ẢNH LEICA",
-                        chip: "Snapdragon 8 Gen 5 Extreme",
-                        display: "6.73 inch LTPO OLED 2K, 68 tỷ màu",
-                        camera: "50MP Cảm biến 1 inch + 200MP Periscope Leica + 50MP UW",
-                        battery: "5.500 mAh - Sạc 90W Không dây",
-                        ramRom: "16GB RAM / 1TB ROM",
-                        image: generatePhoneSVG('xiaomi', "Xiaomi 17 Ultra", "#7C2D12", "#F97316"),
-                        desc: "Hệ thống ống kính Leica Quad-Camera với cảm biến 200MP Tele Periscope zoom quang học biến thiên xuất sắc."
-                    }
-                ]
+                id: 3,
+                name: "Máy Lọc Không Khí Xiaomi Smart Air Purifier 4 Pro",
+                category: "smart",
+                price: 3890000,
+                originalPrice: 4590000,
+                rating: 4.7,
+                reviews: 94,
+                image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=600&q=80",
+                description: "Màng lọc HEPA 5 lớp lọc sạch 99.97% hạt bụi mịn PM2.5, khử mùi kháng khuẩn với ion âm, điều khiển qua ứng dụng Mi Home.",
+                hot: false
             },
             {
-                brandId: 'vivo',
-                brandTitle: '🔵 VIVO X300 SERIES (ZEISS IMAGING)',
-                description: 'Đỉnh cao chụp ảnh chân dung & đêm với lớp phủ ZEISS T* chống chói, chip xử lý hình ảnh V4 độc quyền và pin Lam Mã siêu mật độ.',
-                color: '#06B6D4',
-                items: [
-                    {
-                        id: 401,
-                        name: "Vivo X300",
-                        price: 17990000,
-                        oldPrice: 19990000,
-                        badge: "CHÂN DUNG ZEISS",
-                        chip: "MediaTek Dimensity 9500 (3nm)",
-                        display: "6.78 inch AMOLED 1.5K 120Hz Eye Protection",
-                        camera: "50MP ZEISS Main + 50MP Tele 3x + 50MP UW",
-                        battery: "5.400 mAh - Sạc 100W",
-                        ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG('vivo', "Vivo X300", "#0891B2", "#06B6D4"),
-                        desc: "Chuyên gia chụp ảnh chân dung ZEISS Multifocal, mặt lưng kính satin đổi màu lấp lánh."
-                    },
-                    {
-                        id: 402,
-                        name: "Vivo X300 Pro",
-                        price: 24990000,
-                        oldPrice: 27990000,
-                        badge: "ZEISS APO TELEPHOTO",
-                        chip: "MediaTek Dimensity 9500 / Chip V4",
-                        display: "6.78 inch LTPO AMOLED 2K, 4500 nits",
-                        camera: "50MP Cảm biến 1 inch + 200MP ZEISS APO Tele + 50MP UW",
-                        battery: "6.000 mAh Siêu Khủng - Sạc 90W",
-                        ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG('vivo', "X300 Pro", "#0E7490", "#22D3EE"),
-                        desc: "Sở hữu ống kính ZEISS APO 200MP tái tạo chi tiết hình ảnh hoàn hảo, viên pin 6000mAh bền bỉ bất tận."
-                    },
-                    {
-                        id: 403,
-                        name: "Vivo X300 Pro+ / Ultra",
-                        price: 31990000,
-                        oldPrice: 34990000,
-                        badge: "FLAGSHIP ĐỈNH CAO",
-                        chip: "Snapdragon 8 Gen 5 & Dual V4 Chip",
-                        display: "6.82 inch LTPO2 OLED 2K, 144Hz",
-                        camera: "50MP Sony LYT-900 + 200MP ZEISS Periscope + 50MP UW + 50MP Tele 85mm",
-                        battery: "5.800 mAh - Sạc 100W",
-                        ramRom: "16GB RAM / 1TB ROM",
-                        image: generatePhoneSVG('vivo', "X300 Ultra", "#155E75", "#67E8F9"),
-                        desc: "Cấu hình đỉnh nhất thế giới Android với 2 chip xử lý hình ảnh V4 độc lập, quay video ZEISS Cinematic 4K 120fps."
-                    },
-                    {
-                        id: 404,
-                        name: "Vivo X300 Fold",
-                        price: 35990000,
-                        oldPrice: 39990000,
-                        badge: "MÀN HÌNH GẬP SIÊU MỎNG",
-                        chip: "Snapdragon 8 Gen 5",
-                        display: "Trong: 8.03 inch 120Hz / Ngoài: 6.53 inch 120Hz",
-                        camera: "50MP ZEISS Main + 50MP Periscope + 50MP UW",
-                        battery: "5.700 mAh - Sạc 100W",
-                        ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG('fold', "X300 Fold", "#164E63", "#22D3EE"),
-                        desc: "Điện thoại gập mỏng nhẹ nhất phân khúc với bản lề Carbon siêu bền và tiêu chuẩn kháng nước IPX8."
-                    }
-                ]
+                id: 4,
+                name: "Nồi Cơm Điện Cao Tần Cuckoo CRP-L1055F 1.8L",
+                category: "kitchen",
+                price: 5200000,
+                originalPrice: 6100000,
+                rating: 4.9,
+                reviews: 67,
+                image: "https://images.unsplash.com/photo-1544233726-9f1d2b27be8b?auto=format&fit=crop&w=600&q=80",
+                description: "Công nghệ áp suất cao tần IH giúp hạt cơm chín đều, dẻo thơm. Lòng nồi phủ chống dính Xwall Black cao cấp.",
+                hot: false
             },
             {
-                brandId: 'oppo',
-                brandTitle: '🟢 OPPO FIND X9 SERIES (HASSELBLAD)',
-                description: 'Nhiếp ảnh chuẩn điện ảnh Hasselblad Master Camera, thiết kế mặt lưng da thuộc sang trọng và công nghệ sạc SuperVOOC vô địch.',
-                color: '#10B981',
-                items: [
-                    {
-                        id: 501,
-                        name: "Oppo Find X9",
-                        price: 19990000,
-                        oldPrice: 21990000,
-                        badge: "HASSELBLAD MASTER",
-                        chip: "MediaTek Dimensity 9500",
-                        display: "6.78 inch AMOLED 1.5K 120Hz Smooth Display",
-                        camera: "50MP Hasselblad Main + 50MP Periscope 3x + 50MP UW",
-                        battery: "5.600 mAh - Sạc 80W SuperVOOC",
-                        ramRom: "12GB RAM / 256GB ROM",
-                        image: generatePhoneSVG('oppo', "Find X9", "#059669", "#10B981"),
-                        desc: "Hệ thống màu sắc Hasselblad Natural Color mang đến những góc ảnh mang đậm chất điện ảnh."
-                    },
-                    {
-                        id: 502,
-                        name: "Oppo Find X9 Pro",
-                        price: 26990000,
-                        oldPrice: 29990000,
-                        badge: "DUAL PERISCOPE",
-                        chip: "MediaTek Dimensity 9500 / Chip MariSilicon X2",
-                        display: "6.82 inch LTPO OLED 2K, 120Hz ProXDR",
-                        camera: "50MP Sony LYT-900 + 50MP Periscope 3x + 50MP Periscope 6x",
-                        battery: "5.800 mAh - Sạc 100W SuperVOOC",
-                        ramRom: "16GB RAM / 512GB ROM",
-                        image: generatePhoneSVG('oppo', "Find X9 Pro", "#047857", "#34D399"),
-                        desc: "Sở hữu 2 ống kính tiềm vọng Periscope riêng biệt cho chụp chân dung cận cảnh và zoom xa cực mịn."
-                    },
-                    {
-                        id: 503,
-                        name: "Oppo Find X9 Ultra",
-                        price: 32990000,
-                        oldPrice: 36990000,
-                        badge: "VUA HASSELBLAD ULTRA",
-                        chip: "Snapdragon 8 Gen 5 (3nm)",
-                        display: "6.82 inch LTPO OLED 2K, 1-120Hz, Dolby Vision",
-                        camera: "50MP Quad Main Camera (1 inch LYT-900 + Dual Periscope 135mm)",
-                        battery: "5.700 mAh - Sạc 100W Dây / 50W Không dây",
-                        ramRom: "16GB RAM / 1TB ROM",
-                        image: generatePhoneSVG('oppo', "Find X9 Ultra", "#064E3B", "#10B981"),
-                        desc: "4 camera 50MP phía sau với 2 cảm biến tiềm vọng, quay video Dolby Vision 4K HDR siêu sắc nét."
-                    }
-                ]
+                id: 5,
+                name: "Máy Lau Sàn Tự Giặt Giẻ Tineco Floor One S5",
+                category: "cleaning",
+                price: 9890000,
+                originalPrice: 12500000,
+                rating: 4.8,
+                reviews: 82,
+                image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=600&q=80",
+                description: "Cảm biến thông minh iLoop tự động điều chỉnh lực hút & lượng nước, vừa hút vừa lau khô tức thì không để lại vệt nước.",
+                hot: true
+            },
+            {
+                id: 6,
+                name: "Bàn Chải Điện Thông Minh Oclean X Pro Elite",
+                category: "health",
+                price: 1290000,
+                originalPrice: 1690000,
+                rating: 4.6,
+                reviews: 156,
+                image: "https://images.unsplash.com/photo-1559591937-eaf8fc494297?auto=format&fit=crop&w=600&q=80",
+                description: "Màn hình cảm ứng OLED thông minh hiển thị vùng chải bỏ sót, động cơ sóng âm 42.000 vòng/phút siêu êm.",
+                hot: false
+            },
+            {
+                id: 7,
+                name: "Ấm Siêu Tốc Giữ Nhiệt Thông Minh Tuya Smart 1.7L",
+                category: "electric",
+                price: 890000,
+                originalPrice: 1190000,
+                rating: 4.5,
+                reviews: 48,
+                image: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f6?auto=format&fit=crop&w=600&q=80",
+                description: "Tùy chỉnh chính xác 5 mức nhiệt độ đun nước pha trà/sữa, vỏ chống nóng 2 lớp Ruột inox 304 an toàn.",
+                hot: false
+            },
+            {
+                id: 8,
+                name: "Máy Massage Cổ Vai Gáy Hồng Ngoại SKG K5",
+                category: "health",
+                price: 1850000,
+                originalPrice: 2300000,
+                rating: 4.7,
+                reviews: 210,
+                image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80",
+                description: "Công nghệ xung điện TENS + EMS kết hợp chườm nóng diện rộng giúp giảm nhanh nhức mỏi cổ vai gáy sau làm việc.",
+                hot: false
             }
         ];
 
-        let selectedBrand = 'ALL';
-        let cart = [];
+        // State Management
+        let cart = JSON.parse(localStorage.getItem('homesmart_cart')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('homesmart_wishlist')) || [];
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let priceFilter = 'all';
+        let sortOption = 'popular';
+        let appliedCoupon = null;
 
-        function formatMoney(num) {
-            return num.toLocaleString('vi-VN') + ' VNĐ';
+        // Utility: Currency Formatter
+        function formatVND(amount) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
         }
 
-        // Render main content
-        function renderContent() {
-            const container = document.getElementById('productsContainer');
-            const searchTerm = (document.getElementById('searchInput').value || document.getElementById('searchInputMobile').value).toLowerCase();
+        // Render Product Cards
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            const emptyState = document.getElementById('empty-state');
+            const countLabel = document.getElementById('product-count');
 
-            let html = '';
+            // Filtering
+            let filtered = productsData.filter(p => {
+                const matchCat = (activeCategory === 'all') || (p.category === activeCategory);
+                const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                    p.description.toLowerCase().includes(searchQuery.toLowerCase());
+                
+                let matchPrice = true;
+                if (priceFilter === 'under-1m') matchPrice = p.price < 1000000;
+                else if (priceFilter === '1m-3m') matchPrice = p.price >= 1000000 && p.price <= 3000000;
+                else if (priceFilter === '3m-5m') matchPrice = p.price > 3000000 && p.price <= 5000000;
+                else if (priceFilter === 'above-5m') matchPrice = p.price > 5000000;
 
-            flagshipData.forEach(brand => {
-                if (selectedBrand !== 'ALL' && brand.brandId !== selectedBrand) return;
-
-                // Filter items by search term
-                let filteredItems = brand.items.filter(item => 
-                    item.name.toLowerCase().includes(searchTerm) || 
-                    brand.brandId.toLowerCase().includes(searchTerm) ||
-                    item.desc.toLowerCase().includes(searchTerm) ||
-                    item.chip.toLowerCase().includes(searchTerm)
-                );
-
-                if (filteredItems.length === 0) return;
-
-                html += `
-                    <section id="brand-${brand.brandId}" class="space-y-6">
-                        <!-- Brand Title Header -->
-                        <div class="border-l-4 pl-4" style="border-color: ${brand.color}">
-                            <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide uppercase">${brand.brandTitle}</h2>
-                            <p class="text-xs text-gray-400 mt-1 max-w-3xl">${brand.description}</p>
-                        </div>
-
-                        <!-- Grid Cards -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            ${filteredItems.map(p => `
-                                <div class="phone-card bg-[#141822] border border-flagship-border rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between">
-                                    <div class="relative bg-[#0F121A] p-4 cursor-pointer overflow-hidden group" onclick="openModal(${p.id})">
-                                        <span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md z-10 uppercase tracking-wider shadow">
-                                            ${p.badge}
-                                        </span>
-                                        <div class="h-64 w-full flex items-center justify-center">
-                                            <img src="${p.image}" alt="${p.name}" class="phone-img w-full h-full object-contain transition-transform duration-500">
-                                        </div>
-                                    </div>
-
-                                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
-                                        <div>
-                                            <h3 onclick="openModal(${p.id})" class="font-extrabold text-white text-base hover:text-red-500 cursor-pointer transition-colors line-clamp-1">
-                                                ${p.name}
-                                            </h3>
-                                            <p class="text-xs text-gray-400 mt-1 line-clamp-2">${p.desc}</p>
-                                            
-                                            <!-- Specifications Grid Mini -->
-                                            <div class="mt-3 bg-[#0F121A] p-2.5 rounded-xl border border-flagship-border/60 text-[11px] space-y-1 text-gray-300">
-                                                <div class="flex justify-between"><span class="text-gray-500">Chipset:</span><span class="font-bold text-amber-400 line-clamp-1">${p.chip}</span></div>
-                                                <div class="flex justify-between"><span class="text-gray-500">Bộ nhớ:</span><span class="font-bold text-white">${p.ramRom}</span></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="pt-3 border-t border-flagship-border/80 flex items-center justify-between">
-                                            <div>
-                                                <div class="text-[11px] text-gray-500 line-through">${formatMoney(p.oldPrice)}</div>
-                                                <div class="text-base font-black text-red-500">${formatMoney(p.price)}</div>
-                                            </div>
-                                            <button onclick="addToCart(${p.id})" class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-xl transition-colors shadow-md">
-                                                <i class="fa-solid fa-cart-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </section>
-                `;
+                return matchCat && matchSearch && matchPrice;
             });
 
-            if (html === '') {
-                html = `
-                    <div class="text-center py-20">
-                        <i class="fa-solid fa-mobile-screen-button text-6xl text-gray-700 mb-4"></i>
-                        <h3 class="text-lg font-bold text-white">Không tìm thấy mẫu flagship phù hợp!</h3>
-                        <p class="text-xs text-gray-400 mt-1">Vui lòng thử tìm từ khóa khác như "iPhone 17", "S26 Ultra", "Xiaomi 17", "X300" hoặc "Find X9".</p>
-                    </div>
-                `;
+            // Sorting
+            if (sortOption === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+            else if (sortOption === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+            else if (sortOption === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+
+            countLabel.textContent = `${filtered.length} sản phẩm`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
             }
 
-            container.innerHTML = html;
-        }
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(product => {
+                const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+                const isLiked = wishlist.includes(product.id);
 
-        // Filter Brand Tab
-        function filterBrand(brandId) {
-            selectedBrand = brandId;
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                if ((brandId === 'ALL' && btn.textContent.includes('Tất Cả')) || btn.getAttribute('onclick').includes(brandId)) {
-                    btn.className = "tab-btn active px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-red-600 text-white transition-all";
-                } else {
-                    btn.className = "tab-btn px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap bg-[#181D2A] text-gray-400 hover:text-white transition-all";
-                }
-            });
-            renderContent();
-        }
-
-        function handleSearch() { renderContent(); }
-        function handleSearchMobile() { renderContent(); }
-
-        // Find product helper
-        function findProduct(id) {
-            for (let brand of flagshipData) {
-                let found = brand.items.find(x => x.id === id);
-                if (found) return found;
-            }
-            return null;
-        }
-
-        // Open Specs Modal
-        function openModal(id) {
-            const p = findProduct(id);
-            if (!p) return;
-
-            const modal = document.getElementById('modalContent');
-            modal.innerHTML = `
-                <div class="bg-[#0F121A] rounded-2xl p-4 border border-flagship-border flex items-center justify-center">
-                    <img src="${p.image}" class="w-full h-72 object-contain">
-                </div>
-                <div class="flex flex-col justify-between space-y-4">
-                    <div>
-                        <span class="text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 px-2.5 py-1 rounded-md border border-red-500/20">${p.badge}</span>
-                        <h2 class="text-2xl font-black text-white mt-2 leading-snug">${p.name}</h2>
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group relative">
                         
-                        <div class="mt-3 flex items-baseline gap-3">
-                            <span class="text-2xl font-black text-red-500">${formatMoney(p.price)}</span>
-                            <span class="text-xs text-gray-500 line-through">${formatMoney(p.oldPrice)}</span>
+                        <!-- Badges -->
+                        <div class="absolute top-3 left-3 z-10 flex flex-col gap-1">
+                            ${discount > 0 ? `<span class="bg-red-500 text-white font-bold text-[10px] px-2 py-0.5 rounded-full uppercase shadow">- ${discount}%</span>` : ''}
+                            ${product.hot ? `<span class="bg-accent-500 text-white font-bold text-[10px] px-2 py-0.5 rounded-full uppercase shadow">Bán chạy</span>` : ''}
                         </div>
 
-                        <p class="text-xs text-gray-400 mt-3 leading-relaxed">${p.desc}</p>
+                        <!-- Wishlist Toggle -->
+                        <button onclick="toggleWishlist(${product.id})" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-red-500 transition shadow">
+                            <i class="${isLiked ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart'} text-sm"></i>
+                        </button>
 
-                        <!-- Specs Table -->
-                        <div class="mt-4 border border-flagship-border rounded-xl overflow-hidden bg-[#0F121A] text-xs">
-                            <div class="p-2.5 border-b border-flagship-border flex justify-between"><span class="text-gray-400">Chipset:</span><span class="font-bold text-amber-400">${p.chip}</span></div>
-                            <div class="p-2.5 border-b border-flagship-border flex justify-between"><span class="text-gray-400">Màn hình:</span><span class="font-bold text-white">${p.display}</span></div>
-                            <div class="p-2.5 border-b border-flagship-border flex justify-between"><span class="text-gray-400">Camera chính:</span><span class="font-bold text-white">${p.camera}</span></div>
-                            <div class="p-2.5 border-b border-flagship-border flex justify-between"><span class="text-gray-400">Pin & Sạc:</span><span class="font-bold text-white">${p.battery}</span></div>
-                            <div class="p-2.5 flex justify-between"><span class="text-gray-400">Cấu hình:</span><span class="font-bold text-white">${p.ramRom}</span></div>
+                        <!-- Product Image & Quickview Hover Overlay -->
+                        <div class="relative h-44 sm:h-52 bg-slate-100 overflow-hidden cursor-pointer" onclick="openQuickView(${product.id})">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
+                            
+                            <div class="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <span class="bg-white/90 text-slate-800 text-xs font-semibold px-3 py-1.5 rounded-full shadow flex items-center gap-1.5">
+                                    <i class="fa-solid fa-eye"></i> Xem nhanh
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Card Info -->
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <!-- Rating -->
+                                <div class="flex items-center gap-1 text-xs mb-1.5">
+                                    <div class="text-amber-400 flex items-center">
+                                        <i class="fa-solid fa-star"></i>
+                                        <span class="font-bold ml-1 text-slate-700">${product.rating}</span>
+                                    </div>
+                                    <span class="text-slate-400 text-[11px]">(${product.reviews})</span>
+                                </div>
+
+                                <h3 onclick="openQuickView(${product.id})" class="font-semibold text-slate-800 text-xs sm:text-sm line-clamp-2 hover:text-brand-600 transition cursor-pointer mb-2">
+                                    ${product.name}
+                                </h3>
+                            </div>
+
+                            <div class="pt-2 border-t border-slate-100 flex items-end justify-between gap-1">
+                                <div>
+                                    <div class="text-xs text-slate-400 line-through">${formatVND(product.originalPrice)}</div>
+                                    <div class="text-sm sm:text-base font-bold text-brand-600">${formatVND(product.price)}</div>
+                                </div>
+
+                                <button onclick="addToCart(${product.id})" class="w-9 h-9 rounded-xl bg-brand-50 hover:bg-brand-600 text-brand-600 hover:text-white flex items-center justify-center transition shadow-sm" title="Thêm vào giỏ">
+                                    <i class="fa-solid fa-cart-plus text-sm"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
+                `;
+            }).join('');
+        }
 
-                    <button onclick="addToCart(${p.id}); closeModal();" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-red-600/30">
-                        Thêm Vào Giỏ Hàng
-                    </button>
+        // Quick View Modal Popup
+        function openQuickView(id) {
+            const product = productsData.find(p => p.id === id);
+            if (!product) return;
+
+            const modal = document.getElementById('quickview-modal-backdrop');
+            const content = document.getElementById('quickview-content');
+
+            content.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="rounded-2xl overflow-hidden bg-slate-100 h-64 sm:h-80">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-brand-100 text-brand-700 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Chính Hãng</span>
+                            <div class="flex items-center gap-1 text-xs text-amber-400">
+                                <i class="fa-solid fa-star"></i>
+                                <span class="font-bold text-slate-800">${product.rating}</span>
+                            </div>
+                        </div>
+
+                        <h2 class="font-bold text-slate-900 text-lg sm:text-xl">${product.name}</h2>
+                        <p class="text-xs text-slate-600 leading-relaxed">${product.description}</p>
+
+                        <div class="p-3 bg-slate-50 rounded-xl flex items-center gap-4">
+                            <div>
+                                <span class="text-xs text-slate-400 line-through">${formatVND(product.originalPrice)}</span>
+                                <div class="text-xl font-extrabold text-brand-600">${formatVND(product.price)}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 pt-2">
+                            <div class="flex items-center border border-slate-200 rounded-xl overflow-hidden">
+                                <button onclick="changeQuickQty(-1)" class="px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-600"><i class="fa-solid fa-minus text-xs"></i></button>
+                                <span id="quickview-qty" class="px-4 py-2 text-sm font-bold text-slate-800">1</span>
+                                <button onclick="changeQuickQty(1)" class="px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-600"><i class="fa-solid fa-plus text-xs"></i></button>
+                            </div>
+                            <button onclick="addQuickToCart(${product.id})" class="flex-1 bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-brand-600/20 text-sm transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bag-shopping"></i> Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
                 </div>
             `;
-            document.getElementById('productModal').classList.remove('hidden');
+
+            modal.classList.remove('hidden');
         }
 
-        function closeModal() {
-            document.getElementById('productModal').classList.add('hidden');
+        let quickQty = 1;
+        function changeQuickQty(delta) {
+            quickQty = Math.max(1, quickQty + delta);
+            const el = document.getElementById('quickview-qty');
+            if (el) el.textContent = quickQty;
         }
 
-        // Cart Functions
-        function toggleCart() {
-            document.getElementById('cartDrawer').classList.toggle('hidden');
+        function addQuickToCart(id) {
+            addToCart(id, quickQty);
+            document.getElementById('quickview-modal-backdrop').classList.add('hidden');
+            quickQty = 1;
         }
 
-        function addToCart(id) {
-            const item = cart.find(x => x.id === id);
-            if (item) {
-                item.qty += 1;
+        // Cart Actions
+        function addToCart(productId, quantity = 1) {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += quantity;
             } else {
-                const p = findProduct(id);
-                cart.push({ ...p, qty: 1 });
+                cart.push({ ...product, quantity });
             }
+
             updateCartUI();
+            showToast(`Đã thêm "${product.name}" vào giỏ hàng!`, 'success');
         }
 
-        function updateQty(id, delta) {
-            const item = cart.find(x => x.id === id);
+        function updateCartQuantity(id, delta) {
+            const item = cart.find(i => i.id === id);
             if (item) {
-                item.qty += delta;
-                if (item.qty <= 0) {
-                    cart = cart.filter(x => x.id !== id);
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== id);
                 }
             }
             updateCartUI();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+            showToast('Đã xóa sản phẩm khỏi giỏ hàng', 'info');
         }
 
         function updateCartUI() {
-            const badge = document.getElementById('cartBadge');
-            const list = document.getElementById('cartItemsList');
-            const total = document.getElementById('cartTotalPrice');
+            localStorage.setItem('homesmart_cart', JSON.stringify(cart));
 
-            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            // Badge Count
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-badge').textContent = totalItems;
+            document.getElementById('cart-total-badge').textContent = `${totalItems} món`;
 
-            badge.textContent = totalCount;
-            total.textContent = formatMoney(totalPrice);
-
+            // Cart Items Render
+            const container = document.getElementById('cart-items-container');
             if (cart.length === 0) {
-                list.innerHTML = `
-                    <div class="text-center py-16 text-gray-500">
-                        <i class="fa-solid fa-basket-shopping text-4xl mb-3"></i>
-                        <p class="text-xs">Giỏ hàng của bạn đang trống</p>
+                container.innerHTML = `
+                    <div class="py-12 text-center text-slate-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-slate-300"></i>
+                        <p class="text-sm font-medium">Giỏ hàng của bạn đang trống</p>
                     </div>
                 `;
-                return;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="py-3 flex items-center gap-3">
+                        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 rounded-xl object-cover bg-slate-100">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-xs text-slate-800 truncate">${item.name}</h4>
+                            <div class="text-xs text-brand-600 font-bold mt-0.5">${formatVND(item.price)}</div>
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="updateCartQuantity(${item.id}, -1)" class="w-5 h-5 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center text-xs">-</button>
+                                <span class="text-xs font-bold text-slate-700">${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.id}, 1)" class="w-5 h-5 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center text-xs">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-slate-300 hover:text-red-500 p-1">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+                `).join('');
             }
 
-            list.innerHTML = cart.map(item => `
-                <div class="flex items-center gap-3 bg-[#181D2A] p-3 rounded-xl border border-flagship-border">
-                    <img src="${item.image}" class="w-12 h-12 object-contain bg-[#0F121A] rounded-lg p-1">
-                    <div class="flex-1">
-                        <h4 class="font-bold text-xs text-white line-clamp-1">${item.name}</h4>
-                        <div class="text-xs text-red-500 font-extrabold mt-0.5">${formatMoney(item.price)}</div>
-                    </div>
-                    <div class="flex items-center gap-2 bg-[#0F121A] px-2 py-1 rounded-lg border border-flagship-border">
-                        <button onclick="updateQty(${item.id}, -1)" class="text-gray-400 hover:text-white text-xs px-1">-</button>
-                        <span class="text-xs font-bold text-white">${item.qty}</span>
-                        <button onclick="updateQty(${item.id}, 1)" class="text-gray-400 hover:text-white text-xs px-1">+</button>
-                    </div>
-                </div>
-            `).join('');
+            // Totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let discount = 0;
+            if (appliedCoupon === 'HOMESMART10') {
+                discount = subtotal * 0.1;
+                document.getElementById('discount-row').classList.remove('hidden');
+                document.getElementById('cart-discount').textContent = `- ${formatVND(discount)}`;
+            } else {
+                document.getElementById('discount-row').classList.add('hidden');
+            }
+
+            const grandTotal = Math.max(0, subtotal - discount);
+            document.getElementById('cart-subtotal').textContent = formatVND(subtotal);
+            document.getElementById('cart-grand-total').textContent = formatVND(grandTotal);
+            document.getElementById('checkout-final-price').textContent = formatVND(grandTotal);
         }
 
-        function checkout() {
-            if (cart.length === 0) {
-                alert("Giỏ hàng của bạn đang trống!");
-                return;
+        // Wishlist Handler
+        function toggleWishlist(id) {
+            if (wishlist.includes(id)) {
+                wishlist = wishlist.filter(item => item !== id);
+                showToast('Đã xóa khỏi yêu thích', 'info');
+            } else {
+                wishlist.push(id);
+                showToast('Đã thêm vào danh sách yêu thích ❤️', 'success');
             }
-            alert("Cảm ơn bạn đã đặt hàng! Đơn hàng điện thoại Flagship của bạn đã được tiếp nhận thành công.");
-            cart = [];
+            localStorage.setItem('homesmart_wishlist', JSON.stringify(wishlist));
+            document.getElementById('wishlist-badge').textContent = wishlist.length;
+            document.getElementById('wishlist-badge').classList.toggle('hidden', wishlist.length === 0);
+            renderProducts();
+        }
+
+        // Toast Notification
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            document.getElementById('toast-msg').textContent = msg;
+
+            if (type === 'error') icon.className = 'fa-solid fa-circle-xmark text-red-500 text-lg';
+            else if (type === 'info') icon.className = 'fa-solid fa-circle-info text-blue-500 text-lg';
+            else icon.className = 'fa-solid fa-circle-check text-brand-500 text-lg';
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Event Listeners Initializer
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
             updateCartUI();
-            toggleCart();
-        }
 
-        // Init App
-        renderContent();
+            // Cart Drawer Controls
+            const drawer = document.getElementById('cart-drawer');
+            const backdrop = document.getElementById('cart-drawer-backdrop');
+            
+            const openCart = () => {
+                drawer.classList.remove('translate-x-full');
+                backdrop.classList.remove('hidden');
+            };
+            const closeCart = () => {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('hidden');
+            };
+
+            document.getElementById('cart-drawer-btn').addEventListener('click', openCart);
+            document.getElementById('close-cart-btn').addEventListener('click', closeCart);
+            backdrop.addEventListener('click', closeCart);
+
+            // Close QuickView
+            document.getElementById('close-quickview-btn').addEventListener('click', () => {
+                document.getElementById('quickview-modal-backdrop').classList.add('hidden');
+            });
+
+            // Search Autocomplete Handlers
+            const searchInput = document.getElementById('search-input');
+            const clearSearchBtn = document.getElementById('clear-search-btn');
+            const suggestionsBox = document.getElementById('search-suggestions');
+
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.trim();
+                clearSearchBtn.classList.toggle('hidden', searchQuery === '');
+
+                if (searchQuery.length > 0) {
+                    const matches = productsData.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 4);
+                    if (matches.length > 0) {
+                        suggestionsBox.innerHTML = matches.map(m => `
+                            <div onclick="openQuickView(${m.id})" class="p-3 hover:bg-slate-50 cursor-pointer flex items-center gap-3 transition">
+                                <img src="${m.image}" class="w-10 h-10 rounded-lg object-cover">
+                                <div class="flex-1 min-w-0">
+                                    <div class="text-xs font-semibold text-slate-800 truncate">${m.name}</div>
+                                    <div class="text-xs text-brand-600 font-bold">${formatVND(m.price)}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                        suggestionsBox.classList.remove('hidden');
+                    } else {
+                        suggestionsBox.classList.add('hidden');
+                    }
+                } else {
+                    suggestionsBox.classList.add('hidden');
+                }
+                renderProducts();
+            });
+
+            clearSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearchBtn.classList.add('hidden');
+                suggestionsBox.classList.add('hidden');
+                renderProducts();
+            });
+
+            // Mobile Search Input Sync
+            document.getElementById('mobile-search-input').addEventListener('input', (e) => {
+                searchQuery = e.target.value.trim();
+                renderProducts();
+            });
+
+            // Category Filter Buttons
+            document.querySelectorAll('.nav-cat-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-cat-btn').forEach(b => {
+                        b.classList.remove('text-brand-600', 'font-semibold', 'bg-brand-50');
+                    });
+                    btn.classList.add('text-brand-600', 'font-semibold', 'bg-brand-50');
+                    activeCategory = btn.getAttribute('data-cat');
+                    
+                    const titleMap = {
+                        all: 'Tất cả sản phẩm',
+                        kitchen: 'Đồ dùng nhà bếp',
+                        cleaning: 'Thiết bị làm sạch',
+                        electric: 'Điện gia dụng',
+                        smart: 'Đồ dùng thông minh',
+                        health: 'Chăm sóc sức khỏe'
+                    };
+                    document.getElementById('current-cat-title').children[0].textContent = titleMap[activeCategory];
+                    renderProducts();
+                });
+            });
+
+            // Filters Dropdown
+            document.getElementById('price-filter').addEventListener('change', (e) => {
+                priceFilter = e.target.value;
+                renderProducts();
+            });
+            document.getElementById('sort-select').addEventListener('change', (e) => {
+                sortOption = e.target.value;
+                renderProducts();
+            });
+
+            // Apply Coupon
+            document.getElementById('apply-coupon-btn').addEventListener('click', () => {
+                const code = document.getElementById('coupon-code-input').value.trim().toUpperCase();
+                if (code === 'HOMESMART10') {
+                    appliedCoupon = code;
+                    showToast('Đã áp dụng mã HOMESMART10 (-10%)', 'success');
+                    updateCartUI();
+                } else {
+                    showToast('Mã giảm giá không hợp lệ', 'error');
+                }
+            });
+
+            // Checkout Modal Controls
+            const checkoutModal = document.getElementById('checkout-modal-backdrop');
+            document.getElementById('open-checkout-btn').addEventListener('click', () => {
+                if (cart.length === 0) {
+                    showToast('Giỏ hàng đang trống!', 'error');
+                    return;
+                }
+                closeCart();
+                checkoutModal.classList.remove('hidden');
+            });
+            document.getElementById('close-checkout-btn').addEventListener('click', () => {
+                checkoutModal.classList.add('hidden');
+            });
+
+            // Form Checkout Submit Handler
+            document.getElementById('checkout-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                checkoutModal.classList.add('hidden');
+                cart = [];
+                appliedCoupon = null;
+                updateCartUI();
+                showToast('🎉 Đặt hàng thành công! Nhân viên sẽ liên hệ sớm nhất.', 'success');
+            });
+        });
     </script>
 </body>
 </html>
