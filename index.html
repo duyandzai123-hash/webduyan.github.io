@@ -87,11 +87,11 @@
                     <!-- SQL PRESET TEMPLATES -->
                     <div class="flex items-center gap-2 text-xs">
                         <span class="text-slate-500">Câu lệnh mẫu:</span>
-                        <button onclick="loadPresetQuery('SELECT')" class="text-blue-400 hover:underline">SELECT</button>
-                        <button onclick="loadPresetQuery('WHERE')" class="text-blue-400 hover:underline">WHERE</button>
-                        <button onclick="loadPresetQuery('JOIN')" class="text-blue-400 hover:underline">JOIN</button>
-                        <button onclick="loadPresetQuery('GROUP_BY')" class="text-blue-400 hover:underline">GROUP BY</button>
-                        <button onclick="loadPresetQuery('INSERT')" class="text-blue-400 hover:underline">INSERT</button>
+                        <button onclick="loadPresetQuery('SELECT')" class="text-blue-400 hover:underline font-semibold">SELECT</button>
+                        <button onclick="loadPresetQuery('WHERE')" class="text-blue-400 hover:underline font-semibold">WHERE</button>
+                        <button onclick="loadPresetQuery('JOIN')" class="text-blue-400 hover:underline font-semibold">JOIN</button>
+                        <button onclick="loadPresetQuery('GROUP_BY')" class="text-blue-400 hover:underline font-semibold">GROUP BY</button>
+                        <button onclick="loadPresetQuery('INSERT')" class="text-blue-400 hover:underline font-semibold">INSERT</button>
                     </div>
                 </div>
 
@@ -113,7 +113,7 @@
                 <div id="output-container" class="flex-1 bg-slate-900 border border-slate-800 rounded-xl overflow-auto custom-scrollbar p-1">
                     <div class="h-full flex flex-col items-center justify-center text-slate-500 space-y-2">
                         <i class="fa-solid fa-terminal text-3xl opacity-30"></i>
-                        <p class="text-xs">Nhấn "Chạy Lệnh SQL" để thực thi câu lệnh truy vấn</p>
+                        <p class="text-xs">Nhấn "Chạy Lệnh SQL" hoặc chọn câu lệnh mẫu ở trên</p>
                     </div>
                 </div>
             </div>
@@ -135,7 +135,6 @@
                 initSampleSchema();
                 renderSidebarTables();
                 loadPresetQuery('SELECT');
-                runCurrentQuery();
             } catch (err) {
                 console.error("Lỗi khởi tạo SQLite engine:", err);
                 document.getElementById('output-container').innerHTML = `
@@ -145,7 +144,7 @@
             }
         });
 
-        // Tạo dữ liệu CSDL SQL mẫu
+        // Tạo dữ liệu CSDL SQL mẫu (Chuẩn SQLite syntax)
         function initSampleSchema() {
             db.run(`
                 DROP TABLE IF EXISTS SinhVien;
@@ -154,7 +153,7 @@
 
                 -- 1. Bảng Lớp Học
                 CREATE TABLE LopHoc (
-                    MaLop INTEGER PRIMARY KEY AUTO_INCREMENT,
+                    MaLop INTEGER PRIMARY KEY AUTOINCREMENT,
                     TenLop TEXT NOT NULL,
                     Khoa TEXT NOT NULL
                 );
@@ -180,17 +179,17 @@
                 );
 
                 -- Insert dữ liệu mẫu
-                INSERT INTO LopHoc VALUES (1, 'CNTT K11', 'Công Nghệ Thông Tin');
-                INSERT INTO LopHoc VALUES (2, 'KinhTe K11', 'Kinh Tế Doanh Nghiệp');
+                INSERT INTO LopHoc (MaLop, TenLop, Khoa) VALUES (1, 'CNTT K11', 'Công Nghệ Thông Tin');
+                INSERT INTO LopHoc (MaLop, TenLop, Khoa) VALUES (2, 'KinhTe K11', 'Kinh Tế Doanh Nghiệp');
 
-                INSERT INTO SinhVien VALUES (101, 'Nguyễn Văn An', 17, 'Lào Cai', 8.5, 1);
-                INSERT INTO SinhVien VALUES (102, 'Trần Thị Bình', 18, 'Hà Nội', 7.8, 1);
-                INSERT INTO SinhVien VALUES (103, 'Lê Hoàng Cường', 17, 'Đà Nẵng', 9.0, 2);
-                INSERT INTO SinhVien VALUES (104, 'Phạm Minh Đức', 18, 'Lào Cai', 6.5, 1);
+                INSERT INTO SinhVien (MaSV, HoTen, Tuoi, QueQuan, DiemTB, MaLop) VALUES (101, 'Nguyễn Văn An', 17, 'Lào Cai', 8.5, 1);
+                INSERT INTO SinhVien (MaSV, HoTen, Tuoi, QueQuan, DiemTB, MaLop) VALUES (102, 'Trần Thị Bình', 18, 'Hà Nội', 7.8, 1);
+                INSERT INTO SinhVien (MaSV, HoTen, Tuoi, QueQuan, DiemTB, MaLop) VALUES (103, 'Lê Hoàng Cường', 17, 'Đà Nẵng', 9.0, 2);
+                INSERT INTO SinhVien (MaSV, HoTen, Tuoi, QueQuan, DiemTB, MaLop) VALUES (104, 'Phạm Minh Đức', 18, 'Lào Cai', 6.5, 1);
 
-                INSERT INTO SanPham VALUES (1, 'Laptop Dell XPS 13', 'Máy Tính', 28500000, 10);
-                INSERT INTO SanPham VALUES (2, 'Chuột Không Dây Logitech', 'Phụ Kiện', 450000, 50);
-                INSERT INTO SanPham VALUES (3, 'Bàn Phím Cơ AKKO', 'Phụ Kiện', 1250000, 25);
+                INSERT INTO SanPham (MaSP, TenSP, DanhMuc, GiaBan, SoLuongTon) VALUES (1, 'Laptop Dell XPS 13', 'Máy Tính', 28500000, 10);
+                INSERT INTO SanPham (MaSP, TenSP, DanhMuc, GiaBan, SoLuongTon) VALUES (2, 'Chuột Không Dây Logitech', 'Phụ Kiện', 450000, 50);
+                INSERT INTO SanPham (MaSP, TenSP, DanhMuc, GiaBan, SoLuongTon) VALUES (3, 'Bàn Phím Cơ AKKO', 'Phụ Kiện', 1250000, 25);
             `);
         }
 
@@ -220,7 +219,7 @@
                     <div class="bg-slate-950 rounded-lg border border-slate-800/80 overflow-hidden">
                         <button onclick="loadPresetQueryForTable('${tableName}')" class="w-full text-left px-3 py-2 bg-slate-850 hover:bg-slate-800 font-mono text-xs font-bold text-slate-200 flex items-center justify-between">
                             <span class="flex items-center gap-1.5"><i class="fa-solid fa-table text-blue-400"></i> ${tableName}</span>
-                            <i class="fa-solid fa-[#fa-angle-right] text-slate-500 text-[10px]"></i>
+                            <i class="fa-solid fa-chevron-right text-slate-500 text-[10px]"></i>
                         </button>
                         <div class="py-1 border-t border-slate-800/50 bg-slate-950/50">
                             ${colsHtml}
@@ -254,7 +253,7 @@
                         <div class="p-4 text-xs text-emerald-400 flex items-center gap-2">
                             <i class="fa-solid fa-circle-check text-base"></i> Câu lệnh đã thực thi thành công (0 dòng trả về hoặc đã cập nhật dữ liệu).
                         </div>`;
-                    renderSidebarTables(); // Cập nhật lại sidebar nếu có CREATE/DROP
+                    renderSidebarTables(); // Cập nhật lại sidebar nếu có CREATE/DROP/INSERT
                     return;
                 }
 
@@ -288,7 +287,7 @@
             }
         }
 
-        // nạp các câu lệnh mẫu
+        // Nạp các câu lệnh mẫu
         function loadPresetQuery(type) {
             const editor = document.getElementById('sql-editor');
             if (type === 'SELECT') {
@@ -318,7 +317,7 @@
             }
         }
 
-        // Bắt phím tắt F5 hoặc Ctrl+Enter để chạy Query
+        // Bắt phím tắt F5 hoặc Ctrl+Enter để chạy Query nhanh
         document.addEventListener('keydown', (e) => {
             if (e.key === 'F5' || (e.ctrlKey && e.key === 'Enter')) {
                 e.preventDefault();
