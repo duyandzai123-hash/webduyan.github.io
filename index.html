@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DUY POST - Quản Lý Bán Vợt Cầu Lông & COD Viettel Post</title>
+    <title>DUY POST - SQL Database Management & Logistics</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -14,11 +14,8 @@
                     colors: {
                         brand: {
                             orange: '#FF5722',
-                            red: '#EE0000',
-                            navy: '#0F172A',
                             dark: '#0B0F19',
                             card: '#1E293B',
-                            accent: '#38BDF8'
                         }
                     }
                 }
@@ -36,563 +33,305 @@
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
 
-    <!-- HEADER & NAVBAR -->
-    <header class="bg-slate-800/90 backdrop-blur border-b border-slate-700 sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-gradient-to-tr from-orange-600 to-red-600 text-white p-2.5 rounded-xl shadow-lg">
-                    <i class="fa-solid fa-truck-fast text-2xl"></i>
-                </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="font-extrabold text-2xl tracking-tight text-white">DUY <span class="text-orange-500">POST</span></h1>
-                        <span class="bg-orange-500/20 text-orange-400 text-xs font-semibold px-2 py-0.5 rounded border border-orange-500/30">Express</span>
-                    </div>
-                    <p class="text-xs text-slate-400">Chủ shop: <span class="text-slate-200 font-medium">Bùi Duy An</span> • Bán Vợt Cầu Lông & Thu Hộ COD</p>
-                </div>
+    <!-- HEADER -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 px-6 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="bg-orange-600 text-white p-2 rounded-lg shadow">
+                <i class="fa-solid fa-database text-xl"></i>
             </div>
-
-            <!-- Quick Navigation & Actions -->
-            <div class="flex items-center gap-3">
-                <button onclick="switchTab('orders')" id="btn-tab-orders" class="px-4 py-2 rounded-lg font-medium text-sm transition bg-orange-600 text-white shadow-md shadow-orange-600/30">
-                    <i class="fa-solid fa-list-check mr-1.5"></i> Quản Lý Đơn Hàng
-                </button>
-                <button onclick="switchTab('database')" id="btn-tab-database" class="px-4 py-2 rounded-lg font-medium text-sm transition bg-slate-700 text-slate-300 hover:bg-slate-600">
-                    <i class="fa-solid fa-database mr-1.5"></i> Trực Quan CSDL (SQL)
-                </button>
-                <button onclick="openNewOrderModal()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-sm font-semibold rounded-lg shadow-md transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-plus"></i> Tạo Đơn Mới
-                </button>
+            <div>
+                <h1 class="font-bold text-lg text-white">DUY <span class="text-orange-500">POST</span> • SQL Database Studio</h1>
+                <p class="text-xs text-slate-400">Database: <span class="text-emerald-400 font-mono">duy_post_badminton_db</span> • Chủ shop: Bùi Duy An</p>
             </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="switchTab('studio')" id="btn-studio" class="px-4 py-2 bg-orange-600 text-white text-xs font-semibold rounded-lg shadow transition">
+                <i class="fa-solid fa-terminal mr-1"></i> Truy Vấn SQL Console
+            </button>
+            <button onclick="switchTab('tables')" id="btn-tables" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-700 transition">
+                <i class="fa-solid fa-table mr-1"></i> Quản Lý Bảng Dữ Liệu
+            </button>
+            <button onclick="openNewOrderModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-lg shadow transition">
+                <i class="fa-solid fa-plus mr-1"></i> Thêm Đơn Hàng Mới
+            </button>
         </div>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6">
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
 
-        <!-- TAB 1: ORDER MANAGEMENT -->
-        <div id="tab-orders" class="space-y-6">
-            
-            <!-- STATS CARDS -->
+        <!-- TAB 1: SQL STUDIO & CONSOLE -->
+        <div id="tab-studio" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/70 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Tổng đơn vận chuyển</p>
-                        <h3 id="stat-total-orders" class="text-2xl font-bold text-white mt-1">0</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-boxes-packing"></i>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                    <p class="text-xs text-slate-400 font-medium">Tổng Số Bảng (Tables)</p>
+                    <h3 class="text-2xl font-bold text-white mt-1">4 Tables</h3>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                    <p class="text-xs text-slate-400 font-medium">Tổng Đơn Hàng (Orders)</p>
+                    <h3 id="stat-orders-count" class="text-2xl font-bold text-orange-400 mt-1">0</h3>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                    <p class="text-xs text-slate-400 font-medium">Tổng Tiền COD Chờ Thu</p>
+                    <h3 id="stat-total-cod" class="text-2xl font-bold text-amber-400 mt-1">0 ₫</h3>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                    <p class="text-xs text-slate-400 font-medium">Trạng thái CSDL</p>
+                    <h3 class="text-2xl font-bold text-emerald-400 mt-1">Connected (OK)</h3>
+                </div>
+            </div>
+
+            <!-- SQL EDITOR -->
+            <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-lg">
+                <div class="bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-300 font-mono flex items-center gap-2">
+                        <i class="fa-solid fa-code text-orange-500"></i> SQL Query Editor
+                    </span>
+                    <div class="space-x-2 text-xs">
+                        <button onclick="setQuery('SELECT * FROM Orders;')" class="text-orange-400 hover:underline">SELECT Orders</button>
+                        <button onclick="setQuery('SELECT * FROM Products;')" class="text-orange-400 hover:underline">Products</button>
+                        <button onclick="setQuery('SELECT SUM(cod_amount) FROM Orders;')" class="text-orange-400 hover:underline">Sum COD</button>
                     </div>
                 </div>
-
-                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/70 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Tổng tiền COD chờ thu</p>
-                        <h3 id="stat-total-cod" class="text-2xl font-bold text-amber-400 mt-1">0 ₫</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-hand-holding-dollar"></i>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/70 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Đang chuyển phát</p>
-                        <h3 id="stat-delivering" class="text-2xl font-bold text-sky-400 mt-1">0</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-sky-500/10 text-sky-400 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-truck-ramp-box"></i>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800 p-4 rounded-xl border border-slate-700/70 shadow-sm flex items-center justify-between">
-                    <div>
-                        <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Giao thành công</p>
-                        <h3 id="stat-completed" class="text-2xl font-bold text-emerald-400 mt-1">0</h3>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-circle-check"></i>
+                <div class="p-4 space-y-3">
+                    <textarea id="sql-input" rows="4" class="w-full bg-slate-950 text-emerald-400 font-mono text-xs p-3 rounded-lg border border-slate-800 focus:outline-none focus:border-orange-500">SELECT * FROM Orders;</textarea>
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs text-slate-500">Nhấn "Chạy Truy Vấn" để thực thi lệnh SQL trên cơ sở dữ liệu giả lập.</span>
+                        <button onclick="runSqlQuery()" class="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold rounded-lg shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-play"></i> Chạy Truy Vấn SQL
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- SEARCH & FILTER TOOLBAR -->
-            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 flex flex-wrap items-center justify-between gap-3">
-                <div class="flex-1 min-w-[260px] relative">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="input-search" oninput="renderOrdersTable()" placeholder="Tìm kiếm theo mã đơn, khách hàng, SĐT, loại vợt..." class="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-orange-500">
+            <!-- SQL RESULT TABLE -->
+            <div class="bg-slate-900 rounded-xl border border-slate-800 p-4 overflow-hidden shadow-lg space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <h3 id="result-title" class="text-xs font-bold text-slate-400 uppercase tracking-wider font-mono">Kết quả truy vấn (Result Set)</h3>
+                    <span id="result-rows" class="text-xs text-slate-500 font-mono">0 rows returned</span>
                 </div>
-                <div class="flex items-center gap-2">
-                    <select id="select-status-filter" onchange="renderOrdersTable()" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-orange-500">
-                        <option value="ALL">Tất cả trạng thái</option>
-                        <option value="Đang_chuyển_phát">Đang chuyển phát</option>
-                        <option value="Giao_thành_công">Giao thành công</option>
-                        <option value="Mới_tạo">Mới tạo</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- ORDERS TABLE -->
-            <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-lg">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-300">
-                        <thead class="bg-slate-900/80 text-xs uppercase text-slate-400 border-b border-slate-700">
-                            <tr>
-                                <th class="py-3.5 px-4">Mã Đơn / Vận Đơn</th>
-                                <th class="py-3.5 px-4">Khách Hàng & Địa Chỉ</th>
-                                <th class="py-3.5 px-4">Sản Phẩm & Căng Dây</th>
-                                <th class="py-3.5 px-4">Tiền Thu Hộ (COD)</th>
-                                <th class="py-3.5 px-4">Trạng Thái Viettel Post</th>
-                                <th class="py-3.5 px-4 text-center">Thao Tác</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-table-body" class="divide-y divide-slate-700/60">
-                            <!-- Rendered dynamically -->
-                        </tbody>
-                    </table>
+                    <div id="sql-result-container"></div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: DATABASE EXPLORER (SQL) -->
-        <div id="tab-database" class="hidden space-y-6">
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 space-y-4">
-                <div class="flex items-center justify-between border-b border-slate-700 pb-3">
-                    <div>
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-server text-orange-500"></i> Cơ Sở Dữ Liệu SQL Quan Hệ
-                        </h2>
-                        <p class="text-xs text-slate-400">Xem cấu trúc bảng CSDL và thử nghiệm các câu lệnh SQL thực tế</p>
-                    </div>
-                    <span class="bg-slate-900 text-xs text-emerald-400 px-3 py-1 rounded-full font-mono border border-slate-700">Database: duy_post_badminton_db</span>
-                </div>
+        <!-- TAB 2: TABLE MANAGEMENT (CRUD) -->
+        <div id="tab-tables" class="hidden space-y-6">
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-wrap gap-2">
+                <button onclick="loadTableData('Orders')" class="table-btn px-4 py-2 bg-orange-600 text-white text-xs font-semibold rounded-lg font-mono">Orders (Đơn Hàng)</button>
+                <button onclick="loadTableData('Products')" class="table-btn px-4 py-2 bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg font-mono hover:bg-slate-700">Products (Vợt Cầu Lông)</button>
+                <button onclick="loadTableData('Customers')" class="table-btn px-4 py-2 bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg font-mono hover:bg-slate-700">Customers (Khách Hàng)</button>
+            </div>
 
-                <!-- TABLE SELECTOR -->
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="showDatabaseTable('Orders')" class="db-tab-btn bg-orange-600 text-white text-xs px-3 py-2 rounded-lg font-mono font-semibold">Orders (Đơn hàng)</button>
-                    <button onclick="showDatabaseTable('Products')" class="db-tab-btn bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-lg font-mono hover:bg-slate-600">Products (Vợt cầu lông)</button>
-                    <button onclick="showDatabaseTable('Customers')" class="db-tab-btn bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-lg font-mono hover:bg-slate-600">Customers (Khách hàng)</button>
-                    <button onclick="showDatabaseTable('OrderTrackingLogs')" class="db-tab-btn bg-slate-700 text-slate-300 text-xs px-3 py-2 rounded-lg font-mono hover:bg-slate-600">OrderTrackingLogs (Lịch trình)</button>
+            <div class="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-lg p-4 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 id="crud-table-title" class="text-sm font-bold text-white font-mono">Dữ liệu bảng: Orders</h3>
+                    <button onclick="openNewOrderModal()" class="px-3 py-1.5 bg-orange-600 text-white text-xs rounded font-semibold">+ Thêm dòng mới</button>
                 </div>
-
-                <!-- SQL CONSOLE QUERY EDITOR -->
-                <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 space-y-3 font-mono">
-                    <div class="flex items-center justify-between text-xs text-slate-400">
-                        <span>Trình thực thi truy vấn SQL (SQL Query Console)</span>
-                        <div class="space-x-2">
-                            <button onclick="presetQuery('SELECT_ALL')" class="text-orange-400 hover:underline">Select All</button>
-                            <button onclick="presetQuery('SUM_COD')" class="text-orange-400 hover:underline">Sum COD</button>
-                            <button onclick="presetQuery('JOIN_CUSTOMERS')" class="text-orange-400 hover:underline">Join Customers</button>
-                        </div>
-                    </div>
-                    <textarea id="sql-query-input" rows="3" class="w-full bg-slate-900 text-emerald-400 p-3 text-xs rounded border border-slate-700 focus:outline-none focus:border-orange-500 font-mono"></textarea>
-                    <div class="flex justify-end">
-                        <button onclick="executeSqlQuery()" class="px-4 py-1.5 bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold rounded shadow transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-play"></i> Chạy Query
-                        </button>
-                    </div>
-                </div>
-
-                <!-- QUERY RESULT TABLE -->
-                <div class="bg-slate-900 rounded-lg border border-slate-700 p-4 overflow-x-auto">
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2" id="db-result-title">Kết quả bảng: Orders</h3>
-                    <div id="db-table-container"></div>
-                </div>
+                <div class="overflow-x-auto" id="crud-table-container"></div>
             </div>
         </div>
 
     </main>
 
-    <!-- MODAL: TẠO ĐƠN HÀNG MỚI -->
+    <!-- MODAL TẠO ĐƠN HÀNG MỚI -->
     <div id="modal-new-order" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-800 border border-slate-700 w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="bg-slate-900 px-6 py-4 border-b border-slate-700 flex items-center justify-between">
-                <h3 class="font-bold text-white text-base flex items-center gap-2">
-                    <i class="fa-solid fa-cart-plus text-orange-500"></i> Tạo Đơn Hàng Vợt Cầu Lông Mới (DUY POST)
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-xl rounded-xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="bg-slate-950 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+                <h3 class="font-bold text-white text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-database text-orange-500"></i> INSERT INTO Orders (Thêm dữ liệu mới)
                 </h3>
-                <button onclick="closeModal('modal-new-order')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             
-            <form onsubmit="handleCreateOrder(event)" class="p-6 space-y-4 overflow-y-auto flex-1">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onsubmit="handleInsertOrder(event)" class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1">Tên khách hàng *</label>
-                        <input type="text" id="form-customer-name" required placeholder="Ví dụ: Nguyễn Văn Hùng" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Tên Khách Hàng</label>
+                        <input type="text" id="db-cust-name" required placeholder="Nguyễn Văn Hùng" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1">Số điện thoại *</label>
-                        <input type="tel" id="form-customer-phone" required placeholder="Ví dụ: 0981234567" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Số Điện Thoại</label>
+                        <input type="tel" id="db-cust-phone" required placeholder="0981234567" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500">
                     </div>
                 </div>
-
                 <div>
-                    <label class="block text-xs font-medium text-slate-300 mb-1">Địa chỉ nhận hàng (Chi tiết, Tỉnh/Thành) *</label>
-                    <input type="text" id="form-customer-address" required placeholder="Số nhà, Tên đường, Phường/Xã, Tỉnh Thành" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Địa Chỉ Nhận Hàng</label>
+                    <input type="text" id="db-cust-address" required placeholder="Số 12 Nguyễn Huệ, TP. Lào Cai" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500">
                 </div>
-
-                <div class="border-t border-slate-700 pt-3">
-                    <label class="block text-xs font-semibold text-orange-400 uppercase tracking-wider mb-2">Thông tin sản phẩm Vợt & Căng Dây</label>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-300 mb-1">Chọn loại vợt *</label>
-                            <select id="form-racket-select" onchange="updatePriceFromSelect()" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
-                                <option value="Yonex Astrox 88D Pro (4U/G5)">Yonex Astrox 88D Pro (4U/G5)</option>
-                                <option value="Li-Ning Axforce 70 (4U/G5)">Li-Ning Axforce 70 (4U/G5)</option>
-                                <option value="Victor Thruster Ryuga Metallic (4U/G5)">Victor Thruster Ryuga Metallic (4U/G5)</option>
-                                <option value="Li-Ning Axforce 100 (3U/G5)">Li-Ning Axforce 100 (3U/G5)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-300 mb-1">Loại cước căng</label>
-                            <select id="form-string-type" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
-                                <option value="Yonex BG65 (Tiêu chuẩn)">Yonex BG65 (Tiêu chuẩn)</option>
-                                <option value="Yonex BG80 Power (Thiên công)">Yonex BG80 Power (Thiên công)</option>
-                                <option value="Yonex BG65Ti (Nảy, nổ tiếng)">Yonex BG65Ti (Nảy, nổ tiếng)</option>
-                                <option value="Li-Ning No.1">Li-Ning No.1</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1">Mức căng dây (kg / Lbs)</label>
-                        <input type="text" id="form-tension" value="11.5 kg (25.3 Lbs)" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Loại Vợt Cầu Lông</label>
+                        <select id="db-racket" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-white focus:outline-none focus:border-orange-500">
+                            <option value="Yonex Astrox 88D Pro">Yonex Astrox 88D Pro (4U)</option>
+                            <option value="Li-Ning Axforce 70">Li-Ning Axforce 70 (4U)</option>
+                            <option value="Victor Thruster Ryuga">Victor Thruster Ryuga (4U)</option>
+                        </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1">Tiền thu hộ COD (VNĐ) *</label>
-                        <input type="number" id="form-cod-amount" required value="4250000" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-amber-400 font-bold focus:outline-none focus:border-orange-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1">Cước Viettel Post (VNĐ)</label>
-                        <input type="number" id="form-shipping-fee" value="35000" class="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500">
+                        <label class="block text-xs font-medium text-slate-300 mb-1">Tiền Thu Hộ (COD VNĐ)</label>
+                        <input type="number" id="db-cod" required value="4250000" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-xs text-amber-400 font-bold focus:outline-none focus:border-orange-500">
                     </div>
                 </div>
-
-                <div class="flex items-center justify-end gap-3 border-t border-slate-700 pt-4">
-                    <button type="button" onclick="closeModal('modal-new-order')" class="px-4 py-2 bg-slate-700 text-slate-300 text-sm font-medium rounded hover:bg-slate-600">Hủy</button>
-                    <button type="submit" class="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white text-sm font-semibold rounded shadow transition">Lưu & Tạo Đơn</button>
+                <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 bg-slate-800 text-slate-300 text-xs rounded">Hủy</button>
+                    <button type="submit" class="px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold rounded shadow">Thực Thi INSERT</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: TRA CỨU LỊCH TRÌNH / IN TEM DÁN PACKAGING -->
-    <div id="modal-tracking" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-800 border border-slate-700 w-full max-w-xl rounded-xl shadow-2xl overflow-hidden flex flex-col">
-            <div class="bg-slate-900 px-6 py-4 border-b border-slate-700 flex items-center justify-between">
-                <h3 class="font-bold text-white text-base flex items-center gap-2">
-                    <i class="fa-solid fa-route text-orange-500"></i> Lịch Trình Chi Tiết Viettel Post
-                </h3>
-                <button onclick="closeModal('modal-tracking')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="p-6 space-y-4">
-                <div class="bg-slate-900 p-4 rounded-lg border border-slate-700 flex justify-between items-center">
-                    <div>
-                        <p class="text-xs text-slate-400">Mã vận đơn Viettel Post</p>
-                        <p id="track-modal-code" class="text-lg font-mono font-bold text-orange-400">VTP-000000</p>
-                    </div>
-                    <span id="track-modal-status-badge" class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">Đang giao</span>
-                </div>
-
-                <!-- TIMELINE LOGS -->
-                <div class="space-y-4 relative pl-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-700" id="track-timeline-container">
-                    <!-- Logs injected here -->
-                </div>
-            </div>
-            <div class="bg-slate-900 px-6 py-3 border-t border-slate-700 flex justify-between items-center">
-                <button onclick="printCurrentOrderLabel()" class="px-4 py-1.5 bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold rounded flex items-center gap-1.5">
-                    <i class="fa-solid fa-print"></i> In Tem Dán Viettel Post (A6)
-                </button>
-                <button onclick="closeModal('modal-tracking')" class="px-4 py-1.5 bg-orange-600 text-white text-xs font-semibold rounded">Đóng</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PRINTABLE SECTION (HIDDEN ON SCREEN, VISIBLE ON PRINT) -->
+    <!-- IN TEM DÁN (PRINTABLE) -->
     <div id="printable-section" class="hidden">
-        <div style="width: 100mm; padding: 10px; border: 2px solid #000; font-family: Arial, sans-serif; font-size: 11px; color: #000; background: #fff;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 5px;">
-                <b style="font-size: 16px;">VIETTEL POST</b>
-                <span style="font-size: 10px;">DỊCH VỤ CHUYỂN PHÁT NHANH</span>
-            </div>
+        <div style="width: 100mm; padding: 15px; border: 2px solid #000; font-family: Arial; font-size: 11px; background: #fff; color: #000;">
+            <b style="font-size: 14px;">VIETTEL POST EXPRESS</b><hr style="margin: 5px 0;">
             <div style="text-align: center; margin: 10px 0;">
                 <svg id="print-barcode"></svg>
-                <div id="print-tracking-code" style="font-family: monospace; font-weight: bold; font-size: 14px;"></div>
+                <div id="print-vt" style="font-family: monospace; font-weight: bold; font-size: 13px;"></div>
             </div>
-            <div style="border-top: 1px solid #000; padding-top: 5px; margin-top: 5px;">
-                <b>TỪ (NGƯỜI GỬI):</b> DUY POST - Bùi Duy An<br>
-                SĐT: 0988.123.456 • ĐC: TP. Lào Cai, Tỉnh Lào Cai
+            <b>GỬI:</b> DUY POST - Bùi Duy An (Lào Cai)<br>
+            <b>NHẬN:</b> <span id="print-name"></span> (<span id="print-phone"></span>)<br>
+            <b>ĐC:</b> <span id="print-address"></span><br>
+            <div style="border: 2px solid #000; padding: 5px; margin-top: 5px; text-align: center;">
+                <b>TIỀN THU HỘ (COD):</b> <span id="print-cod" style="font-size: 16px; font-weight: bold;"></span>
             </div>
-            <div style="border-top: 1px dotted #000; padding-top: 5px; margin-top: 5px;">
-                <b>ĐẾN (NGƯỜI NHẬN):</b> <span id="print-customer-name"></span><br>
-                SĐT: <span id="print-customer-phone"></span><br>
-                ĐC: <span id="print-customer-address"></span>
-            </div>
-            <div style="border: 2px solid #000; padding: 8px; margin-top: 8px; text-align: center; background: #f0f0f0;">
-                <div style="font-size: 10px; font-weight: bold;">SỐ TIỀN THU HỘ (COD):</div>
-                <div id="print-cod-amount" style="font-size: 18px; font-weight: font-extrabold; color: #000;"></div>
-            </div>
-            <div style="border-top: 1px solid #000; margin-top: 8px; padding-top: 4px; font-size: 9px;">
-                <b>NỘI DUNG HÀNG:</b> <span id="print-product-name"></span><br>
-                <b>GHI CHÚ:</b> HÀNG DỄ VỠ - TRÁNH VA ĐẬP MẠNH GÃY KHUNG VỢT. CHO XEM HÀNG.
-            </div>
+            <b>SP:</b> <span id="print-racket"></span> (Hàng dễ vỡ - Cho xem hàng)
         </div>
     </div>
 
-    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <!-- SCRIPT LOGIC -->
     <script>
-        // Mẫu dữ liệu ban đầu
-        let ordersData = [
-            {
-                orderCode: "DP-BD8801",
-                vtCode: "VTP-99238101",
-                customerName: "Nguyễn Văn Hùng",
-                phone: "0981234567",
-                address: "Số 12 Nguyễn Huệ, P. Kim Tân, TP. Lào Cai",
-                racketName: "Yonex Astrox 88D Pro (4U/G5)",
-                stringType: "Yonex BG65Ti",
-                tension: "11.5 kg (25.3 Lbs)",
-                codAmount: 4250000,
-                status: "Đang_chuyển_phát",
-                createdAt: "2026-10-10 14:30",
-                logs: [
-                    { time: "2026-10-10 14:30", text: "Chủ shop Bùi Duy An đã tạo đơn & bàn giao Viettel Post Lào Cai" },
-                    { time: "2026-10-11 08:15", text: "Đã xuất kho trung chuyển Hub Miền Bắc" }
-                ]
-            },
-            {
-                orderCode: "DP-BD8802",
-                vtCode: "VTP-99238102",
-                customerName: "Trần Thị Mai",
-                phone: "0912345678",
-                address: "Phường Hàng Bông, Quận Hoàn Kiếm, Hà Nội",
-                racketName: "Li-Ning Axforce 70 (4U/G5)",
-                stringType: "Yonex BG80 Power",
-                tension: "11.8 kg (26 Lbs)",
-                codAmount: 3800000,
-                status: "Giao_thành_công",
-                createdAt: "2026-10-09 09:10",
-                logs: [
-                    { time: "2026-10-09 09:10", text: "Tạo đơn thành công tại Lào Cai" },
-                    { time: "2026-10-10 10:20", text: "Bưu tá đã giao hàng thành công & thu tiền COD" }
-                ]
-            }
+        // Dữ liệu CSDL ban đầu
+        let dbOrders = [
+            { id: 1, order_code: "DP-SQL101", vt_code: "VTP-8829101", customer_name: "Nguyễn Văn Hùng", phone: "0981234567", address: "TP. Lào Cai", racket: "Yonex Astrox 88D Pro", cod: 4250000, status: "Đang_chuyển_phát" },
+            { id: 2, order_code: "DP-SQL102", vt_code: "VTP-8829102", customer_name: "Trần Thị Mai", phone: "0912345678", address: "Hoàn Kiếm, Hà Nội", racket: "Li-Ning Axforce 70", cod: 3800000, status: "Giao_thành_công" }
         ];
 
-        let currentActiveOrder = null;
+        let dbProducts = [
+            { id: 1, product_code: "YNX-88D", name: "Yonex Astrox 88D Pro", brand: "Yonex", price: 4250000, stock: 15 },
+            { id: 2, product_code: "LN-AX70", name: "Li-Ning Axforce 70", brand: "Li-Ning", price: 3800000, stock: 20 },
+            { id: 3, product_code: "VIC-RYU", name: "Victor Thruster Ryuga", brand: "Victor", price: 4100000, stock: 10 }
+        ];
 
-        // Khởi chạy ứng dụng
         window.addEventListener('DOMContentLoaded', () => {
-            renderOrdersTable();
             updateStats();
-            showDatabaseTable('Orders');
+            runSqlQuery();
+            loadTableData('Orders');
         });
 
-        // Chuyển Tab
         function switchTab(tab) {
-            document.getElementById('tab-orders').classList.add('hidden');
-            document.getElementById('tab-database').classList.add('hidden');
-            document.getElementById('btn-tab-orders').className = "px-4 py-2 rounded-lg font-medium text-sm transition bg-slate-700 text-slate-300 hover:bg-slate-600";
-            document.getElementById('btn-tab-database').className = "px-4 py-2 rounded-lg font-medium text-sm transition bg-slate-700 text-slate-300 hover:bg-slate-600";
+            document.getElementById('tab-studio').classList.add('hidden');
+            document.getElementById('tab-tables').classList.add('hidden');
+            document.getElementById('btn-studio').className = "px-4 py-2 bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-700 transition";
+            document.getElementById('btn-tables').className = "px-4 py-2 bg-slate-800 text-slate-300 text-xs font-semibold rounded-lg hover:bg-slate-700 transition";
 
-            if(tab === 'orders') {
-                document.getElementById('tab-orders').classList.remove('hidden');
-                document.getElementById('btn-tab-orders').className = "px-4 py-2 rounded-lg font-medium text-sm transition bg-orange-600 text-white shadow-md shadow-orange-600/30";
+            if(tab === 'studio') {
+                document.getElementById('tab-studio').classList.remove('hidden');
+                document.getElementById('btn-studio').className = "px-4 py-2 bg-orange-600 text-white text-xs font-semibold rounded-lg shadow transition";
             } else {
-                document.getElementById('tab-database').classList.remove('hidden');
-                document.getElementById('btn-tab-database').className = "px-4 py-2 rounded-lg font-medium text-sm transition bg-orange-600 text-white shadow-md shadow-orange-600/30";
+                document.getElementById('tab-tables').classList.remove('hidden');
+                document.getElementById('btn-tables').className = "px-4 py-2 bg-orange-600 text-white text-xs font-semibold rounded-lg shadow transition";
             }
         }
 
-        // Format Tiền VNĐ
         function formatVND(amount) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
         }
 
-        // Render Bảng Đơn Hàng
-        function renderOrdersTable() {
-            const tbody = document.getElementById('orders-table-body');
-            const searchKeyword = document.getElementById('input-search').value.toLowerCase();
-            const filterStatus = document.getElementById('select-status-filter').value;
-
-            tbody.innerHTML = '';
-
-            const filtered = ordersData.filter(item => {
-                const matchSearch = item.orderCode.toLowerCase().includes(searchKeyword) ||
-                                    item.vtCode.toLowerCase().includes(searchKeyword) ||
-                                    item.customerName.toLowerCase().includes(searchKeyword) ||
-                                    item.phone.includes(searchKeyword) ||
-                                    item.racketName.toLowerCase().includes(searchKeyword);
-                const matchStatus = filterStatus === 'ALL' || item.status === filterStatus;
-                return matchSearch && matchStatus;
-            });
-
-            if(filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-500">Không tìm thấy đơn hàng nào</td></tr>`;
-                return;
-            }
-
-            filtered.forEach(item => {
-                let statusBadge = `<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">Đang chuyển phát</span>`;
-                if(item.status === 'Giao_thành_công') {
-                    statusBadge = `<span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Giao thành công</span>`;
-                }
-
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-750/50 transition">
-                        <td class="py-3.5 px-4 font-mono">
-                            <div class="font-bold text-white">${item.orderCode}</div>
-                            <div class="text-xs text-orange-400">${item.vtCode}</div>
-                        </td>
-                        <td class="py-3.5 px-4">
-                            <div class="font-medium text-slate-100">${item.customerName} - <span class="text-slate-400 text-xs">${item.phone}</span></div>
-                            <div class="text-xs text-slate-400 truncate max-w-xs">${item.address}</div>
-                        </td>
-                        <td class="py-3.5 px-4">
-                            <div class="font-medium text-slate-200">${item.racketName}</div>
-                            <div class="text-xs text-slate-400">Cước: ${item.stringType} (${item.tension})</div>
-                        </td>
-                        <td class="py-3.5 px-4">
-                            <div class="font-bold text-amber-400">${formatVND(item.codAmount)}</div>
-                        </td>
-                        <td class="py-3.5 px-4">${statusBadge}</td>
-                        <td class="py-3.5 px-4 text-center">
-                            <div class="flex items-center justify-center gap-2">
-                                <button onclick="openTrackingModal('${item.orderCode}')" title="Xem lịch trình" class="p-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded">
-                                    <i class="fa-solid fa-route text-xs"></i>
-                                </button>
-                                <button onclick="printLabel('${item.orderCode}')" title="In tem Viettel Post" class="p-1.5 bg-orange-600/20 hover:bg-orange-600 text-orange-400 hover:text-white rounded border border-orange-500/30">
-                                    <i class="fa-solid fa-print text-xs"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        // Cập nhật Thống kê
         function updateStats() {
-            document.getElementById('stat-total-orders').innerText = ordersData.length;
-            const totalCOD = ordersData.reduce((sum, i) => sum + i.codAmount, 0);
-            document.getElementById('stat-total-cod').innerText = formatVND(totalCOD);
-            document.getElementById('stat-delivering').innerText = ordersData.filter(i => i.status === 'Đang_chuyển_phát').length;
-            document.getElementById('stat-completed').innerText = ordersData.filter(i => i.status === 'Giao_thành_công').length;
+            document.getElementById('stat-orders-count').innerText = dbOrders.length;
+            const totalCod = dbOrders.reduce((sum, i) => sum + i.cod, 0);
+            document.getElementById('stat-total-cod').innerText = formatVND(totalCod);
         }
 
-        // Modal Controls
-        function openNewOrderModal() { document.getElementById('modal-new-order').classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-        // Tạo Đơn Hàng Mới
-        function handleCreateOrder(e) {
-            e.preventDefault();
-            const newOrder = {
-                orderCode: "DP-BD" + Math.floor(1000 + Math.random() * 9000),
-                vtCode: "VTP-" + Math.floor(10000000 + Math.random() * 90000000),
-                customerName: document.getElementById('form-customer-name').value,
-                phone: document.getElementById('form-customer-phone').value,
-                address: document.getElementById('form-customer-address').value,
-                racketName: document.getElementById('form-racket-select').value,
-                stringType: document.getElementById('form-string-type').value,
-                tension: document.getElementById('form-tension').value,
-                codAmount: parseFloat(document.getElementById('form-cod-amount').value) || 0,
-                status: "Đang_chuyển_phát",
-                createdAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
-                logs: [
-                    { time: new Date().toISOString().replace('T', ' ').substring(0, 16), text: "Chủ shop Bùi Duy An tạo đơn thành công" }
-                ]
-            };
-
-            ordersData.unshift(newOrder);
-            renderOrdersTable();
-            updateStats();
-            closeModal('modal-new-order');
-            alert("Tạo đơn thành công!");
+        function setQuery(query) {
+            document.getElementById('sql-input').value = query;
+            runSqlQuery();
         }
 
-        // Tra Cứu Lịch Trình
-        function openTrackingModal(code) {
-            const item = ordersData.find(i => i.orderCode === code);
-            if(!item) return;
-            currentActiveOrder = item;
+        function runSqlQuery() {
+            const query = document.getElementById('sql-input').value.trim().toUpperCase();
+            const container = document.getElementById('sql-result-container');
+            const resultRows = document.getElementById('result-rows');
 
-            document.getElementById('track-modal-code').innerText = item.vtCode;
-            const container = document.getElementById('track-timeline-container');
-            container.innerHTML = '';
-
-            item.logs.forEach(log => {
-                container.innerHTML += `
-                    <div class="relative">
-                        <div class="absolute -left-[19px] top-1.5 w-2.5 h-2.5 bg-orange-500 rounded-full"></div>
-                        <div class="text-xs text-slate-400">${log.time}</div>
-                        <div class="text-sm font-medium text-slate-200">${log.text}</div>
-                    </div>
-                `;
-            });
-
-            document.getElementById('modal-tracking').classList.remove('hidden');
-        }
-
-        // In Tem Dán Viettel Post (A6)
-        function printLabel(code) {
-            const item = ordersData.find(i => i.orderCode === code) || currentActiveOrder;
-            if(!item) return;
-
-            document.getElementById('print-customer-name').innerText = item.customerName;
-            document.getElementById('print-customer-phone').innerText = item.phone;
-            document.getElementById('print-customer-address').innerText = item.address;
-            document.getElementById('print-cod-amount').innerText = formatVND(item.codAmount);
-            document.getElementById('print-product-name').innerText = `${item.racketName} (Mức căng: ${item.tension})`;
-            document.getElementById('print-tracking-code').innerText = item.vtCode;
-
-            JsBarcode("#print-barcode", item.vtCode, { format: "CODE128", width: 1.8, height: 40, displayValue: false });
-            window.print();
-        }
-
-        function printCurrentOrderLabel() {
-            if(currentActiveOrder) printLabel(currentActiveOrder.orderCode);
-        }
-
-        // CSDL & SQL EXPLORER LOGIC
-        function showDatabaseTable(tableName) {
-            document.getElementById('db-result-title').innerText = `KẾT QUẢ BẢNG: ${tableName}`;
-            const container = document.getElementById('db-table-container');
-
-            if(tableName === 'Orders') {
-                document.getElementById('sql-query-input').value = "SELECT order_code, vt_code, customer_name, racket_name, cod_amount, status FROM Orders;";
-                let html = `<table class="w-full text-left text-xs text-slate-300">
-                    <thead class="bg-slate-800 text-slate-400"><tr><th class="p-2">order_code</th><th class="p-2">vt_code</th><th class="p-2">customer_name</th><th class="p-2">racket_name</th><th class="p-2">cod_amount</th></tr></thead><tbody>`;
-                ordersData.forEach(o => {
-                    html += `<tr class="border-b border-slate-800"><td class="p-2 font-mono text-orange-400">${o.orderCode}</td><td class="p-2 font-mono">${o.vtCode}</td><td class="p-2">${o.customerName}</td><td class="p-2">${o.racketName}</td><td class="p-2 font-bold text-amber-400">${o.codAmount}</td></tr>`;
+            if(query.includes('FROM PRODUCTS')) {
+                resultRows.innerText = `${dbProducts.length} rows returned`;
+                let html = `<table class="w-full text-left text-xs font-mono text-slate-300"><thead class="bg-slate-800 text-slate-400"><tr><th class="p-2">product_id</th><th class="p-2">product_code</th><th class="p-2">name</th><th class="p-2">brand</th><th class="p-2">price</th><th class="p-2">stock</th></tr></thead><tbody>`;
+                dbProducts.forEach(p => {
+                    html += `<tr class="border-b border-slate-800"><td class="p-2">${p.id}</td><td class="p-2 text-orange-400">${p.product_code}</td><td class="p-2">${p.name}</td><td class="p-2">${p.brand}</td><td class="p-2">${formatVND(p.price)}</td><td class="p-2">${p.stock}</td></tr>`;
                 });
                 html += `</tbody></table>`;
                 container.innerHTML = html;
-            } else if(tableName === 'Products') {
-                document.getElementById('sql-query-input').value = "SELECT product_id, product_name, brand, price, weight_spec FROM Products;";
-                container.innerHTML = `<table class="w-full text-left text-xs text-slate-300">
-                    <thead class="bg-slate-800 text-slate-400"><tr><th class="p-2">ID</th><th class="p-2">Tên Vợt</th><th class="p-2">Hãng</th><th class="p-2">Giá Niêm Yết</th><th class="p-2">Thông Số</th></tr></thead>
-                    <tbody>
-                        <tr class="border-b border-slate-800"><td class="p-2">1</td><td class="p-2">Yonex Astrox 88D Pro</td><td class="p-2">Yonex</td><td class="p-2">4,250,000 ₫</td><td class="p-2">4U/G5</td></tr>
-                        <tr class="border-b border-slate-800"><td class="p-2">2</td><td class="p-2">Li-Ning Axforce 70</td><td class="p-2">Li-Ning</td><td class="p-2">3,800,000 ₫</td><td class="p-2">4U/G5</td></tr>
-                        <tr class="border-b border-slate-800"><td class="p-2">3</td><td class="p-2">Victor Thruster Ryuga Metallic</td><td class="p-2">Victor</td><td class="p-2">4,100,000 ₫</td><td class="p-2">4U/G5</td></tr>
-                    </tbody></table>`;
             } else {
-                container.innerHTML = `<p class="text-xs text-slate-400 p-2">Dữ liệu bảng ${tableName} được liên kết chuẩn khóa ngoại SQL qua order_id.</p>`;
+                resultRows.innerText = `${dbOrders.length} rows returned`;
+                let html = `<table class="w-full text-left text-xs font-mono text-slate-300"><thead class="bg-slate-800 text-slate-400"><tr><th class="p-2">order_id</th><th class="p-2">order_code</th><th class="p-2">vt_code</th><th class="p-2">customer_name</th><th class="p-2">racket</th><th class="p-2">cod_amount</th><th class="p-2">status</th></tr></thead><tbody>`;
+                dbOrders.forEach(o => {
+                    html += `<tr class="border-b border-slate-800"><td class="p-2">${o.id}</td><td class="p-2 text-orange-400">${o.order_code}</td><td class="p-2">${o.vt_code}</td><td class="p-2">${o.customer_name}</td><td class="p-2">${o.racket}</td><td class="p-2 text-amber-400">${formatVND(o.cod)}</td><td class="p-2 text-sky-400">${o.status}</td></tr>`;
+                });
+                html += `</tbody></table>`;
+                container.innerHTML = html;
             }
         }
 
-        function presetQuery(type) {
-            if(type === 'SELECT_ALL') document.getElementById('sql-query-input').value = "SELECT * FROM Orders WHERE status = 'Đang_chuyển_phát';";
-            if(type === 'SUM_COD') document.getElementById('sql-query-input').value = "SELECT SUM(cod_amount) AS Total_COD FROM Orders;";
-            if(type === 'JOIN_CUSTOMERS') document.getElementById('sql-query-input').value = "SELECT Orders.order_code, Customers.full_name, Customers.phone FROM Orders JOIN Customers ON Orders.customer_id = Customers.customer_id;";
+        function loadTableData(tableName) {
+            document.getElementById('crud-table-title').innerText = `Dữ liệu bảng: ${tableName}`;
+            const container = document.getElementById('crud-table-container');
+
+            if(tableName === 'Orders') {
+                let html = `<table class="w-full text-left text-xs font-mono text-slate-300"><thead class="bg-slate-800 text-slate-400"><tr><th class="p-2">ID</th><th class="p-2">Mã Đơn</th><th class="p-2">Mã Vận Đơn</th><th class="p-2">Khách Hàng</th><th class="p-2">Vợt</th><th class="p-2">COD</th><th class="p-2 text-center">Thao Tác</th></tr></thead><tbody>`;
+                dbOrders.forEach(o => {
+                    html += `<tr class="border-b border-slate-800"><td class="p-2">${o.id}</td><td class="p-2 text-orange-400">${o.order_code}</td><td class="p-2">${o.vt_code}</td><td class="p-2">${o.customer_name} (${o.phone})</td><td class="p-2">${o.racket}</td><td class="p-2 text-amber-400">${formatVND(o.cod)}</td><td class="p-2 text-center"><button onclick="printOrderLabel(${o.id})" class="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-orange-400 rounded">In Tem</button></td></tr>`;
+                });
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            } else {
+                let html = `<table class="w-full text-left text-xs font-mono text-slate-300"><thead class="bg-slate-800 text-slate-400"><tr><th class="p-2">ID</th><th class="p-2">Mã SKU</th><th class="p-2">Tên Sản Phẩm</th><th class="p-2">Hãng</th><th class="p-2">Giá</th><th class="p-2">Tồn Kho</th></tr></thead><tbody>`;
+                dbProducts.forEach(p => {
+                    html += `<tr class="border-b border-slate-800"><td class="p-2">${p.id}</td><td class="p-2 text-orange-400">${p.product_code}</td><td class="p-2">${p.name}</td><td class="p-2">${p.brand}</td><td class="p-2">${formatVND(p.price)}</td><td class="p-2">${p.stock}</td></tr>`;
+                });
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            }
         }
 
-        function executeSqlQuery() {
-            alert("Thực thi câu lệnh SQL thành công trên duy_post_badminton_db!");
+        function openNewOrderModal() { document.getElementById('modal-new-order').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('modal-new-order').classList.add('hidden'); }
+
+        function handleInsertOrder(e) {
+            e.preventDefault();
+            const newOrder = {
+                id: dbOrders.length + 1,
+                order_code: "DP-SQL" + (100 + dbOrders.length + 1),
+                vt_code: "VTP-" + Math.floor(1000000 + Math.random() * 9000000),
+                customer_name: document.getElementById('db-cust-name').value,
+                phone: document.getElementById('db-cust-phone').value,
+                address: document.getElementById('db-cust-address').value,
+                racket: document.getElementById('db-racket').value,
+                cod: parseFloat(document.getElementById('db-cod').value) || 0,
+                status: "Đang_chuyển_phát"
+            };
+            dbOrders.unshift(newOrder);
+            updateStats();
+            runSqlQuery();
+            loadTableData('Orders');
+            closeModal();
+            alert("INSERT INTO Orders thành công!");
+        }
+
+        function printOrderLabel(id) {
+            const o = dbOrders.find(item => item.id === id);
+            if(!o) return;
+            document.getElementById('print-name').innerText = o.customer_name;
+            document.getElementById('print-phone').innerText = o.phone;
+            document.getElementById('print-address').innerText = o.address;
+            document.getElementById('print-cod').innerText = formatVND(o.cod);
+            document.getElementById('print-racket').innerText = o.racket;
+            document.getElementById('print-vt').innerText = o.vt_code;
+            JsBarcode("#print-barcode", o.vt_code, { format: "CODE128", width: 1.8, height: 40, displayValue: false });
+            window.print();
         }
     </script>
 </body>
