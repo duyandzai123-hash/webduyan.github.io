@@ -3,961 +3,460 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Quản lý Thiết bị Trường học</title>
+    <title>Hệ Thống Quản Lý & Cho Mượn Thiết Bị Trường Học</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <div id="app" class="flex h-screen overflow-hidden">
-        
-        <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="w-64 bg-slate-900 text-slate-300 flex flex-col transition-all duration-300 z-30 fixed inset-y-0 left-0 lg:static -translate-x-full lg:translate-x-0">
-            <div class="p-6 border-b border-slate-800 flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/30">
-                        <i data-lucide="school"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-white text-base">Quản Lý Thiết Bị</h1>
-                        <p class="text-xs text-slate-400">Trường Học A</p>
-                    </div>
-                </div>
-                <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white">
-                    <i data-lucide="x"></i>
+    <!-- Header / Navbar -->
+    <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid me-2 fa-school text-2xl text-indigo-200"></i>
+                <h1 class="font-bold text-xl tracking-wide">QUẢN LÝ THIẾT BỊ TRƯỜNG HỌC</h1>
+            </div>
+            <nav class="flex space-x-2 sm:space-x-4">
+                <button onclick="switchTab('devices')" id="tab-btn-devices" class="px-3 py-2 rounded-lg text-sm font-medium bg-indigo-800 text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <span>Kho thiết bị</span>
                 </button>
-            </div>
-
-            <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
-                <a href="#" onclick="switchTab('dashboard')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors bg-indigo-600 text-white shadow-md shadow-indigo-600/20" data-target="dashboard">
-                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-                    <span>Tổng quan (Dashboard)</span>
-                </a>
-                <a href="#" onclick="switchTab('inventory')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-slate-400 hover:bg-slate-800 hover:text-white" data-target="inventory">
-                    <i data-lucide="package" class="w-5 h-5"></i>
-                    <span>Danh sách thiết bị</span>
-                </a>
-                <a href="#" onclick="switchTab('borrow')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-slate-400 hover:bg-slate-800 hover:text-white" data-target="borrow">
-                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
-                    <span>Quản lý Mượn / Trả</span>
-                </a>
-                <a href="#" onclick="switchTab('categories')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-slate-400 hover:bg-slate-800 hover:text-white" data-target="categories">
-                    <i data-lucide="folder-kanban" class="w-5 h-5"></i>
-                    <span>Danh mục & Vị trí</span>
-                </a>
-                <a href="#" onclick="switchTab('settings')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors text-slate-400 hover:bg-slate-800 hover:text-white" data-target="settings">
-                    <i data-lucide="database" class="w-5 h-5"></i>
-                    <span>Quản lý dữ liệu</span>
-                </a>
+                <button onclick="switchTab('borrow')" id="tab-btn-borrow" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-600 text-indigo-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-hand-holding-hand"></i>
+                    <span>Tạo phiếu mượn</span>
+                </button>
+                <button onclick="switchTab('logs')" id="tab-btn-logs" class="px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-600 text-indigo-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Danh sách mượn</span>
+                </button>
             </nav>
-
-            <div class="p-4 border-t border-slate-800">
-                <div class="bg-slate-800/60 rounded-xl p-3 text-xs text-slate-400">
-                    <div class="flex items-center space-x-2 font-medium text-slate-200 mb-1">
-                        <i data-lucide="info" class="w-4 h-4 text-indigo-400"></i>
-                        <span>Phiên bản 1.0.0</span>
-                    </div>
-                    Dữ liệu được lưu trữ tự động trên trình duyệt.
-                </div>
-            </div>
-        </aside>
-
-        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-            <!-- Top Header -->
-            <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 z-20">
-                <div class="flex items-center space-x-4">
-                    <button onclick="toggleSidebar()" class="lg:hidden text-slate-600 hover:text-slate-900 focus:outline-none">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
-                    <h2 id="page-title" class="text-lg font-bold text-slate-800">Tổng quan hệ thống</h2>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <button onclick="openBorrowModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-sm flex items-center space-x-2">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        <span>Tạo phiếu mượn mới</span>
-                    </button>
-                </div>
-            </header>
-
-            <!-- Main Content Area -->
-            <main class="flex-1 overflow-y-auto p-6 lg:p-8">
-
-                <!-- TAB 1: DASHBOARD -->
-                <section id="tab-dashboard" class="tab-content space-y-6">
-                    <!-- Stats Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                                <i data-lucide="boxes"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-medium text-slate-500 uppercase">Tổng thiết bị</p>
-                                <h3 id="stat-total-items" class="text-2xl font-bold text-slate-800 mt-0.5">0</h3>
-                            </div>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                                <i data-lucide="check-circle-2"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-medium text-slate-500 uppercase">Sẵn sàng</p>
-                                <h3 id="stat-ready-items" class="text-2xl font-bold text-slate-800 mt-0.5">0</h3>
-                            </div>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                                <i data-lucide="clock"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-medium text-slate-500 uppercase">Đang mượn</p>
-                                <h3 id="stat-borrowed-items" class="text-2xl font-bold text-slate-800 mt-0.5">0</h3>
-                            </div>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                                <i data-lucide="wrench"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-medium text-slate-500 uppercase">Bảo trì / Hỏng</p>
-                                <h3 id="stat-maintenance-items" class="text-2xl font-bold text-slate-800 mt-0.5">0</h3>
-                            </div>
-                        </div>
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4 sm:col-span-2 lg:col-span-1">
-                            <div class="w-12 h-12 bg-violet-50 text-violet-600 rounded-xl flex items-center justify-center font-bold text-lg">
-                                <i data-lucide="folder"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-medium text-slate-500 uppercase">Danh mục</p>
-                                <h3 id="stat-total-categories" class="text-2xl font-bold text-slate-800 mt-0.5">0</h3>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity & Quick Lists -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="font-bold text-slate-800 text-base">Phiếu mượn gần đây</h3>
-                                <button onclick="switchTab('borrow')" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700">Xem tất cả</button>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left text-sm">
-                                    <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
-                                        <tr>
-                                            <th class="py-3 px-4 rounded-l-lg">Mã phiếu</th>
-                                            <th class="py-3 px-4">Người mượn</th>
-                                            <th class="py-3 px-4">Thiết bị</th>
-                                            <th class="py-3 px-4">Hẹn trả</th>
-                                            <th class="py-3 px-4 rounded-r-lg">Trạng thái</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="dashboard-recent-borrows" class="divide-y divide-slate-100">
-                                        <!-- Rendered by JS -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col">
-                            <h3 class="font-bold text-slate-800 text-base mb-4">Thiết bị sắp đến hạn trả</h3>
-                            <div id="dashboard-upcoming-returns" class="space-y-3 flex-1 overflow-y-auto">
-                                <!-- Rendered by JS -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- TAB 2: INVENTORY -->
-                <section id="tab-inventory" class="tab-content hidden space-y-6">
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col space-y-4">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                            <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                                <div class="relative flex-1 sm:w-80">
-                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                                        <i data-lucide="search" class="w-4 h-4"></i>
-                                    </span>
-                                    <input type="text" id="inventory-search" oninput="renderInventory()" placeholder="Tìm kiếm theo tên, mã thiết bị..." class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
-                                </div>
-                                <select id="inventory-filter-category" onchange="renderInventory()" class="border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-600 focus:outline-none focus:border-indigo-500">
-                                    <option value="">Tất cả danh mục</option>
-                                </select>
-                                <select id="inventory-filter-status" onchange="renderInventory()" class="border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-600 focus:outline-none focus:border-indigo-500">
-                                    <option value="">Tất cả trạng thái</option>
-                                    <option value="Sẵn sàng">Sẵn sàng</option>
-                                    <option value="Đang mượn">Đang mượn</option>
-                                    <option value="Bảo trì">Bảo trì</option>
-                                    <option value="Hỏng">Hỏng</option>
-                                </select>
-                            </div>
-                            <button onclick="openItemModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-sm flex items-center space-x-2 shrink-0">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                                <span>Thêm thiết bị</span>
-                            </button>
-                        </div>
-
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm">
-                                <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
-                                    <tr>
-                                        <th class="py-3 px-4 rounded-l-lg">Mã TB</th>
-                                        <th class="py-3 px-4">Tên thiết bị</th>
-                                        <th class="py-3 px-4">Danh mục</th>
-                                        <th class="py-3 px-4">Số lượng</th>
-                                        <th class="py-3 px-4">Trạng thái</th>
-                                        <th class="py-3 px-4">Vị trí</th>
-                                        <th class="py-3 px-4 rounded-r-lg text-right">Thao tác</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="inventory-table-body" class="divide-y divide-slate-100">
-                                    <!-- Rendered by JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- TAB 3: BORROW / RETURN -->
-                <section id="tab-borrow" class="tab-content hidden space-y-6">
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col space-y-4">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                            <div class="flex items-center space-x-3 w-full sm:w-auto">
-                                <div class="relative flex-1 sm:w-80">
-                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                                        <i data-lucide="search" class="w-4 h-4"></i>
-                                    </span>
-                                    <input type="text" id="borrow-search" oninput="renderBorrowList()" placeholder="Tìm người mượn, thiết bị..." class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500">
-                                </div>
-                                <select id="borrow-filter-status" onchange="renderBorrowList()" class="border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-600 focus:outline-none focus:border-indigo-500">
-                                    <option value="">Tất cả trạng thái</option>
-                                    <option value="Đang mượn">Đang mượn</option>
-                                    <option value="Đã trả">Đã trả</option>
-                                    <option value="Quá hạn">Quá hạn</option>
-                                </select>
-                            </div>
-                            <button onclick="openBorrowModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-xl text-sm transition shadow-sm flex items-center space-x-2 shrink-0">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                                <span>Tạo phiếu mượn</span>
-                            </button>
-                        </div>
-
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm">
-                                <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
-                                    <tr>
-                                        <th class="py-3 px-4 rounded-l-lg">Mã phiếu</th>
-                                        <th class="py-3 px-4">Người mượn (Bộ phận)</th>
-                                        <th class="py-3 px-4">Thiết bị mượn</th>
-                                        <th class="py-3 px-4">Ngày mượn</th>
-                                        <th class="py-3 px-4">Hẹn trả</th>
-                                        <th class="py-3 px-4">Trạng thái</th>
-                                        <th class="py-3 px-4 rounded-r-lg text-right">Thao tác</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="borrow-table-body" class="divide-y divide-slate-100">
-                                    <!-- Rendered by JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- TAB 4: CATEGORIES & LOCATIONS -->
-                <section id="tab-categories" class="tab-content hidden space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Categories -->
-                        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col space-y-4">
-                            <div class="flex justify-between items-center">
-                                <h3 class="font-bold text-slate-800 text-base">Quản lý Danh mục</h3>
-                                <button onclick="openCategoryModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition flex items-center space-x-1">
-                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                                    <span>Thêm danh mục</span>
-                                </button>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left text-sm">
-                                    <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
-                                        <tr>
-                                            <th class="py-3 px-4 rounded-l-lg">Tên danh mục</th>
-                                            <th class="py-3 px-4 rounded-r-lg text-right">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="categories-table-body" class="divide-y divide-slate-100">
-                                        <!-- Rendered by JS -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Locations -->
-                        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col space-y-4">
-                            <div class="flex justify-between items-center">
-                                <h3 class="font-bold text-slate-800 text-base">Quản lý Vị trí lưu trữ</h3>
-                                <button onclick="openLocationModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition flex items-center space-x-1">
-                                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                                    <span>Thêm vị trí</span>
-                                </button>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left text-sm">
-                                    <thead class="bg-slate-50 text-slate-600 uppercase text-xs">
-                                        <tr>
-                                            <th class="py-3 px-4 rounded-l-lg">Tên vị trí / Phòng</th>
-                                            <th class="py-3 px-4 rounded-r-lg text-right">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="locations-table-body" class="divide-y divide-slate-100">
-                                        <!-- Rendered by JS -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- TAB 5: SETTINGS / DATA -->
-                <section id="tab-settings" class="tab-content hidden space-y-6">
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm max-w-2xl space-y-6">
-                        <div>
-                            <h3 class="font-bold text-slate-800 text-lg mb-1">Quản lý dữ liệu hệ thống</h3>
-                            <p class="text-sm text-slate-500">Tải dữ liệu mẫu để trải nghiệm hoặc khôi phục/xóa toàn bộ dữ liệu lưu trữ.</p>
-                        </div>
-                        <div class="flex flex-wrap gap-4 pt-2 border-t border-slate-100">
-                            <button onclick="loadSampleData()" class="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-medium px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                                <i data-lucide="database" class="w-4 h-4"></i>
-                                <span>Tải dữ liệu mẫu</span>
-                            </button>
-                            <button onclick="resetAllData()" class="bg-rose-50 text-rose-600 hover:bg-rose-100 font-medium px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                <span>Xóa sạch dữ liệu</span>
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-            </main>
         </div>
-    </div>
+    </header>
 
-    <!-- ITEM MODAL -->
-    <div id="item-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl border border-slate-100">
-            <div class="flex justify-between items-center px-6 py-4 border-b border-slate-100">
-                <h3 id="item-modal-title" class="font-bold text-slate-800 text-base">Thêm thiết bị mới</h3>
-                <button onclick="closeModal('item-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            <form id="item-form" onsubmit="saveItem(event)" class="p-6 space-y-4">
-                <input type="hidden" id="item-index" value="">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Mã thiết bị</label>
-                    <input type="text" id="item-id-input" required placeholder="VD: TB-CNTT-01" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tên thiết bị</label>
-                    <input type="text" id="item-name" required placeholder="VD: Máy chiếu Epson X49" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Danh mục</label>
-                        <select id="item-category" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-                            <!-- Rendered by JS -->
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Số lượng</label>
-                        <input type="number" id="item-quantity" min="1" required value="1" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Trạng thái</label>
-                        <select id="item-status" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-                            <option value="Sẵn sàng">Sẵn sàng</option>
-                            <option value="Đang mượn">Đang mượn</option>
-                            <option value="Bảo trì">Bảo trì</option>
-                            <option value="Hỏng">Hỏng</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Vị trí lưu trữ</label>
-                        <select id="item-location" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-                            <!-- Rendered by JS -->
-                        </select>
-                    </div>
-                </div>
-                <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('item-modal')" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition">Hủy</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition shadow-sm">Lưu thiết bị</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
 
-    <!-- BORROW MODAL -->
-    <div id="borrow-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl border border-slate-100">
-            <div class="flex justify-between items-center px-6 py-4 border-b border-slate-100">
-                <h3 class="font-bold text-slate-800 text-base">Tạo phiếu mượn thiết bị</h3>
-                <button onclick="closeModal('borrow-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <!-- TAB 1: KHO THIẾT BỊ -->
+        <section id="tab-devices" class="space-y-6">
+            <!-- Thống kê nhanh & Bộ lọc -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-blue-100 text-blue-600 rounded-lg"><i class="fa-solid fa-microscope text-2xl"></i></div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase">Tổng loại thiết bị</p>
+                        <h3 id="stat-total-types" class="text-2xl font-bold text-slate-800">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-emerald-100 text-emerald-600 rounded-lg"><i class="fa-solid fa-check-circle text-2xl"></i></div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase">Sẵn sàng cho mượn</p>
+                        <h3 id="stat-available" class="text-2xl font-bold text-slate-800">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-amber-100 text-amber-600 rounded-lg"><i class="fa-solid fa-clock text-2xl"></i></div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase">Đang được mượn</p>
+                        <h3 id="stat-borrowed" class="text-2xl font-bold text-slate-800">0</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                    <div class="p-3 bg-rose-100 text-rose-600 rounded-lg"><i class="fa-solid fa-triangle-exclamation text-2xl"></i></div>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 uppercase">Báo hỏng / Bảo trì</p>
+                        <h3 id="stat-broken" class="text-2xl font-bold text-slate-800">0</h3>
+                    </div>
+                </div>
             </div>
-            <form id="borrow-form" onsubmit="saveBorrow(event)" class="p-6 space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Mã phiếu</label>
-                    <input type="text" id="borrow-id" required readonly class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-500">
+
+            <!-- Thanh tìm kiếm & Nút thêm thiết bị -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full md:w-96">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="search-device" oninput="renderDevices()" placeholder="Tìm tên thiết bị, mã đồ dùng..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Người mượn & Bộ phận / Lớp</label>
-                    <input type="text" id="borrower-name" required placeholder="VD: Thầy Nguyễn Văn A (Khoa CNTT)" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
+                <div class="flex gap-2 w-full md:w-auto">
+                    <select id="filter-category" onchange="renderDevices()" class="px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="">Tất cả danh mục</option>
+                        <option value="Thực hành">Thực hành Lý - Hóa - Sinh</option>
+                        <option value="Công nghệ">Công nghệ & Máy tính</option>
+                        <option value="Thể thao">Dụng cụ Thể thao</option>
+                        <option value="Âm nhạc">Dụng cụ Âm nhạc</option>
+                    </select>
+                    <button onclick="openAddDeviceModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fa-solid fa-plus"></i> Thêm thiết bị mới
+                    </button>
                 </div>
+            </div>
+
+            <!-- Lưới hiển thị danh sách thiết bị -->
+            <div id="device-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Javascript rendered -->
+            </div>
+        </section>
+
+        <!-- TAB 2: TẠO PHIẾU MƯỢN -->
+        <section id="tab-borrow" class="hidden max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-sm">
+            <h2 class="text-xl font-bold text-slate-800 mb-6 pb-3 border-b flex items-center gap-2">
+                <i class="fa-solid fa-file-signature text-indigo-600"></i>
+                Tạo Phiếu Cho Mượn Thiết Bị
+            </h2>
+            <form id="borrow-form" onsubmit="handleCreateBorrow(event)" class="space-y-5">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Chọn thiết bị</label>
-                    <select id="borrow-item-id" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
-                        <!-- Rendered by JS -->
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Chọn thiết bị mượn <span class="text-rose-500">*</span></label>
+                    <select id="borrow-device-id" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <!-- Javascript options -->
                     </select>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Ngày mượn</label>
-                        <input type="date" id="borrow-date" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Họ và tên người mượn <span class="text-rose-500">*</span></label>
+                        <input type="text" id="borrower-name" required placeholder="Nguyễn Văn A" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Hẹn trả</label>
-                        <input type="date" id="borrow-duedate" required class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Đối tượng / Lớp <span class="text-rose-500">*</span></label>
+                        <input type="text" id="borrower-role" required placeholder="Lớp 11A1 / Giáo viên Vật Lý" class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                 </div>
-                <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('borrow-modal')" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition">Hủy</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition shadow-sm">Tạo phiếu</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <!-- CATEGORY MODAL -->
-    <div id="category-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl border border-slate-100">
-            <div class="flex justify-between items-center px-6 py-4 border-b border-slate-100">
-                <h3 class="font-bold text-slate-800 text-base">Thêm danh mục mới</h3>
-                <button onclick="closeModal('category-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            <form onsubmit="saveCategory(event)" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Số lượng mượn <span class="text-rose-500">*</span></label>
+                        <input type="number" id="borrow-quantity" min="1" value="1" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Ngày hẹn trả <span class="text-rose-500">*</span></label>
+                        <input type="date" id="borrow-due-date" required class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                    </div>
+                </div>
+
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tên danh mục</label>
-                    <input type="text" id="category-name-input" required placeholder="VD: Thí nghiệm Hóa học" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Mục đích mượn / Ghi chú</label>
+                    <textarea id="borrow-purpose" rows="3" placeholder="Sử dụng cho tiết thực hành Hóa học tiết 3..." class="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
                 </div>
-                <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('category-modal')" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition">Hủy</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition shadow-sm">Thêm</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <!-- LOCATION MODAL -->
-    <div id="location-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl border border-slate-100">
-            <div class="flex justify-between items-center px-6 py-4 border-b border-slate-100">
-                <h3 class="font-bold text-slate-800 text-base">Thêm vị trí mới</h3>
-                <button onclick="closeModal('location-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold text-sm transition shadow-sm">
+                    Xác nhận cho mượn
+                </button>
+            </form>
+        </section>
+
+        <!-- TAB 3: DANH SÁCH NGƯỜI MƯỢN / LỊCH SỬ -->
+        <section id="tab-logs" class="hidden space-y-6">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="p-4 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <h2 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-users text-indigo-600"></i>
+                        Theo Dõi Người Mượn & Trả Đồ
+                    </h2>
+                    <div class="flex items-center gap-2">
+                        <select id="filter-log-status" onchange="renderLogs()" class="px-3 py-1.5 border border-slate-300 rounded-lg text-sm">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="Đang mượn">Đang mượn</option>
+                            <option value="Đã trả">Đã trả</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-600 uppercase text-xs font-semibold border-b">
+                            <tr>
+                                <th class="p-4">Người mượn / Lớp</th>
+                                <th class="p-4">Thiết bị mượn</th>
+                                <th class="p-4">SL</th>
+                                <th class="p-4">Ngày mượn</th>
+                                <th class="p-4">Hạn trả</th>
+                                <th class="p-4">Trạng thái</th>
+                                <th class="p-4 text-center">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table-body" class="divide-y divide-slate-100">
+                            <!-- Javascript rendered -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <form onsubmit="saveLocation(event)" class="p-6 space-y-4">
+        </section>
+    </main>
+
+    <!-- Modal Thêm Thiết Bị Mới -->
+    <div id="add-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-slate-800 text-lg">Thêm Thiết Bị Vào Kho</h3>
+                <button onclick="closeAddDeviceModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <form id="add-device-form" onsubmit="handleAddDevice(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tên vị trí / Phòng</label>
-                    <input type="text" id="location-name-input" required placeholder="VD: Phòng máy A2" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-indigo-500">
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Tên thiết bị / Dụng cụ</label>
+                    <input type="text" id="new-name" required placeholder="Kính hiển vi quang học" class="w-full px-3 py-2 border rounded-lg text-sm">
                 </div>
-                <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
-                    <button type="button" onclick="closeModal('location-modal')" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 transition">Hủy</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium transition shadow-sm">Thêm</button>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Mã thiết bị</label>
+                        <input type="text" id="new-code" required placeholder="KHV-01" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Danh mục</label>
+                        <select id="new-category" required class="w-full px-3 py-2 border rounded-lg text-sm bg-white">
+                            <option value="Thực hành">Thực hành Lý - Hóa - Sinh</option>
+                            <option value="Công nghệ">Công nghệ & Máy tính</option>
+                            <option value="Thể thao">Dụng cụ Thể thao</option>
+                            <option value="Âm nhạc">Dụng cụ Âm nhạc</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Tổng số lượng</label>
+                        <input type="number" id="new-total" min="1" required placeholder="10" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Vị trí lưu kho</label>
+                        <input type="text" id="new-location" required placeholder="Phòng Lab 2 - Tủ B" class="w-full px-3 py-2 border rounded-lg text-sm">
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAddDeviceModal()" class="px-4 py-2 border rounded-lg text-sm font-medium hover:bg-slate-50">Hủy</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700">Lưu thiết bị</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Script Logic App -->
     <script>
-        // State Management
-        let appData = {
-            items: [],
-            borrows: [],
-            categories: ["Thí nghiệm", "CNTT", "Thể thao", "Thiết bị lớp học"],
-            locations: ["Phòng máy A1", "Kho khoa học", "Tủ thiết bị tầng 2", "Phòng thể chất"]
-        };
+        // Dữ liệu mẫu khởi tạo
+        let devices = [
+            { id: 1, code: 'KHV-01', name: 'Kính hiển vi quang học', category: 'Thực hành', total: 15, available: 10, location: 'Phòng Lab Sinh Học' },
+            { id: 2, code: 'MT-PRO-02', name: 'Máy chiếu Epson 4K', category: 'Công nghệ', total: 5, available: 3, location: 'Kho BGH - Tầng 2' },
+            { id: 3, code: 'BONG-RO-01', name: 'Bóng rổ Molten tiêu chuẩn', category: 'Thể thao', total: 20, available: 12, location: 'Nhà Thi Đấu' },
+            { id: 4, code: 'DAN-GUITAR-01', name: 'Đàn Guitar Acoustic Yamaha', category: 'Âm nhạc', total: 8, available: 8, location: 'Phòng Âm Nhạc' }
+        ];
 
-        const STORAGE_KEY = 'quan_ly_thiet_bi_truong_hoc_a';
+        let borrowLogs = [
+            { id: 101, deviceId: 1, deviceName: 'Kính hiển vi quang học', borrowerName: 'Bùi Duy An', role: 'Lớp 11A1', quantity: 2, borrowDate: '2026-10-10', dueDate: '2026-10-15', status: 'Đang mượn', note: 'Thực hành sinh học tế bào' },
+            { id: 102, deviceId: 2, deviceName: 'Máy chiếu Epson 4K', borrowerName: 'Thầy Nguyễn Văn Bình', role: 'Giáo viên Vật Lý', quantity: 1, borrowDate: '2026-10-08', dueDate: '2026-10-12', status: 'Đã trả', note: 'Thuyết trình chuyên đề' }
+        ];
 
-        // Load data on start
-        function initApp() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                try {
-                    appData = JSON.parse(saved);
-                } catch(e) { console.error(e); }
-            } else {
-                loadSampleDataInternal();
+        // Chuyển Tab
+        function switchTab(tab) {
+            document.getElementById('tab-devices').classList.add('hidden');
+            document.getElementById('tab-borrow').classList.add('hidden');
+            document.getElementById('tab-logs').classList.add('hidden');
+
+            document.getElementById('tab-btn-devices').className = 'px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-600 text-indigo-100 transition flex items-center gap-2';
+            document.getElementById('tab-btn-borrow').className = 'px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-600 text-indigo-100 transition flex items-center gap-2';
+            document.getElementById('tab-btn-logs').className = 'px-3 py-2 rounded-lg text-sm font-medium hover:bg-indigo-600 text-indigo-100 transition flex items-center gap-2';
+
+            if(tab === 'devices') {
+                document.getElementById('tab-devices').classList.remove('hidden');
+                document.getElementById('tab-btn-devices').className = 'px-3 py-2 rounded-lg text-sm font-medium bg-indigo-800 text-white transition flex items-center gap-2';
+            } else if(tab === 'borrow') {
+                document.getElementById('tab-borrow').classList.remove('hidden');
+                document.getElementById('tab-btn-borrow').className = 'px-3 py-2 rounded-lg text-sm font-medium bg-indigo-800 text-white transition flex items-center gap-2';
+                populateBorrowSelect();
+            } else if(tab === 'logs') {
+                document.getElementById('tab-logs').classList.remove('hidden');
+                document.getElementById('tab-btn-logs').className = 'px-3 py-2 rounded-lg text-sm font-medium bg-indigo-800 text-white transition flex items-center gap-2';
+                renderLogs();
             }
-            updateAllViews();
         }
 
-        function saveData() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-        }
+        // Render danh sách thiết bị
+        function renderDevices() {
+            const grid = document.getElementById('device-grid');
+            const search = document.getElementById('search-device').value.toLowerCase();
+            const category = document.getElementById('filter-category').value;
 
-        function loadSampleDataInternal() {
-            appData = {
-                categories: ["Thí nghiệm", "CNTT", "Thể thao", "Thiết bị lớp học"],
-                locations: ["Phòng máy A1", "Kho khoa học", "Tủ thiết bị tầng 2", "Phòng thể chất"],
-                items: [
-                    { id: "TB-001", name: "Máy chiếu Epson X49", category: "CNTT", quantity: 5, status: "Sẵn sàng", location: "Phòng máy A1" },
-                    { id: "TB-002", name: "Bộ kính hiển vi quang học", category: "Thí nghiệm", quantity: 12, status: "Đang mượn", location: "Kho khoa học" },
-                    { id: "TB-003", name: "Bóng rổ tiêu chuẩn Molten", category: "Thể thao", quantity: 8, status: "Sẵn sàng", location: "Phòng thể chất" },
-                    { id: "TB-004", name: "Loa di động dạy học", category: "Thiết bị lớp học", quantity: 3, status: "Bảo trì", location: "Tủ thiết bị tầng 2" }
-                ],
-                borrows: [
-                    { id: "PM-101", borrower: "Thầy Trần Văn Bình (Khoa KHTN)", itemId: "TB-002", borrowDate: "2026-06-01", dueDate: "2026-06-10", returnDate: "", status: "Đang mượn" },
-                    { id: "PM-102", borrower: "Cô Lê Thị Hồng (Tổ Thể Dục)", itemId: "TB-003", borrowDate: "2026-05-20", dueDate: "2026-05-25", returnDate: "2026-05-24", status: "Đã trả" }
-                ]
-            };
-            saveData();
-        }
-
-        // Navigation
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-
-            document.querySelectorAll('.nav-link').forEach(el => {
-                el.classList.remove('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/20');
-                el.classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
-            });
-            const activeLink = document.querySelector(`.nav-link[data-target="${tabId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/20');
-                activeLink.classList.remove('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
-            }
-
-            const titles = {
-                'dashboard': 'Tổng quan hệ thống',
-                'inventory': 'Danh sách thiết bị',
-                'borrow': 'Quản lý Mượn / Trả',
-                'categories': 'Danh mục & Vị trí',
-                'settings': 'Quản lý dữ liệu'
-            };
-            document.getElementById('page-title').innerText = titles[tabId] || 'Quản lý thiết bị';
-            
-            // Close mobile sidebar
-            document.getElementById('sidebar').classList.add('-translate-x-full');
-
-            updateAllViews();
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
-        }
-
-        // Update All Views
-        function updateAllViews() {
-            renderDashboard();
-            renderInventory();
-            renderBorrowList();
-            renderCategoriesAndLocations();
-            populateDropdowns();
-            lucide.createIcons();
-        }
-
-        // 1. Dashboard Render
-        function renderDashboard() {
-            const total = appData.items.length;
-            const ready = appData.items.filter(i => i.status === 'Sẵn sàng').length;
-            const borrowed = appData.items.filter(i => i.status === 'Đang mượn').length;
-            const maint = appData.items.filter(i => i.status === 'Bảo trì' || i.status === 'Hỏng').length;
-            const cats = appData.categories.length;
-
-            document.getElementById('stat-total-items').innerText = total;
-            document.getElementById('stat-ready-items').innerText = ready;
-            document.getElementById('stat-borrowed-items').innerText = borrowed;
-            document.getElementById('stat-maintenance-items').innerText = maint;
-            document.getElementById('stat-total-categories').innerText = cats;
-
-            // Recent borrows
-            const recentBody = document.getElementById('dashboard-recent-borrows');
-            recentBody.innerHTML = '';
-            appData.borrows.slice(-5).reverse().forEach(b => {
-                const item = appData.items.find(i => i.id === b.itemId);
-                const itemName = item ? item.name : b.itemId;
-                recentBody.innerHTML += `
-                    <tr class="hover:bg-slate-50/50">
-                        <td class="py-3 px-4 font-semibold text-indigo-600">${b.id}</td>
-                        <td class="py-3 px-4 text-slate-800">${b.borrower}</td>
-                        <td class="py-3 px-4 text-slate-600">${itemName}</td>
-                        <td class="py-3 px-4 text-slate-600">${b.dueDate}</td>
-                        <td class="py-3 px-4">${getStatusBadge(b.status)}</td>
-                    </tr>
-                `;
+            const filtered = devices.filter(d => {
+                const matchSearch = d.name.toLowerCase().includes(search) || d.code.toLowerCase().includes(search);
+                const matchCat = category === '' || d.category === category;
+                return matchSearch && matchCat;
             });
 
-            // Upcoming returns
-            const upcomingContainer = document.getElementById('dashboard-upcoming-returns');
-            upcomingContainer.innerHTML = '';
-            const activeBorrows = appData.borrows.filter(b => b.status === 'Đang mượn');
-            if (activeBorrows.length === 0) {
-                upcomingContainer.innerHTML = '<p class="text-sm text-slate-400 italic">Không có thiết bị đang mượn.</p>';
-            } else {
-                activeBorrows.forEach(b => {
-                    const item = appData.items.find(i => i.id === b.itemId);
-                    upcomingContainer.innerHTML += `
-                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
-                            <div>
-                                <h4 class="text-sm font-bold text-slate-800">${item ? item.name : b.itemId}</h4>
-                                <p class="text-xs text-slate-500">Mượn bởi: ${b.borrower}</p>
-                            </div>
-                            <span class="text-xs font-semibold px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg">Hẹn: ${b.dueDate}</span>
+            grid.innerHTML = filtered.map(d => `
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md border border-indigo-100">${d.category}</span>
+                            <span class="text-xs text-slate-400 font-mono">Mã: ${d.code}</span>
                         </div>
-                    `;
-                });
-            }
+                        <h3 class="font-bold text-slate-800 text-lg mb-1">${d.name}</h3>
+                        <p class="text-xs text-slate-500 mb-4 flex items-center gap-1">
+                            <i class="fa-solid fa-location-dot text-slate-400"></i> ${d.location}
+                        </p>
+                    </div>
+
+                    <div class="border-t pt-3 flex justify-between items-center text-sm">
+                        <div>
+                            <span class="text-slate-500 text-xs block">Sẵn có / Tổng số:</span>
+                            <span class="font-bold ${d.available > 0 ? 'text-emerald-600' : 'text-rose-600'}">${d.available}</span> / <span class="font-bold text-slate-700">${d.total}</span>
+                        </div>
+                        <button onclick="quickBorrow(${d.id})" ${d.available === 0 ? 'disabled' : ''} class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-xs font-semibold transition">
+                            Mượn thiết bị
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateStats();
         }
 
-        // 2. Inventory Render
-        function renderInventory() {
-            const search = document.getElementById('inventory-search').value.toLowerCase();
-            const filterCat = document.getElementById('inventory-filter-category').value;
-            const filterStatus = document.getElementById('inventory-filter-status').value;
+        // Cập nhật thống kê
+        function updateStats() {
+            document.getElementById('stat-total-types').innerText = devices.length;
+            const totalAvail = devices.reduce((acc, d) => acc + d.available, 0);
+            const totalAll = devices.reduce((acc, d) => acc + d.total, 0);
+            document.getElementById('stat-available').innerText = totalAvail;
+            document.getElementById('stat-borrowed').innerText = totalAll - totalAvail;
+            document.getElementById('stat-broken').innerText = 0;
+        }
 
-            const tbody = document.getElementById('inventory-table-body');
-            tbody.innerHTML = '';
+        // Đưa danh sách vào Select mượn
+        function populateBorrowSelect() {
+            const select = document.getElementById('borrow-device-id');
+            select.innerHTML = devices.map(d => `
+                <option value="${d.id}" ${d.available === 0 ? 'disabled' : ''}>
+                    ${d.name} (${d.code}) - Có sẵn: ${d.available}
+                </option>
+            `).join('');
+        }
 
-            const filtered = appData.items.filter(item => {
-                const matchSearch = item.name.toLowerCase().includes(search) || item.id.toLowerCase().includes(search);
-                const matchCat = filterCat === '' || item.category === filterCat;
-                const matchStatus = filterStatus === '' || item.status === filterStatus;
-                return matchSearch && matchCat && matchStatus;
-            });
+        // Mượn nhanh từ thẻ thiết bị
+        function quickBorrow(id) {
+            switchTab('borrow');
+            document.getElementById('borrow-device-id').value = id;
+        }
 
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">Không tìm thấy thiết bị phù hợp.</td></tr>`;
+        // Xử lý tạo phiếu mượn
+        function handleCreateBorrow(e) {
+            e.preventDefault();
+            const deviceId = parseInt(document.getElementById('borrow-device-id').value);
+            const name = document.getElementById('borrower-name').value;
+            const role = document.getElementById('borrower-role').value;
+            const qty = parseInt(document.getElementById('borrow-quantity').value);
+            const dueDate = document.getElementById('borrow-due-date').value;
+            const purpose = document.getElementById('borrow-purpose').value;
+
+            const device = devices.find(d => d.id === deviceId);
+            if (!device || device.available < qty) {
+                alert('Số lượng tồn trong kho không đủ để cho mượn!');
                 return;
             }
 
-            filtered.forEach((item, index) => {
-                const actualIndex = appData.items.findIndex(i => i.id === item.id);
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50/50">
-                        <td class="py-3 px-4 font-semibold text-slate-700">${item.id}</td>
-                        <td class="py-3 px-4 font-medium text-slate-800">${item.name}</td>
-                        <td class="py-3 px-4 text-slate-600"><span class="px-2 py-1 bg-slate-100 rounded-md text-xs">${item.category}</span></td>
-                        <td class="py-3 px-4 text-slate-600">${item.quantity}</td>
-                        <td class="py-3 px-4">${getStatusBadge(item.status)}</td>
-                        <td class="py-3 px-4 text-slate-600">${item.location}</td>
-                        <td class="py-3 px-4 text-right space-x-2">
-                            <button onclick="editItem(${actualIndex})" class="text-indigo-600 hover:text-indigo-800 p-1"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
-                            <button onclick="deleteItem(${actualIndex})" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
-            lucide.createIcons();
-        }
+            // Trừ số lượng sẵn có
+            device.available -= qty;
 
-        // 3. Borrow List Render
-        function renderBorrowList() {
-            const search = document.getElementById('borrow-search').value.toLowerCase();
-            const filterStatus = document.getElementById('borrow-filter-status').value;
-
-            const tbody = document.getElementById('borrow-table-body');
-            tbody.innerHTML = '';
-
-            const filtered = appData.borrows.filter(b => {
-                const item = appData.items.find(i => i.id === b.itemId);
-                const itemName = item ? item.name.toLowerCase() : '';
-                const matchSearch = b.borrower.toLowerCase().includes(search) || b.id.toLowerCase().includes(search) || itemName.includes(search);
-                const matchStatus = filterStatus === '' || b.status === filterStatus;
-                return matchSearch && matchStatus;
-            }).reverse();
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">Không tìm thấy phiếu mượn nào.</td></tr>`;
-                return;
-            }
-
-            filtered.forEach(b => {
-                const item = appData.items.find(i => i.id === b.itemId);
-                const itemName = item ? item.name : b.itemId;
-                const actualIndex = appData.borrows.findIndex(x => x.id === b.id);
-
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-50/50">
-                        <td class="py-3 px-4 font-semibold text-indigo-600">${b.id}</td>
-                        <td class="py-3 px-4 text-slate-800 font-medium">${b.borrower}</td>
-                        <td class="py-3 px-4 text-slate-600">${itemName}</td>
-                        <td class="py-3 px-4 text-slate-600">${b.borrowDate}</td>
-                        <td class="py-3 px-4 text-slate-600">${b.dueDate}</td>
-                        <td class="py-3 px-4">${getStatusBadge(b.status)}</td>
-                        <td class="py-3 px-4 text-right">
-                            ${b.status === 'Đang mượn' ? `<button onclick="returnBorrow('${b.id}')" class="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-3 py-1 rounded-lg text-xs font-semibold transition">Xác nhận trả</button>` : `<span class="text-xs text-slate-400">Đã hoàn tất</span>`}
-                        </td>
-                    </tr>
-                `;
-            });
-            lucide.createIcons();
-        }
-
-        // 4. Categories & Locations Render
-        function renderCategoriesAndLocations() {
-            const catBody = document.getElementById('categories-table-body');
-            catBody.innerHTML = '';
-            appData.categories.forEach((cat, idx) => {
-                catBody.innerHTML += `
-                    <tr class="hover:bg-slate-50/50">
-                        <td class="py-3 px-4 font-medium text-slate-800">${cat}</td>
-                        <td class="py-3 px-4 text-right">
-                            <button onclick="deleteCategory(${idx})" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            const locBody = document.getElementById('locations-table-body');
-            locBody.innerHTML = '';
-            appData.locations.forEach((loc, idx) => {
-                locBody.innerHTML += `
-                    <tr class="hover:bg-slate-50/50">
-                        <td class="py-3 px-4 font-medium text-slate-800">${loc}</td>
-                        <td class="py-3 px-4 text-right">
-                            <button onclick="deleteLocation(${idx})" class="text-rose-600 hover:text-rose-800 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
-            lucide.createIcons();
-        }
-
-        // Dropdown Populate Helpers
-        function populateDropdowns() {
-            const catSelects = [document.getElementById('item-category'), document.getElementById('inventory-filter-category')];
-            catSelects.forEach((sel, idx) => {
-                if(!sel) return;
-                const currentVal = sel.value;
-                sel.innerHTML = idx === 1 ? '<option value="">Tất cả danh mục</option>' : '';
-                appData.categories.forEach(c => {
-                    sel.innerHTML += `<option value="${c}">${c}</option>`;
-                });
-                sel.value = currentVal;
-            });
-
-            const locSelect = document.getElementById('item-location');
-            if (locSelect) {
-                const currentVal = locSelect.value;
-                locSelect.innerHTML = '';
-                appData.locations.forEach(l => {
-                    locSelect.innerHTML += `<option value="${l}">${l}</option>`;
-                });
-                locSelect.value = currentVal;
-            }
-
-            const borrowItemSelect = document.getElementById('borrow-item-id');
-            if (borrowItemSelect) {
-                borrowItemSelect.innerHTML = '';
-                appData.items.filter(i => i.status === 'Sẵn sàng').forEach(i => {
-                    borrowItemSelect.innerHTML += `<option value="${i.id}">${i.name} (SL: ${i.quantity})</option>`;
-                });
-            }
-        }
-
-        // Status Badge Helper
-        function getStatusBadge(status) {
-            const map = {
-                'Sẵn sàng': 'bg-emerald-50 text-emerald-700 border border-emerald-200/50',
-                'Đang mượn': 'bg-amber-50 text-amber-700 border border-amber-200/50',
-                'Bảo trì': 'bg-sky-50 text-sky-700 border border-sky-200/50',
-                'Hỏng': 'bg-rose-50 text-rose-700 border border-rose-200/50',
-                'Đã trả': 'bg-slate-100 text-slate-700 border border-slate-200/50',
-                'Quá hạn': 'bg-rose-100 text-rose-800 border border-rose-200/50'
-            };
-            return `<span class="px-2.5 py-1 rounded-lg text-xs font-semibold ${map[status] || 'bg-slate-100 text-slate-700'}">${status}</span>`;
-        }
-
-        // Modal Controls
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        function openItemModal(index = null) {
-            populateDropdowns();
-            const modal = document.getElementById('item-modal');
-            const form = document.getElementById('item-form');
-            form.reset();
-            document.getElementById('item-index').value = '';
-            document.getElementById('item-modal-title').innerText = 'Thêm thiết bị mới';
-
-            if (index !== null) {
-                const item = appData.items[index];
-                document.getElementById('item-index').value = index;
-                document.getElementById('item-id-input').value = item.id;
-                document.getElementById('item-name').value = item.name;
-                document.getElementById('item-category').value = item.category;
-                document.getElementById('item-quantity').value = item.quantity;
-                document.getElementById('item-status').value = item.status;
-                document.getElementById('item-location').value = item.location;
-                document.getElementById('item-modal-title').innerText = 'Chỉnh sửa thiết bị';
-            } else {
-                document.getElementById('item-id-input').value = 'TB-' + Math.floor(100 + Math.random() * 900);
-            }
-            modal.classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        function openBorrowModal() {
-            populateDropdowns();
-            document.getElementById('borrow-id').value = 'PM-' + Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('borrower-name').value = '';
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('borrow-date').value = today;
-            const nextWeek = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0];
-            document.getElementById('borrow-duedate').value = nextWeek;
-            document.getElementById('borrow-modal').classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        function openCategoryModal() {
-            document.getElementById('category-name-input').value = '';
-            document.getElementById('category-modal').classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        function openLocationModal() {
-            document.getElementById('location-name-input').value = '';
-            document.getElementById('location-modal').classList.remove('hidden');
-            lucide.createIcons();
-        }
-
-        // Form Handlers
-        function saveItem(event) {
-            event.preventDefault();
-            const index = document.getElementById('item-index').value;
-            const newItem = {
-                id: document.getElementById('item-id-input').value,
-                name: document.getElementById('item-name').value,
-                category: document.getElementById('item-category').value,
-                quantity: parseInt(document.getElementById('item-quantity').value),
-                status: document.getElementById('item-status').value,
-                location: document.getElementById('item-location').value
+            // Thêm lịch sử mượn
+            const newLog = {
+                id: Date.now(),
+                deviceId: device.id,
+                deviceName: device.name,
+                borrowerName: name,
+                role: role,
+                quantity: qty,
+                borrowDate: new Date().toISOString().split('T')[0],
+                dueDate: dueDate,
+                status: 'Đang mượn',
+                note: purpose
             };
 
-            if (index === '') {
-                appData.items.push(newItem);
-            } else {
-                appData.items[index] = newItem;
-            }
-
-            saveData();
-            closeModal('item-modal');
-            updateAllViews();
+            borrowLogs.unshift(newLog);
+            alert('Tạo phiếu cho mượn thành công!');
+            document.getElementById('borrow-form').reset();
+            switchTab('logs');
+            renderDevices();
         }
 
-        function saveBorrow(event) {
-            event.preventDefault();
-            const newBorrow = {
-                id: document.getElementById('borrow-id').value,
-                borrower: document.getElementById('borrower-name').value,
-                itemId: document.getElementById('borrow-item-id').value,
-                borrowDate: document.getElementById('borrow-date').value,
-                dueDate: document.getElementById('borrow-duedate').value,
-                returnDate: '',
-                status: 'Đang mượn'
-            };
+        // Render danh sách phiếu mượn
+        function renderLogs() {
+            const tbody = document.getElementById('logs-table-body');
+            const filter = document.getElementById('filter-log-status').value;
 
-            // Update item status to 'Đang mượn'
-            const item = appData.items.find(i => i.id === newBorrow.itemId);
-            if (item) {
-                item.status = 'Đang mượn';
-            }
+            const filtered = borrowLogs.filter(l => filter === '' || l.status === filter);
 
-            appData.borrows.push(newBorrow);
-            saveData();
-            closeModal('borrow-modal');
-            updateAllViews();
+            tbody.innerHTML = filtered.map(l => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="p-4">
+                        <div class="font-semibold text-slate-800">${l.borrowerName}</div>
+                        <div class="text-xs text-slate-500">${l.role}</div>
+                    </td>
+                    <td class="p-4 font-medium text-slate-700">${l.deviceName}</td>
+                    <td class="p-4 font-bold text-indigo-600">${l.quantity}</td>
+                    <td class="p-4 text-xs text-slate-500">${l.borrowDate}</td>
+                    <td class="p-4 text-xs text-slate-500">${l.dueDate}</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full ${l.status === 'Đang mượn' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}">
+                            ${l.status}
+                        </span>
+                    </td>
+                    <td class="p-4 text-center">
+                        ${l.status === 'Đang mượn' ? `
+                            <button onclick="returnDevice(${l.id})" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-medium transition">
+                                <i class="fa-solid fa-rotate-left mr-1"></i> Xác nhận trả
+                            </button>
+                        ` : '<span class="text-xs text-slate-400">Hoàn thành</span>'}
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        function returnBorrow(borrowId) {
-            const borrow = appData.borrows.find(b => b.id === borrowId);
-            if (borrow) {
-                borrow.status = 'Đã trả';
-                borrow.returnDate = new Date().toISOString().split('T')[0];
-                
-                // Set item back to 'Sẵn sàng' if no other active borrows
-                const item = appData.items.find(i => i.id === borrow.itemId);
-                if (item) {
-                    item.status = 'Sẵn sàng';
+        // Xử lý khi trả thiết bị
+        function returnDevice(logId) {
+            const log = borrowLogs.find(l => l.id === logId);
+            if (log && log.status === 'Đang mượn') {
+                log.status = 'Đã trả';
+                const device = devices.find(d => d.id === log.deviceId);
+                if (device) {
+                    device.available += log.quantity;
                 }
-                saveData();
-                updateAllViews();
+                renderLogs();
+                renderDevices();
             }
         }
 
-        function saveCategory(event) {
-            event.preventDefault();
-            const name = document.getElementById('category-name-input').value.trim();
-            if (name && !appData.categories.includes(name)) {
-                appData.categories.push(name);
-                saveData();
-                closeModal('category-modal');
-                updateAllViews();
-            }
+        // Modal Thêm Thiết Bị
+        function openAddDeviceModal() {
+            document.getElementById('add-modal').classList.remove('hidden');
+            document.getElementById('add-modal').classList.add('flex');
         }
 
-        function saveLocation(event) {
-            event.preventDefault();
-            const name = document.getElementById('location-name-input').value.trim();
-            if (name && !appData.locations.includes(name)) {
-                appData.locations.push(name);
-                saveData();
-                closeModal('location-modal');
-                updateAllViews();
-            }
+        function closeAddDeviceModal() {
+            document.getElementById('add-modal').classList.add('hidden');
+            document.getElementById('add-modal').classList.remove('flex');
         }
 
-        function deleteItem(index) {
-            if (confirm('Bạn có chắc chắn muốn xóa thiết bị này không?')) {
-                appData.items.splice(index, 1);
-                saveData();
-                updateAllViews();
-            }
+        function handleAddDevice(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-name').value;
+            const code = document.getElementById('new-code').value;
+            const category = document.getElementById('new-category').value;
+            const total = parseInt(document.getElementById('new-total').value);
+            const location = document.getElementById('new-location').value;
+
+            devices.push({
+                id: Date.now(),
+                code, name, category, total, available: total, location
+            });
+
+            closeAddDeviceModal();
+            document.getElementById('add-device-form').reset();
+            renderDevices();
         }
 
-        function deleteCategory(index) {
-            if (confirm('Xóa danh mục này?')) {
-                appData.categories.splice(index, 1);
-                saveData();
-                updateAllViews();
-            }
-        }
-
-        function deleteLocation(index) {
-            if (confirm('Xóa vị trí này?')) {
-                appData.locations.splice(index, 1);
-                saveData();
-                updateAllViews();
-            }
-        }
-
-        function loadSampleData() {
-            if (confirm('Tải dữ liệu mẫu sẽ ghi đè dữ liệu hiện tại. Bạn có chắc chắn không?')) {
-                loadSampleDataInternal();
-                updateAllViews();
-            }
-        }
-
-        function resetAllData() {
-            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu?')) {
-                appData = { items: [], borrows: [], categories: [], locations: [] };
-                saveData();
-                updateAllViews();
-            }
-        }
-
-        window.onload = initApp;
+        // Khởi chạy ban đầu
+        renderDevices();
     </script>
 </body>
 </html>
