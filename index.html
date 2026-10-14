@@ -1,348 +1,82 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PC Build SQL Studio - Quản Lý Linh Kiện & Lắp Ráp Máy Tính</title>
+    <title>FurniStyle - Quản Lý & Bán Đồ Nội Thất Cao Cấp</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts (Plus Jakarta Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        slate: {
-                            850: '#111827',
-                            950: '#0B0F19'
-                        }
+                        brand: {
+                            50: '#fdf8f6',
+                            100: '#f2e8e5',
+                            500: '#c28e75',
+                            600: '#a87258',
+                            700: '#8c5943',
+                            800: '#5c3a2b',
+                            900: '#332018',
+                        },
+                        accent: '#d97706'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
-    <!-- FontAwesome & SQLite WebAssembly -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
     <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #0b0f19; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased">
+<body class="bg-stone-50 font-sans text-stone-800 antialiased custom-scrollbar">
 
-    <!-- TOP HEADER -->
-    <header class="bg-slate-900 border-b border-slate-800 px-6 py-3 sticky top-0 z-50 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="bg-gradient-to-tr from-orange-600 to-amber-600 text-white p-2.5 rounded-xl shadow-lg">
-                <i class="fa-solid fa-computer text-xl"></i>
-            </div>
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="w-64 bg-stone-900 text-stone-300 flex flex-col justify-between transition-all duration-300 z-30 fixed md:relative h-full -translate-x-full md:translate-x-0">
             <div>
-                <h1 class="font-extrabold text-lg text-white tracking-tight flex items-center gap-2">
-                    PC BUILD <span class="text-orange-500">SQL STUDIO</span>
-                    <span class="text-[10px] font-mono bg-orange-500/10 text-orange-400 border border-orange-500/30 px-2 py-0.5 rounded-full">Database System</span>
-                </h1>
-                <p class="text-xs text-slate-400">Quản lý kho linh kiện & cấu hình lắp ráp máy tính</p>
-            </div>
-        </div>
-
-        <div class="flex items-center gap-3">
-            <button onclick="resetDatabase()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-                <i class="fa-solid fa-rotate-left"></i> Khôi phục CSDL gốc
-            </button>
-            <button onclick="runCurrentQuery()" class="px-4 py-1.5 bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold rounded-lg shadow-md transition flex items-center gap-1.5">
-                <i class="fa-solid fa-play"></i> Chạy Lệnh SQL (F5)
-            </button>
-        </div>
-    </header>
-
-    <!-- MAIN WORKSPACE -->
-    <div class="flex-1 flex overflow-hidden">
-
-        <!-- LEFT SIDEBAR: TABLES & SCHEMA -->
-        <aside class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col overflow-y-auto custom-scrollbar">
-            <div class="p-4 border-b border-slate-800 flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-database text-orange-500"></i> Các Bảng CSDL (Tables)
-                </span>
-                <span id="tables-count" class="text-xs font-mono text-slate-500">0 tables</span>
-            </div>
-
-            <div id="sidebar-tables-list" class="p-3 space-y-2">
-                <!-- Injected tables list -->
-            </div>
-        </aside>
-
-        <!-- RIGHT MAIN CONTENT: SQL EDITOR & RESULTS -->
-        <main class="flex-1 flex flex-col min-w-0 bg-slate-950">
-
-            <!-- SQL CONSOLE EDITOR -->
-            <div class="p-4 bg-slate-900/60 border-b border-slate-800 space-y-3">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-300 flex items-center gap-2">
-                        <i class="fa-solid fa-code text-orange-400"></i> Trình soạn thảo SQL (Console Editor)
-                    </span>
-
-                    <!-- SQL PRESET TEMPLATES FOR PC BUILD -->
-                    <div class="flex items-center gap-2 text-xs">
-                        <span class="text-slate-500">Câu lệnh mẫu:</span>
-                        <button onclick="loadPresetQuery('ALL_PARTS')" class="text-orange-400 hover:underline font-semibold">Kho Linh Kiện</button>
-                        <button onclick="loadPresetQuery('CPU_FILTER')" class="text-orange-400 hover:underline font-semibold">Lọc CPU > 5M</button>
-                        <button onclick="loadPresetQuery('PC_BUILD_JOIN')" class="text-orange-400 hover:underline font-semibold">Chi Tiết PC Build</button>
-                        <button onclick="loadPresetQuery('TOTAL_PRICE')" class="text-orange-400 hover:underline font-semibold">Tổng Tiền Đơn</button>
-                    </div>
-                </div>
-
-                <div class="relative">
-                    <textarea id="sql-editor" rows="5" spellcheck="false" class="w-full bg-slate-950 font-mono text-sm text-emerald-400 p-4 rounded-xl border border-slate-800 focus:outline-none focus:border-orange-500 shadow-inner custom-scrollbar" placeholder="Nhập câu lệnh SQL vào đây..."></textarea>
-                </div>
-            </div>
-
-            <!-- RESULT SET / OUTPUT PANEL -->
-            <div class="flex-1 p-4 flex flex-col min-h-0 overflow-hidden">
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                        <i class="fa-solid fa-table-cells text-emerald-400"></i> Kết quả truy vấn (Result Set)
-                    </h3>
-                    <div id="execution-info" class="text-xs font-mono text-slate-500">Sẵn sàng</div>
-                </div>
-
-                <div id="output-container" class="flex-1 bg-slate-900 border border-slate-800 rounded-xl overflow-auto custom-scrollbar p-1">
-                    <div class="h-full flex flex-col items-center justify-center text-slate-500 space-y-2">
-                        <i class="fa-solid fa-terminal text-3xl opacity-30"></i>
-                        <p class="text-xs">Nhấn "Chạy Lệnh SQL" hoặc chọn câu lệnh mẫu ở trên để xem dữ liệu</p>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <!-- APPLICATION LOGIC -->
-    <script>
-        let db = null;
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const SQL = await initSqlJs({
-                    locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
-                });
-                db = new SQL.Database();
-                initSampleSchema();
-                renderSidebarTables();
-                loadPresetQuery('ALL_PARTS');
-            } catch (err) {
-                console.error("Lỗi khởi tạo SQLite:", err);
-                document.getElementById('output-container').innerHTML = `
-                    <div class="p-4 bg-red-500/10 text-red-400 text-xs rounded-lg border border-red-500/20">
-                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Lỗi khởi tạo cơ sở dữ liệu.
-                    </div>`;
-            }
-        });
-
-        // Khởi tạo CSDL Quản lý Linh Kiện & Lắp Máy Tính
-        function initSampleSchema() {
-            db.run(`
-                DROP TABLE IF EXISTS BuildItems;
-                DROP TABLE IF EXISTS BuildOrders;
-                DROP TABLE IF EXISTS Components;
-                DROP TABLE IF EXISTS Customers;
-
-                -- 1. Bảng Khách hàng
-                CREATE TABLE Customers (
-                    customer_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    full_name TEXT NOT NULL,
-                    phone TEXT NOT NULL,
-                    address TEXT
-                );
-
-                -- 2. Bảng Linh kiện máy tính (Components)
-                CREATE TABLE Components (
-                    component_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    part_code TEXT UNIQUE NOT NULL,
-                    part_name TEXT NOT NULL,
-                    category TEXT NOT NULL, -- CPU, Mainboard, RAM, VGA, SSD, PSU, Case
-                    price REAL NOT NULL,
-                    stock_qty INTEGER NOT NULL
-                );
-
-                -- 3. Bảng Đơn hàng lắp ráp PC (BuildOrders)
-                CREATE TABLE BuildOrders (
-                    order_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                    order_code TEXT UNIQUE NOT NULL,
-                    customer_id INTEGER,
-                    total_amount REAL DEFAULT 0,
-                    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-                    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
-                );
-
-                -- 4. Bảng Chi tiết linh kiện trong bộ máy (BuildItems)
-                CREATE TABLE BuildItems (
-                    item_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                    order_id INTEGER,
-                    component_id INTEGER,
-                    quantity INTEGER DEFAULT 1,
-                    unit_price REAL NOT NULL,
-                    FOREIGN KEY (order_id) REFERENCES BuildOrders(order_id),
-                    FOREIGN KEY (component_id) REFERENCES Components(component_id)
-                );
-
-                -- --- DỮ LIỆU MẪU ---
-                INSERT INTO Customers (full_name, phone, address) VALUES 
-                ('Nguyễn Văn Hùng', '0981234567', 'TP. Lào Cai'),
-                ('Trần Thị Mai', '0912345678', 'Hà Nội');
-
-                INSERT INTO Components (part_code, part_name, category, price, stock_qty) VALUES 
-                ('CPU-I513600K', 'Intel Core i5-13600K (3.5GHz, 14 nhân 20 luồng)', 'CPU', 7400000, 15),
-                ('CPU-R57600X', 'AMD Ryzen 5 7600X (4.7GHz, 6 nhân 12 luồng)', 'CPU', 5200000, 12),
-                ('MB-B760M', 'Mainboard ASUS TUF GAMING B760M-PLUS WIFI', 'Mainboard', 4300000, 10),
-                ('RAM-COR32', 'Ram Corsair Vengeance 32GB (2x16GB) DDR5 5600MHz', 'RAM', 2800000, 30),
-                ('VGA-RTX4060', 'Card màn hình Gigabyte RTX 4060 Eagle OC 8GB', 'VGA', 8500000, 8),
-                ('VGA-RTX4070S', 'Card màn hình ASUS Dual RTX 4070 Super 12GB', 'VGA', 16500000, 5),
-                ('SSD-NVME1TB', 'Ổ cứng SSD Kingston NV2 1TB NVMe PCIe 4.0', 'SSD', 1650000, 45),
-                ('PSU-750W', 'Nguồn máy tính DeepCool PK750D 750W 80 Plus Bronze', 'PSU', 1450000, 20),
-                ('CASE-NZXT', 'Vỏ case NZXT H5 Flow Black (Kèm sẵn quạt)', 'Case', 2300000, 12);
-
-                -- Đơn hàng PC 1 của khách Nguyễn Văn Hùng (Cấu hình i5 13600K + RTX 4060)
-                INSERT INTO BuildOrders (order_code, customer_id, total_amount) VALUES ('PC-BL001', 1, 26150000);
-                
-                INSERT INTO BuildItems (order_id, component_id, quantity, unit_price) VALUES 
-                (1, 1, 1, 7400000),   -- i5 13600K
-                (1, 3, 1, 4300000),   -- Main B760M
-                (1, 4, 1, 2800000),   -- RAM 32GB
-                (1, 5, 1, 8500000),   -- VGA RTX 4060
-                (1, 7, 1, 1650000),   -- SSD 1TB
-                (1, 8, 1, 1450000);   -- Nguồn 750W
-            `);
-        }
-
-        function renderSidebarTables() {
-            const list = document.getElementById('sidebar-tables-list');
-            list.innerHTML = '';
-
-            const res = db.exec("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';");
-            if (res.length === 0) return;
-
-            const tables = res[0].values;
-            document.getElementById('tables-count').innerText = `${tables.length} tables`;
-
-            tables.forEach(([tableName]) => {
-                const schemaRes = db.exec(`PRAGMA table_info(${tableName});`);
-                const columns = schemaRes[0].values;
-
-                let colsHtml = columns.map(c => `
-                    <div class="flex items-center justify-between text-[11px] text-slate-400 pl-4 py-0.5 font-mono">
-                        <span><i class="fa-solid fa-columns text-slate-600 mr-1.5"></i>${c[1]}</span>
-                        <span class="text-slate-600 text-[10px]">${c[2]}</span>
-                    </div>
-                `).join('');
-
-                list.innerHTML += `
-                    <div class="bg-slate-950 rounded-lg border border-slate-800/80 overflow-hidden">
-                        <button onclick="loadPresetQueryForTable('${tableName}')" class="w-full text-left px-3 py-2 bg-slate-850 hover:bg-slate-800 font-mono text-xs font-bold text-slate-200 flex items-center justify-between">
-                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-table text-orange-400"></i> ${tableName}</span>
-                            <i class="fa-solid fa-chevron-right text-slate-500 text-[10px]"></i>
-                        </button>
-                        <div class="py-1 border-t border-slate-800/50 bg-slate-950/50">
-                            ${colsHtml}
+                <!-- Brand Header -->
+                <div class="h-20 flex items-center justify-between px-6 border-b border-stone-800">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold text-xl shadow-lg shadow-brand-500/30">
+                            <i class="fa-solid fa-couch"></i>
                         </div>
+                        <span class="font-extrabold text-xl text-white tracking-wide">Furni<span class="text-brand-500">Style</span></span>
                     </div>
-                `;
-            });
-        }
+                    <button id="closeSidebar" class="md:hidden text-stone-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
 
-        function runCurrentQuery() {
-            const sql = document.getElementById('sql-editor').value.trim();
-            const output = document.getElementById('output-container');
-            const executionInfo = document.getElementById('execution-info');
-
-            if (!sql) {
-                output.innerHTML = `<div class="p-4 text-xs text-amber-400"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Vui lòng nhập câu lệnh SQL.</div>`;
-                return;
-            }
-
-            const startTime = performance.now();
-
-            try {
-                const results = db.exec(sql);
-                const endTime = performance.now();
-                const execTime = (endTime - startTime).toFixed(2);
-
-                if (results.length === 0) {
-                    executionInfo.innerHTML = `<span class="text-emerald-400"><i class="fa-solid fa-check mr-1"></i>Thực thi thành công (${execTime} ms)</span>`;
-                    output.innerHTML = `
-                        <div class="p-4 text-xs text-emerald-400 flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check text-base"></i> Câu lệnh đã thực thi thành công (Không có tập dữ liệu trả về).
-                        </div>`;
-                    renderSidebarTables();
-                    return;
-                }
-
-                const columns = results[0].columns;
-                const values = results[0].values;
-
-                executionInfo.innerHTML = `<span class="text-slate-400">${values.length} dòng (${execTime} ms)</span>`;
-
-                let headerHtml = columns.map(col => `<th class="px-4 py-2.5 font-mono text-xs font-semibold text-slate-300 border-b border-slate-800 bg-slate-950/80">${col}</th>`).join('');
-                
-                let rowsHtml = values.map((row) => {
-                    let cols = row.map(val => `<td class="px-4 py-2 text-xs font-mono text-slate-300 border-b border-slate-800/60">${val === null ? '<span class="text-slate-600 italic">NULL</span>' : val}</td>`).join('');
-                    return `<tr class="hover:bg-slate-800/50 transition">${cols}</tr>`;
-                }).join('');
-
-                output.innerHTML = `
-                    <div class="overflow-x-auto h-full">
-                        <table class="w-full text-left border-collapse">
-                            <thead class="sticky top-0 z-10">${headerHtml}</thead>
-                            <tbody>${rowsHtml}</tbody>
-                        </table>
-                    </div>`;
-
-            } catch (err) {
-                executionInfo.innerHTML = `<span class="text-red-400"><i class="fa-solid fa-xmark mr-1"></i>Lỗi Cú Pháp SQL</span>`;
-                output.innerHTML = `
-                    <div class="p-4 bg-red-500/10 text-red-400 font-mono text-xs rounded-lg border border-red-500/20 space-y-1">
-                        <div class="font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle-xmark"></i> SQL Error:</div>
-                        <div>${err.message}</div>
-                    </div>`;
-            }
-        }
-
-        // Các câu lệnh mẫu chuyên ngành PC Build
-        function loadPresetQuery(type) {
-            const editor = document.getElementById('sql-editor');
-            if (type === 'ALL_PARTS') {
-                editor.value = "SELECT part_code, part_name, category, price, stock_qty \nFROM Components;";
-            } else if (type === 'CPU_FILTER') {
-                editor.value = "SELECT part_name, price \nFROM Components \nWHERE category = 'CPU' AND price > 5000000;";
-            } else if (type === 'PC_BUILD_JOIN') {
-                editor.value = "SELECT o.order_code, c.full_name, p.part_name, i.quantity, i.unit_price \nFROM BuildOrders o \nJOIN Customers c ON o.customer_id = c.customer_id \nJOIN BuildItems i ON o.order_id = i.order_id \nJOIN Components p ON i.component_id = p.component_id;";
-            } else if (type === 'TOTAL_PRICE') {
-                editor.value = "SELECT category, COUNT(*) AS SoLuongLinhKien, SUM(price) AS TongGiaTri \nFROM Components \nGROUP BY category;";
-            }
-            runCurrentQuery();
-        }
-
-        function loadPresetQueryForTable(tableName) {
-            document.getElementById('sql-editor').value = `SELECT * FROM ${tableName};`;
-            runCurrentQuery();
-        }
-
-        function resetDatabase() {
-            if (confirm("Khôi phục lại dữ liệu gốc bảng linh kiện máy tính?")) {
-                initSampleSchema();
-                renderSidebarTables();
-                loadPresetQuery('ALL_PARTS');
-            }
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'F5' || (e.ctrlKey && e.key === 'Enter')) {
-                e.preventDefault();
-                runCurrentQuery();
-            }
-        });
-    </script>
-</body>
-</html>
+                <!-- Navigation Menu -->
+                <nav class="mt-6 px-4 space-y-1">
+                    <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center space-x-3 px-4 py-3 rounded-xl bg-brand-600 text-white font-medium shadow-md shadow-brand-600/20 transition">
+                        <i class="fa-solid fa-chart-pie w-5"></i>
+                        <span>Tổng Quan</span>
+                    </a>
+                    <a href="#" onclick="switchTab('products')" id="nav-products" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-
