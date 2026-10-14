@@ -79,4 +79,502 @@
                         <i class="fa-solid fa-chart-pie w-5"></i>
                         <span>Tổng Quan</span>
                     </a>
-                    <a href="#" onclick="switchTab('products')" id="nav-products" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-
+                    <a href="#" onclick="switchTab('products')" id="nav-products" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 text-stone-400 hover:text-stone-200 font-medium transition">
+                        <i class="fa-solid fa-chair w-5"></i>
+                        <span>Sản Phẩm Nội Thất</span>
+                    </a>
+                    <a href="#" onclick="switchTab('orders')" id="nav-orders" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 text-stone-400 hover:text-stone-200 font-medium transition">
+                        <i class="fa-solid fa-receipt w-5"></i>
+                        <span>Đơn Bán Hàng</span>
+                    </a>
+                    <a href="#" onclick="switchTab('pos')" id="nav-pos" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 text-stone-400 hover:text-stone-200 font-medium transition">
+                        <i class="fa-solid fa-store w-5"></i>
+                        <span>Bán Tại Cửa Hàng</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- User Info & Logout -->
+            <div class="p-4 border-t border-stone-800">
+                <div class="flex items-center space-x-3 p-2 bg-stone-800/50 rounded-xl">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-10 h-10 rounded-lg object-cover" alt="Avatar">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-white truncate">Quản Lý Nội Thất</p>
+                        <p class="text-xs text-stone-500 truncate">admin@furnistyle.vn</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="flex-1 flex flex-col h-full overflow-hidden">
+
+            <!-- TOP NAVBAR -->
+            <header class="h-20 bg-white border-b border-stone-200 flex items-center justify-between px-6 z-10">
+                <div class="flex items-center space-x-4">
+                    <button id="openSidebar" class="md:hidden text-stone-600 hover:text-stone-900 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <div class="relative w-64 md:w-80">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-stone-400">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input type="text" placeholder="Tìm kiếm nội thất, đơn hàng..." class="w-full pl-10 pr-4 py-2 rounded-xl bg-stone-100 text-sm border-transparent focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/20 transition">
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button class="relative p-2.5 rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200 transition">
+                        <i class="fa-regular fa-bell text-lg"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-rose-500 rounded-full ring-2 ring-white"></span>
+                    </button>
+                    <button onclick="openModal()" class="flex items-center space-x-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2.5 rounded-xl font-medium text-sm shadow-md shadow-brand-600/20 transition">
+                        <i class="fa-solid fa-plus"></i>
+                        <span class="hidden sm:inline">Thêm Nội Thất</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- MAIN DYNAMIC CONTENT -->
+            <main class="flex-1 overflow-y-auto p-6 custom-scrollbar bg-stone-50">
+
+                <!-- VIEW 1: DASHBOARD OVERVIEW -->
+                <div id="view-dashboard" class="space-y-6">
+                    <!-- Stat Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider">Doanh Thu Nội Thất</p>
+                                    <h3 class="text-2xl font-bold text-stone-900 mt-1">485,200,000 ₫</h3>
+                                </div>
+                                <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+                                    <i class="fa-solid fa-wallet text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-xs text-emerald-600 font-medium">
+                                <i class="fa-solid fa-arrow-up-right mr-1"></i>
+                                <span>+14.5% so với tháng trước</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider">Đơn Hàng Đã Bán</p>
+                                    <h3 class="text-2xl font-bold text-stone-900 mt-1">128 Đơn</h3>
+                                </div>
+                                <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
+                                    <i class="fa-solid fa-truck-ramp-box text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-xs text-emerald-600 font-medium">
+                                <i class="fa-solid fa-arrow-up-right mr-1"></i>
+                                <span>+8.2% tăng trưởng</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider">Sản Phẩm Tồn Kho</p>
+                                    <h3 class="text-2xl font-bold text-stone-900 mt-1">342 Món</h3>
+                                </div>
+                                <div class="p-3 bg-amber-50 text-amber-600 rounded-xl">
+                                    <i class="fa-solid fa-warehouse text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-xs text-amber-600 font-medium">
+                                <i class="fa-solid fa-circle-exclamation mr-1"></i>
+                                <span>12 sản phẩm sắp hết hàng</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm flex flex-col justify-between">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider">Khách Hàng Mới</p>
+                                    <h3 class="text-2xl font-bold text-stone-900 mt-1">94 Người</h3>
+                                </div>
+                                <div class="p-3 bg-purple-50 text-purple-600 rounded-xl">
+                                    <i class="fa-solid fa-users text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-xs text-emerald-600 font-medium">
+                                <i class="fa-solid fa-arrow-up-right mr-1"></i>
+                                <span>+18% lượt mua lại</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="font-bold text-stone-800">Doanh Số Theo Tháng (2026)</h4>
+                                <span class="text-xs bg-stone-100 text-stone-600 px-3 py-1 rounded-full font-medium">Đơn vị: VNĐ</span>
+                            </div>
+                            <div class="h-72">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-bold text-stone-800 mb-4">Tỷ Lệ Danh Mục Bán Chạy</h4>
+                                <div class="h-56 relative flex items-center justify-center">
+                                    <canvas id="categoryChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-xs font-medium text-stone-600 mt-4 pt-4 border-t border-stone-100">
+                                <div class="flex items-center"><span class="w-3 h-3 bg-stone-800 rounded-full mr-2"></span>Sofa & Ghế</div>
+                                <div class="flex items-center"><span class="w-3 h-3 bg-brand-500 rounded-full mr-2"></span>Bàn Ăn & Bàn Trà</div>
+                                <div class="flex items-center"><span class="w-3 h-3 bg-amber-600 rounded-full mr-2"></span>Giường & Tủ</div>
+                                <div class="flex items-center"><span class="w-3 h-3 bg-stone-400 rounded-full mr-2"></span>Đèn & Trang Trí</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: PRODUCT MANAGEMENT -->
+                <div id="view-products" class="hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 rounded-2xl border border-stone-200/80">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button class="px-4 py-2 text-sm font-medium rounded-xl bg-stone-900 text-white">Tất Cả</button>
+                            <button class="px-4 py-2 text-sm font-medium rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200">Sofa</button>
+                            <button class="px-4 py-2 text-sm font-medium rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200">Bàn Gỗ</button>
+                            <button class="px-4 py-2 text-sm font-medium rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200">Giường Ngủ</button>
+                            <button class="px-4 py-2 text-sm font-medium rounded-xl bg-stone-100 text-stone-600 hover:bg-stone-200">Đèn Trang Trí</button>
+                        </div>
+                        <span class="text-xs text-stone-500 font-medium">Hiển thị <b id="product-count" class="text-stone-800">0</b> nội thất</span>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+
+                <!-- VIEW 3: ORDERS MANAGEMENT -->
+                <div id="view-orders" class="hidden space-y-6">
+                    <div class="bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden">
+                        <div class="p-6 border-b border-stone-100 flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-stone-800">Danh Sách Đơn Hàng Nội Thất</h3>
+                            <button class="px-4 py-2 bg-stone-100 text-stone-700 hover:bg-stone-200 rounded-xl text-sm font-semibold transition">
+                                <i class="fa-solid fa-file-export mr-2"></i>Xuất Excel
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm text-stone-600">
+                                <thead class="bg-stone-50 text-xs text-stone-500 uppercase tracking-wider border-b border-stone-100">
+                                    <tr>
+                                        <th class="px-6 py-4 font-semibold">Mã Đơn</th>
+                                        <th class="px-6 py-4 font-semibold">Khách Hàng</th>
+                                        <th class="px-6 py-4 font-semibold">Sản Phẩm</th>
+                                        <th class="px-6 py-4 font-semibold">Tổng Tiền</th>
+                                        <th class="px-6 py-4 font-semibold">Trạng Thái</th>
+                                        <th class="px-6 py-4 font-semibold text-right">Thao Tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-100">
+                                    <tr class="hover:bg-stone-50/80">
+                                        <td class="px-6 py-4 font-bold text-stone-900">#ORD-2026-091</td>
+                                        <td class="px-6 py-4 font-medium">Bùi Duy An</td>
+                                        <td class="px-6 py-4">Sofa Da Ý Minimalist x1</td>
+                                        <td class="px-6 py-4 font-semibold text-stone-900">28,500,000 ₫</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">Đã Hoàn Thành</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="p-2 text-stone-400 hover:text-stone-700"><i class="fa-solid fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-stone-50/80">
+                                        <td class="px-6 py-4 font-bold text-stone-900">#ORD-2026-092</td>
+                                        <td class="px-6 py-4 font-medium">Nguyen Van A</td>
+                                        <td class="px-6 py-4">Bàn Ăn Gỗ Sồi Nguyên Khối x1</td>
+                                        <td class="px-6 py-4 font-semibold text-stone-900">18,200,000 ₫</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-3 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">Đang Vận Chuyển</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="p-2 text-stone-400 hover:text-stone-700"><i class="fa-solid fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 4: POS / BÁN HÀNG TẠI CỬA HÀNG -->
+                <div id="view-pos" class="hidden space-y-6">
+                    <div class="bg-white p-8 rounded-2xl border border-stone-200/80 text-center max-w-xl mx-auto my-12 space-y-4">
+                        <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+                            <i class="fa-solid fa-cash-register"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-stone-800">Tính Năng Bán Hàng Trực Tiếp (POS)</h3>
+                        <p class="text-stone-500 text-sm">Giao diện kết nối máy quét mã vạch và in hóa đơn VAT trực tiếp cho showroom nội thất đang được đồng bộ dữ liệu.</p>
+                        <button onclick="switchTab('products')" class="px-6 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-semibold shadow-md shadow-brand-600/20">Quay Lại Sản Phẩm</button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL: THÊM / SỬA SẢN PHẨM NỘI THẤT -->
+    <div id="productModal" class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl transform scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-center pb-4 border-b border-stone-100">
+                <h3 class="text-lg font-bold text-stone-800" id="modalTitle">Thêm Sản Phẩm Nội Thất Mới</h3>
+                <button onclick="closeModal()" class="text-stone-400 hover:text-stone-600 p-2">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form id="productForm" onsubmit="handleFormSubmit(event)" class="space-y-4 mt-4">
+                <input type="hidden" id="prodId">
+                <div>
+                    <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Tên Sản Phẩm Nội Thất</label>
+                    <input type="text" id="prodName" required placeholder="VD: Ghế Lounge Armchair Gỗ Sồi" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Danh Mục</label>
+                        <select id="prodCategory" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+                            <option value="Sofa">Sofa & Armchair</option>
+                            <option value="Bàn Gỗ">Bàn Ăn & Bàn Trà</option>
+                            <option value="Giường Ngủ">Giường & Tủ</option>
+                            <option value="Đèn Trang Trí">Đèn & Decor</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Giá Bán (VNĐ)</label>
+                        <input type="number" id="prodPrice" required placeholder="8500000" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Số Lượng Tồn Kho</label>
+                        <input type="number" id="prodStock" required placeholder="15" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">Chất Liệu Chính</label>
+                        <input type="text" id="prodMaterial" placeholder="Gỗ sồi, Bọc da cao cấp" class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-stone-600 uppercase mb-1">URL Hình Ảnh Sản Phẩm</label>
+                    <input type="url" id="prodImage" required placeholder="https://images.unsplash.com/..." class="w-full px-4 py-2.5 rounded-xl border border-stone-200 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none">
+                </div>
+
+                <div class="pt-4 flex justify-end space-x-3 border-t border-stone-100">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-xl border border-stone-200 text-stone-600 text-sm font-semibold hover:bg-stone-50">Hủy</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 shadow-md shadow-brand-600/20">Lưu Sản Phẩm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Mẫu dữ liệu ban đầu
+        let furnitureData = [
+            { id: 1, name: "Sofa Bọc Da Ý Minimalist", category: "Sofa", price: 28500000, stock: 8, material: "Da bò Ý, Khung gỗ Tần bì", image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&auto=format&fit=crop&q=80" },
+            { id: 2, name: "Bàn Ăn Gỗ Sồi Nguyên Khối", category: "Bàn Gỗ", price: 18200000, stock: 12, material: "Gỗ sồi tự nhiên", image: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=600&auto=format&fit=crop&q=80" },
+            { id: 3, name: "Ghế Armchair Bọc Vải Nỉ Velvet", category: "Sofa", price: 6500000, stock: 15, material: "Chân mạ vàng, Vải velvet", image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&auto=format&fit=crop&q=80" },
+            { id: 4, name: "Đèn Thả Trần Scandia Wood", category: "Đèn Trang Trí", price: 3400000, stock: 25, material: "Gỗ Walnut & Thủy tinh", image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&auto=format&fit=crop&q=80" }
+        ];
+
+        // Khởi tạo các biểu đồ
+        document.addEventListener("DOMContentLoaded", () => {
+            renderProducts();
+            initCharts();
+            setupSidebarResponsive();
+        });
+
+        // Toggle Sidebar trên Mobile
+        function setupSidebarResponsive() {
+            const sidebar = document.getElementById('sidebar');
+            document.getElementById('openSidebar').addEventListener('click', () => sidebar.classList.remove('-translate-x-full'));
+            document.getElementById('closeSidebar').addEventListener('click', () => sidebar.classList.add('-translate-x-full'));
+        }
+
+        // Chuyển Tab
+        function switchTab(tab) {
+            const views = ['dashboard', 'products', 'orders', 'pos'];
+            views.forEach(v => {
+                document.getElementById(`view-${v}`).classList.add('hidden');
+                const navBtn = document.getElementById(`nav-${v}`);
+                if (navBtn) {
+                    navBtn.className = "flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-stone-800 text-stone-400 hover:text-stone-200 font-medium transition";
+                }
+            });
+
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tab}`);
+            if (activeNav) {
+                activeNav.className = "flex items-center space-x-3 px-4 py-3 rounded-xl bg-brand-600 text-white font-medium shadow-md shadow-brand-600/20 transition";
+            }
+        }
+
+        // Render Danh Sách Sản Phẩm Nội Thất
+        function renderProducts() {
+            const container = document.getElementById('products-grid');
+            document.getElementById('product-count').innerText = furnitureData.length;
+            container.innerHTML = '';
+
+            furnitureData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden flex flex-col justify-between group hover:shadow-lg transition duration-300";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 overflow-hidden bg-stone-100">
+                            <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-3 left-3 bg-stone-900/80 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-full">${item.category}</span>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-stone-800 text-base group-hover:text-brand-600 transition truncate" title="${item.name}">${item.name}</h4>
+                            <p class="text-xs text-stone-500 mt-1"><i class="fa-solid fa-layer-group mr-1"></i>${item.material}</p>
+                            <div class="mt-4 flex justify-between items-baseline">
+                                <span class="text-xs text-stone-400">Kho: <b class="text-stone-700">${item.stock}</b></span>
+                                <span class="text-lg font-extrabold text-brand-600">${item.price.toLocaleString('vi-VN')} ₫</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5 pt-0 flex space-x-2 border-t border-stone-50 mt-2">
+                        <button onclick="editProduct(${item.id})" class="flex-1 py-2 rounded-xl border border-stone-200 text-stone-600 text-xs font-semibold hover:bg-stone-50 hover:text-stone-900 transition">
+                            <i class="fa-solid fa-pen mr-1"></i>Sửa
+                        </button>
+                        <button onclick="deleteProduct(${item.id})" class="p-2 rounded-xl border border-rose-100 text-rose-500 text-xs hover:bg-rose-50 transition">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Modal Thao Tác (Thêm / Sửa)
+        function openModal() {
+            document.getElementById('productForm').reset();
+            document.getElementById('prodId').value = '';
+            document.getElementById('modalTitle').innerText = "Thêm Sản Phẩm Nội Thất Mới";
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('prodId').value;
+            const name = document.getElementById('prodName').value;
+            const category = document.getElementById('prodCategory').value;
+            const price = parseInt(document.getElementById('prodPrice').value);
+            const stock = parseInt(document.getElementById('prodStock').value);
+            const material = document.getElementById('prodMaterial').value;
+            const image = document.getElementById('prodImage').value;
+
+            if (id) {
+                // Edit
+                const index = furnitureData.findIndex(item => item.id == id);
+                furnitureData[index] = { id: parseInt(id), name, category, price, stock, material, image };
+            } else {
+                // Add new
+                const newId = furnitureData.length ? Math.max(...furnitureData.map(i => i.id)) + 1 : 1;
+                furnitureData.push({ id: newId, name, category, price, stock, material, image });
+            }
+
+            renderProducts();
+            closeModal();
+        }
+
+        function editProduct(id) {
+            const item = furnitureData.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('prodId').value = item.id;
+            document.getElementById('prodName').value = item.name;
+            document.getElementById('prodCategory').value = item.category;
+            document.getElementById('prodPrice').value = item.price;
+            document.getElementById('prodStock').value = item.stock;
+            document.getElementById('prodMaterial').value = item.material;
+            document.getElementById('prodImage').value = item.image;
+
+            document.getElementById('modalTitle').innerText = "Chỉnh Sửa Sản Phẩm Nội Thất";
+            openModal();
+        }
+
+        function deleteProduct(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm nội thất này không?")) {
+                furnitureData = furnitureData.filter(item => item.id !== id);
+                renderProducts();
+            }
+        }
+
+        // Khởi tạo Chart.js
+        function initCharts() {
+            // Doanh Thu Chart
+            const ctx1 = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10'],
+                    datasets: [{
+                        label: 'Doanh Thu (Triệu VNĐ)',
+                        data: [210, 320, 280, 410, 390, 520, 480, 610, 590, 485],
+                        borderColor: '#c28e75',
+                        backgroundColor: 'rgba(194, 142, 117, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: '#f1f1f1' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Tỷ lệ danh mục Chart
+            const ctx2 = document.getElementById('categoryChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sofa & Ghế', 'Bàn Ăn & Bàn Trà', 'Giường & Tủ', 'Đèn Trang Trí'],
+                    datasets: [{
+                        data: [45, 25, 20, 10],
+                        backgroundColor: ['#1c1917', '#c28e75', '#d97706', '#a8a29e'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    cutout: '75%'
+                }
+            });
+        }
+    </script>
+</body>
+</html>
